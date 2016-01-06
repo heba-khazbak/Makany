@@ -61,7 +61,7 @@ public class Controller {
 	@Path("/response")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String response(@FormParam("content") String content) {
-		String serviceUrl = "http://localhost:8888/rest/createPostService";
+		String serviceUrl = "http://localhost:8889/rest/createPostService";
 		try {
 			URL url = new URL(serviceUrl);
 			String urlParameters = "content=" + content;
