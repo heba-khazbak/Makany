@@ -31,7 +31,7 @@ public class Post {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 
-		Entity post = new Entity("posts", list.size() + 1);
+		Entity post = new Entity("posts");
 
 		post.setProperty("content", this.content);
 		datastore.put(post);
