@@ -8,5 +8,6 @@
 </head>
 <body>
 <a href="/makany/createPost/">Create Post</a> <br>
+<a href="/makany/LoginPage/">Admin Login</a> <br>
 </body>
 </html>
