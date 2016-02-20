@@ -8,11 +8,12 @@
 </head>
 <body>
 <h1>Admin Home Page </h1>
-Add District <br>
-Show All Districts (Edit and delete) <br>
+
+<a href="/makany/AddDistrictPage">Add District</a> <br>
+<a href="/makany/ShowAllDistricts">Show All Districts</a> <br>
 Show All Normal users <br>
-Add interests  <br>
-Show All interests (Edit and delete)  <br>
+<a href="/makany/AddInterestPage">Add interests </a> <br>
+<a href="/makany/ShowAllInterests">Show All interests</a> <br>
 Get tweets from twitter <br>
 Get check-ins from foursquare <br>
 </body>

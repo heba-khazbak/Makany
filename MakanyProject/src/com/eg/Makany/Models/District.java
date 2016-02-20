@@ -1,7 +1,12 @@
 package com.eg.Makany.Models;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import java.util.List;
 import java.util.Vector;
+
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -59,7 +64,7 @@ public class District {
 			}
 		
 
-		return null;
+		return myDistricts;
 	}
 	
 	public static boolean editDistrict(String name, String newName) {
@@ -98,4 +103,28 @@ public class District {
 
 		return false;
 	}
+	
+	public static Vector<District> parseFromJson(String json) {
+		
+		Vector<District> myDistricts = new Vector<District>();
+		JSONParser parser = new JSONParser();
+		
+		JSONArray array = null;
+		try {
+			array = (JSONArray) parser.parse(json);
+			for (int i = 0 ; i < array.size() ; i++)
+			{
+				JSONObject obj = (JSONObject)array.get(i);
+				District D = new District (obj.get("DistrictName").toString());
+				myDistricts.add(D);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return myDistricts;
+
+	}
+	
 }

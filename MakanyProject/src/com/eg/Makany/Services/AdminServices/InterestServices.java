@@ -17,9 +17,9 @@ public class InterestServices {
 
 	@POST
 	@Path("/AddInterestService")
-	public String AddInterest(@FormParam("interestName") String interestName) {
+	public String AddInterest(@FormParam("interestValue") String interestValue) {
 		JSONObject object = new JSONObject();
-		Interest interest = new Interest(interestName);
+		Interest interest = new Interest(interestValue);
 		
 		if(interest.saveInterest())
 			object.put("Status", "OK");

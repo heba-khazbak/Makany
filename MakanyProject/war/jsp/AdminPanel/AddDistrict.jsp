@@ -4,18 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Admin Login</title>
+<title>Add District</title>
 </head>
 <body>
+<h1>Add District</h1>
 
-<form action="/makany/login" method="post">
-	User name: <input name="username" type="text" required />
-	Password: <input name="password" type="password" required />
+<form action="/makany/AddDistrict" method="post">
+	District name: <input name="districtName" type="text" required />
     
-	<input type="submit" value="Login"/>
+	<input type="submit" value="Add District"/>
 	
 	</form>
-	<br>
-<a href="/makany/CreateAdminPage/">Create Admin</a> <br>
+
 </body>
 </html>

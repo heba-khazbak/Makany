@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=windows-1256">
-<title>Insert title here</title>
+<title>Entry Point</title>
 </head>
 <body>
 <a href="/makany/createPost/">Create Post</a> <br>

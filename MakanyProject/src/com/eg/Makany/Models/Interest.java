@@ -2,10 +2,14 @@ package com.eg.Makany.Models;
 
 import java.util.Vector;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -96,6 +100,29 @@ public class Interest {
 		
 
 		return false;
+	}
+	
+	public static Vector<Interest> parseFromJson(String json) {
+		
+		Vector<Interest> myInterests = new Vector<Interest>();
+		JSONParser parser = new JSONParser();
+		
+		JSONArray array = null;
+		try {
+			array = (JSONArray) parser.parse(json);
+			for (int i = 0 ; i < array.size() ; i++)
+			{
+				JSONObject obj = (JSONObject)array.get(i);
+				Interest D = new Interest (obj.get("InterestValue").toString());
+				myInterests.add(D);
+			}
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return myInterests;
+
 	}
 
 }

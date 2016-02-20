@@ -4,18 +4,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Admin Login</title>
+<title>Add Interest</title>
 </head>
 <body>
+<h1>Add Interest</h1>
 
-<form action="/makany/login" method="post">
-	User name: <input name="username" type="text" required />
-	Password: <input name="password" type="password" required />
+<form action="/makany/AddInterest" method="post">
+	Interest value: <input name="interestValue" type="text" required />
     
-	<input type="submit" value="Login"/>
+	<input type="submit" value="Add Interest"/>
 	
 	</form>
-	<br>
-<a href="/makany/CreateAdminPage/">Create Admin</a> <br>
+
 </body>
 </html>

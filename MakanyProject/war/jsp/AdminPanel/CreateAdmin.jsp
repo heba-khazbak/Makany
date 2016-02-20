@@ -4,18 +4,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Admin Login</title>
+<title>Admin Signup</title>
 </head>
 <body>
+<h1>Admin Signup</h1>
 
-<form action="/makany/login" method="post">
+<form action="/makany/CreateAdmin" method="post">
 	User name: <input name="username" type="text" required />
 	Password: <input name="password" type="password" required />
     
-	<input type="submit" value="Login"/>
+	<input type="submit" value="Signup"/>
 	
 	</form>
-	<br>
-<a href="/makany/CreateAdminPage/">Create Admin</a> <br>
+
 </body>
 </html>
