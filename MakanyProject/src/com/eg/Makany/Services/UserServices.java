@@ -46,6 +46,8 @@ public class UserServices {
 			@FormParam("birthDate") String birthDate,
 			@FormParam("district") String district,
 			@FormParam("gender") String gender,
+			@FormParam("twitter") String twitter,
+			@FormParam("foursquare") String foursquare,
 			@FormParam("interests") Vector<String> interests) {
 		
 		JSONObject object = new JSONObject();
@@ -65,7 +67,7 @@ public class UserServices {
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
 			}
-			User user = new User(null,name,email,password,birthDate,district,gender,interests);
+			User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);
 			if(user.saveUser())
 				object.put("Status", "OK");
 			else
@@ -112,6 +114,8 @@ public class UserServices {
 			@FormParam("birthDate") String birthDate,
 			@FormParam("district") String district,
 			@FormParam("gender") String gender,
+			@FormParam("twitter") String twitter,
+			@FormParam("foursquare") String foursquare,
 			@FormParam("interests") Vector<String> interests) {
 		
 		JSONObject object = new JSONObject();
@@ -121,7 +125,7 @@ public class UserServices {
 			return object.toString();
 		}
 		
-		User user = new User(null,name,email,password,birthDate,district,gender,interests);
+		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);
 		if(user.saveUser())
 			object.put("Status", "OK");
 		else

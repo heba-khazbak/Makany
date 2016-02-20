@@ -14,10 +14,12 @@ import com.google.appengine.api.datastore.Query;
 public class User {
 	private Key id;
 	private String name, email, password, birthDate, district, gender;
+	private String twitter, foursquare;
 	private Vector<String> interests;
 	
 	public User(Key id, String name,String email,String password,String birthDate,
-			String district, String gender,Vector<String> interests){
+			String district, String gender, String twitter, String foursquare,
+			Vector<String> interests){
 		this.id=id;
 		this.name=name;
 		this.email=email;
@@ -25,6 +27,8 @@ public class User {
 		this.birthDate=birthDate;
 		this.district=district;
 		this.gender=gender;
+		this.twitter=twitter;
+		this.foursquare=foursquare;
 		this.interests=interests;
 	}
 	
@@ -40,6 +44,8 @@ public class User {
 		user.setProperty("birthDate", this.birthDate);
 		user.setProperty("district", this.district);
 		user.setProperty("gender", this.gender);
+		user.setProperty("twitter", this.twitter);
+		user.setProperty("foursquare", this.foursquare);
 		datastore.put(user);
 		
 		
@@ -112,7 +118,10 @@ public class User {
 					entity.getProperty("password").toString(),
 					entity.getProperty("birthDate").toString(),
 					entity.getProperty("district").toString(),
-					entity.getProperty("gender").toString(),getInterests(userEmail)));
+					entity.getProperty("gender").toString(),
+					entity.getProperty("twitter").toString(),
+					entity.getProperty("foursquare").toString(),
+					getInterests(userEmail)));
 		}
 		
 		return ret;
