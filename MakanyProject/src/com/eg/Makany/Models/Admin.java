@@ -1,16 +1,13 @@
 package com.eg.Makany.Models;
 
-import java.util.List;
-
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Admin {
+	private static final String TABLENAME = "admin";
 	private String username;
 	private String password;
 	
@@ -24,10 +21,9 @@ public class Admin {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
-		Query gaeQuery = new Query("admin");
+		Query gaeQuery = new Query(TABLENAME);
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
-			System.out.println(entity.getProperty("username").toString());
 			if (entity.getProperty("username").toString().equals(username)
 					&& entity.getProperty("password").toString().equals(pass)) {
 				Admin returnedUser = new Admin(entity.getProperty(
@@ -42,11 +38,10 @@ public class Admin {
 	public Boolean saveUser() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query gaeQuery = new Query("admin");
+		Query gaeQuery = new Query(TABLENAME);
 		PreparedQuery pq = datastore.prepare(gaeQuery);
-		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 
-		Entity user = new Entity("admin");
+		Entity user = new Entity(TABLENAME);
 
 		user.setProperty("username", this.username);
 		user.setProperty("password", this.password);

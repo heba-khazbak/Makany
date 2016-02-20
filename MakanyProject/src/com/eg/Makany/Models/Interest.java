@@ -1,17 +1,16 @@
 package com.eg.Makany.Models;
 
-import java.util.List;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
+
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Interest {
-	
+	private static final String TABLENAME = "interest";
 	private String InterestValue;
 	
 	public Interest (String InterestValue)
@@ -31,11 +30,10 @@ public class Interest {
 		// should be unique 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query gaeQuery = new Query("interest");
+		Query gaeQuery = new Query(TABLENAME);
 		PreparedQuery pq = datastore.prepare(gaeQuery);
-		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 
-		Entity interest = new Entity("interest");
+		Entity interest = new Entity(TABLENAME);
 
 		interest.setProperty("InterestValue", this.InterestValue);
 		
@@ -45,21 +43,59 @@ public class Interest {
 
 	}
 	
-	public static Vector<District> getAllDistricts() {
+	public static Vector<Interest> getAllInterests() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
-		Vector<District> myDistricts = new Vector<District>();
+		Vector<Interest> myInterests = new Vector<Interest>();
 		
-		Query gaeQuery = new Query("district");
+		Query gaeQuery = new Query(TABLENAME);
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for (Entity entity : pq.asIterable()) {
-			District temp = new District(entity.getProperty("DistrictName").toString());
-			myDistricts.add(temp);
+			Interest temp = new Interest(entity.getProperty("InterestValue").toString());
+			myInterests.add(temp);
 			}
 		
 
-		return myDistricts;
+		return myInterests;
+	}
+	
+
+	public static boolean editInterest(String name, String newName) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Query gaeQuery = new Query(TABLENAME);
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("InterestValue").toString().equals(name))
+			{
+				entity.setProperty("InterestValue", newName);
+				datastore.put(entity);
+				return true;
+			}
+			}
+		
+
+		return false;
+	}
+	
+	public static boolean deleteInterest(String name) {
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Query gaeQuery = new Query(TABLENAME);
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for (Entity entity : pq.asIterable()) {
+			if (entity.getProperty("InterestValue").toString().equals(name))
+			{
+				datastore.delete(entity.getKey());
+				return true;
+			}
+			}
+		
+
+		return false;
 	}
 
 }

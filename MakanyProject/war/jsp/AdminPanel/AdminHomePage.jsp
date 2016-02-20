@@ -14,5 +14,6 @@ Show All Normal users <br>
 Add interests  <br>
 Show All interests (Edit and delete)  <br>
 Get tweets from twitter <br>
+Get check-ins from foursquare <br>
 </body>
 </html>

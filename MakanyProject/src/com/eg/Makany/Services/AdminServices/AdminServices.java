@@ -4,14 +4,13 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
 import org.json.simple.JSONObject;
-
 import com.eg.Makany.Models.Admin;
+
 
 @Path("/")
 @Produces("text/html")
-public class AdminService {
+public class AdminServices {
 
 	@POST
 	@Path("/loginAdmin")
@@ -40,5 +39,7 @@ public class AdminService {
 		return object.toString();
 
 	}
+	
+
 
 }
