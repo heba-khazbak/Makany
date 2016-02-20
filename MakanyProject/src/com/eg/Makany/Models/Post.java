@@ -18,7 +18,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Post {
-	private Key id;
+	private String id;
 	private String type, content, photo, userEmail;
 	private Vector<String> categories;
 	private Vector<String> approvals,disapprovals;
@@ -38,7 +38,7 @@ public class Post {
 		this.disapprovals=new Vector<String>();
 	}
 
-	public Post(Key id,String type,String content,String photo,String userEmail,Vector<String> categories) {
+	public Post(String id,String type,String content,String photo,String userEmail,Vector<String> categories) {
 		this.id=id;
 		this.type=type;
 		this.content = content;
@@ -64,7 +64,7 @@ public class Post {
 		post.setProperty("userEmail", this.userEmail);
 		datastore.put(post);
 		
-		this.id=post.getKey();
+		this.id=post.getKey().toString();
 		for(String str:this.categories){
 			Entity category=new Entity("categories");
 			category.setProperty("postID", this.id);
@@ -75,27 +75,30 @@ public class Post {
 		return true;
 	}
 	
-	public static int deletePost(Key postID,String userEmail){
+	public static int deletePost(String postID,String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		Vector<Key> keysToDelete=new Vector<Key>();
 		
-
-		try {
-			Entity post = datastore.get(postID);
-			if(!post.getProperty("userEmail").toString().equals(userEmail))
-				return 2;
-		} catch (EntityNotFoundException e) {
-			return 0;
-		}
-		
-		keysToDelete.add(postID);
-		
-		Query gaeQuery = new Query("categories");
+		Query gaeQuery = new Query("posts");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getKey().toString().equals(postID)){
+				if(!entity.getProperty("userEmail").toString().equals(userEmail))
+					return 2;
+				
+				keysToDelete.add(entity.getKey());
+				break;
+			}
+			
+		}
+
+		
+		gaeQuery = new Query("categories");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("postID").toString().equals(postID))
 				keysToDelete.add(entity.getKey());
 			
 		}
@@ -103,7 +106,7 @@ public class Post {
 		gaeQuery = new Query("comments");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				keysToDelete.add(entity.getKey());
 			
 		}
@@ -111,7 +114,7 @@ public class Post {
 		gaeQuery = new Query("reports");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				keysToDelete.add(entity.getKey());
 			
 		}
@@ -119,7 +122,7 @@ public class Post {
 		gaeQuery = new Query("approvals");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				keysToDelete.add(entity.getKey());
 			
 		}
@@ -127,7 +130,7 @@ public class Post {
 		gaeQuery = new Query("disapprovals");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				keysToDelete.add(entity.getKey());
 			
 		}
@@ -138,7 +141,7 @@ public class Post {
 		return 1;
 	}
 	
-	public static boolean addComment(String content,Key postID,String userEmail){
+	public static boolean addComment(String content,String postID,String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
@@ -150,7 +153,7 @@ public class Post {
 		return true;
 	}
 	
-	public static boolean report(String reason,Key postID,String userEmail){
+	public static boolean report(String reason,String postID,String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
@@ -162,14 +165,14 @@ public class Post {
 		return true;
 	}
 	
-	public static int approve(Key postID,String userEmail){
+	public static int approve(String postID,String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		Query gaeQuery = new Query("approvals");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID)
+			if(entity.getProperty("postID").toString().equals(postID)
 					&& entity.getProperty("userEmail").toString().equals(userEmail)){
 				
 				return 2;
@@ -187,14 +190,14 @@ public class Post {
 	}
 	
 	
-	public static int disapprove(Key postID,String userEmail){
+	public static int disapprove(String postID,String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		Query gaeQuery = new Query("disapprovals");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID)
+			if(entity.getProperty("postID").toString().equals(postID)
 					&& entity.getProperty("userEmail").toString().equals(userEmail)){
 				
 				return 2;
@@ -216,7 +219,7 @@ public class Post {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
-		Key postID=post.getKey();
+		String postID=post.getKey().toString();
 		
 		this.content=post.getProperty("content").toString();
 		this.id=postID;
@@ -227,7 +230,7 @@ public class Post {
 		Query gaeQuery = new Query("categories");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				this.categories.add(entity.getProperty("name").toString());
 			
 		}
@@ -235,7 +238,7 @@ public class Post {
 		gaeQuery = new Query("comments");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID)){
+			if(entity.getProperty("postID").toString().equals(postID)){
 				String mail=entity.getProperty("userEmail").toString();
 				this.comments.add(new Comment(mail,User.getUserName(mail),
 						entity.getProperty("content").toString()));
@@ -246,7 +249,7 @@ public class Post {
 		gaeQuery = new Query("reports");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				this.reports.add(new Report(entity.getProperty("userEmail").toString(),
 						entity.getProperty("reason").toString()));
 			
@@ -255,7 +258,7 @@ public class Post {
 		gaeQuery = new Query("approvals");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				this.approvals.add(entity.getProperty("userEmail").toString());
 			
 		}
@@ -263,7 +266,7 @@ public class Post {
 		gaeQuery = new Query("disapprovals");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").equals(postID))
+			if(entity.getProperty("postID").toString().equals(postID))
 				this.disapprovals.add(entity.getProperty("userEmail").toString());
 			
 		}

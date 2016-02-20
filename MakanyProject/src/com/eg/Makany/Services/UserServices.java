@@ -48,7 +48,13 @@ public class UserServices {
 			@FormParam("gender") String gender,
 			@FormParam("twitter") String twitter,
 			@FormParam("foursquare") String foursquare,
-			@FormParam("interests") Vector<String> interests) {
+			@FormParam("interests") String strInterests) {
+		
+		Vector<String> interests=new Vector<String>();
+		if(strInterests!=null){
+			String tmp[]=strInterests.split("_");
+			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
+		}
 		
 		JSONObject object = new JSONObject();
 		if(type.equals("store")){
@@ -116,7 +122,14 @@ public class UserServices {
 			@FormParam("gender") String gender,
 			@FormParam("twitter") String twitter,
 			@FormParam("foursquare") String foursquare,
-			@FormParam("interests") Vector<String> interests) {
+			@FormParam("interests") String strInterests) {
+		
+		
+		Vector<String> interests=new Vector<String>();
+		if(strInterests!=null){
+			String tmp[]=strInterests.split("_");
+			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
+		}
 		
 		JSONObject object = new JSONObject();
 		
@@ -141,7 +154,13 @@ public class UserServices {
 	@Path("/addOffersService")
 	public String addOffersService( 
 			@FormParam("email") String email,
-			@FormParam("offers") Vector<String> offers) {
+			@FormParam("offers") String strOffers) {
+		
+		Vector<String> offers=new Vector<String>();
+		if(strOffers!=null){
+			String tmp[]=strOffers.split("_");
+			for(int i=0;i<tmp.length;++i)offers.add(tmp[i]);
+		}
 		
 		JSONObject object = new JSONObject();
 		
@@ -157,7 +176,11 @@ public class UserServices {
 	//works for store only
 	@POST
 	@Path("/removeOffersService")
-	public String removeOffersService(@FormParam("offerIDs") Vector<Key> offerIDs) {
+	public String removeOffersService(@FormParam("offerIDs") String strOfferIDs) {
+		
+		Vector<String> offerIDs=new Vector<String>();
+		String tmp[]=strOfferIDs.split("_");
+		for(int i=0;i<tmp.length;++i)offerIDs.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
 		

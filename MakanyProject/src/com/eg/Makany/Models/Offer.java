@@ -10,10 +10,10 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Offer {
-	private Key id;
+	private String id;
 	private String description, storeMail;
 	
-	public Offer(Key id,String description,String storeMail){
+	public Offer(String id,String description,String storeMail){
 		this.id=id;
 		this.description=description;
 		this.storeMail=storeMail;
@@ -42,7 +42,7 @@ public class Offer {
 		
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("storeMail").toString().equals(email))
-				ret.add(new Offer(entity.getKey(),
+				ret.add(new Offer(entity.getKey().toString(),
 						entity.getProperty("description").toString(),
 						entity.getProperty("storeMail").toString()));
 			
@@ -50,13 +50,23 @@ public class Offer {
 		return ret;
 	}
 	
-	public static boolean removeOffers(Vector<Key> offerIDs){
+	public static boolean removeOffers(Vector<String> offerIDs){
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		Vector<Key> keysToDelete=new Vector<Key>();
+		Query gaeQuery = new Query("offers");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(offerIDs.contains(entity.getKey().toString())){
+				keysToDelete.add(entity.getKey());
+			}
+			
+		}
 
-		for(Key id:offerIDs)
-			datastore.delete(id);
+		for(Key k:keysToDelete)
+			datastore.delete(k);
 		return true;
 	}
 }

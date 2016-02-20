@@ -12,12 +12,12 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class User {
-	private Key id;
+	private String id;
 	private String name, email, password, birthDate, district, gender;
 	private String twitter, foursquare;
 	private Vector<String> interests;
 	
-	public User(Key id, String name,String email,String password,String birthDate,
+	public User(String id, String name,String email,String password,String birthDate,
 			String district, String gender, String twitter, String foursquare,
 			Vector<String> interests){
 		this.id=id;
@@ -112,7 +112,7 @@ public class User {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
 			String userEmail=entity.getProperty("email").toString();
-			ret.add(new User(entity.getKey(),
+			ret.add(new User(entity.getKey().toString(),
 					entity.getProperty("name").toString(),
 					userEmail,
 					entity.getProperty("password").toString(),

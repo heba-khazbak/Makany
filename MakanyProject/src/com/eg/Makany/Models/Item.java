@@ -11,11 +11,11 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Item {
-	private Key id;
+	private String id;
 	private String name, description,userEmail;
 	Vector<String> categories;
 	
-	public Item(Key id,String name,String description,String userEmail,Vector<String> categories){
+	public Item(String id,String name,String description,String userEmail,Vector<String> categories){
 		this.id=id;
 		this.name=name;
 		this.description=description;
@@ -37,7 +37,7 @@ public class Item {
 		item.setProperty("userEmail", userEmail);
 		datastore.put(item);
 		
-		this.id=item.getKey();
+		this.id=item.getKey().toString();
 		for(String str:this.categories){
 			Entity category=new Entity("itemCategories");
 			category.setProperty("itemID", this.id);
@@ -48,24 +48,42 @@ public class Item {
 		return true;
 	}
 	
-	public static int deleteItem(Key itemID,String userEmail){
+	public static int deleteItem(String itemID,String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
 		Vector<Key> keysToDelete=new Vector<Key>();
-		try {
-			Entity item = datastore.get(itemID);
-			if(!item.getProperty("userEmail").toString().equals(userEmail))
-				return 2;
-		} catch (EntityNotFoundException e) {
-			return 0;
-		}
-		keysToDelete.add(itemID);
-		
-		Query gaeQuery = new Query("itemCategories");
+		Query gaeQuery = new Query("loanItem");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("itemID").equals(itemID))
+			if(entity.getKey().toString().equals(itemID)){
+				if(!entity.getProperty("userEmail").toString().equals(userEmail))
+					return 2;
+				
+				keysToDelete.add(entity.getKey());
+				break;
+			}
+			
+		}
+		
+		gaeQuery = new Query("requestItem");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getKey().toString().equals(itemID)){
+				if(!entity.getProperty("userEmail").toString().equals(userEmail))
+					return 2;
+				
+				keysToDelete.add(entity.getKey());
+				break;
+			}
+			
+		}
+		
+		
+		gaeQuery = new Query("itemCategories");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("itemID").toString().equals(itemID))
 				keysToDelete.add(entity.getKey());
 			
 		}

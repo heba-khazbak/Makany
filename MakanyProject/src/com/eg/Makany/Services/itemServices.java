@@ -24,7 +24,11 @@ public class itemServices {
 	public String loanItemService(@FormParam("name") String name,
 			@FormParam("description") String description, 
 			@FormParam("userEmail") String userEmail,
-			@FormParam("categories") Vector<String> categories) {
+			@FormParam("categories") String strCategories) {
+		
+		Vector<String> categories=new Vector<String>();
+		String tmp[]=strCategories.split("_");
+		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
 		
@@ -44,7 +48,11 @@ public class itemServices {
 	public String requestItemService(@FormParam("name") String name,
 			@FormParam("description") String description, 
 			@FormParam("userEmail") String userEmail,
-			@FormParam("categories") Vector<String> categories) {
+			@FormParam("categories") String strCategories) {
+		
+		Vector<String> categories=new Vector<String>();
+		String tmp[]=strCategories.split("_");
+		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
 		
@@ -61,7 +69,7 @@ public class itemServices {
 	
 	@POST
 	@Path("/deleteItemService")
-	public String deleteItemService(@FormParam("itemID") Key itemID,
+	public String deleteItemService(@FormParam("itemID") String itemID,
 			@FormParam("userEmail") String userEmail) {
 		
 		JSONObject object = new JSONObject();

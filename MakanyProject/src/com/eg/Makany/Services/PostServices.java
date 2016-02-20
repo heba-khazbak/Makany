@@ -24,7 +24,11 @@ public class PostServices {
 			@FormParam("content") String content, 
 			@FormParam("photo") String photo,
 			@FormParam("userEmail") String userEmail,
-			@FormParam("categories") Vector<String> categories) {
+			@FormParam("categories") String strCategories) {
+		
+		Vector<String> categories=new Vector<String>();
+		String tmp[]=strCategories.split("_");
+		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
 		
@@ -41,7 +45,7 @@ public class PostServices {
 	
 	@POST
 	@Path("/deletePostService")
-	public String deletePostService(@FormParam("postID") Key postID,
+	public String deletePostService(@FormParam("postID") String postID,
 			@FormParam("userEmail") String userEmail) {
 		
 		JSONObject object = new JSONObject();
@@ -63,7 +67,7 @@ public class PostServices {
 	@POST
 	@Path("/addCommentService")
 	public String addCommentService(@FormParam("content") String content, 
-			@FormParam("postID") Key postID,
+			@FormParam("postID") String postID,
 			@FormParam("userEmail") String userEmail) {
 		
 		JSONObject object = new JSONObject();
@@ -81,7 +85,7 @@ public class PostServices {
 	@POST
 	@Path("/reportPostService")
 	public String reportPostService(@FormParam("reason") String reason, 
-			@FormParam("postID") Key postID,
+			@FormParam("postID") String postID,
 			@FormParam("userEmail") String userEmail) {
 		
 		JSONObject object = new JSONObject();
@@ -98,7 +102,7 @@ public class PostServices {
 	
 	@POST
 	@Path("/approvePostService")
-	public String approvePostService(@FormParam("postID") Key postID,
+	public String approvePostService(@FormParam("postID") String postID,
 			@FormParam("userEmail") String userEmail) {
 		
 		JSONObject object = new JSONObject();
@@ -119,7 +123,7 @@ public class PostServices {
 	
 	@POST
 	@Path("/disapprovePostService")
-	public String disapprovePostService(@FormParam("postID") Key postID,
+	public String disapprovePostService(@FormParam("postID") String postID,
 			@FormParam("userEmail") String userEmail) {
 		
 		JSONObject object = new JSONObject();
