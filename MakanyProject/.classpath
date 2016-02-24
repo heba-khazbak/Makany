@@ -43,5 +43,6 @@
 	<classpathentry kind="lib" path="C:/Users/Heba/workspace/MakanyProject/war/WEB-INF/lib/osgi-resource-locator-1.0.1.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Heba/workspace/MakanyProject/war/WEB-INF/lib/persistence-api-1.0.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Heba/workspace/MakanyProject/war/WEB-INF/lib/validation-api-1.1.0.Final.jar"/>
+	<classpathentry kind="lib" path="E:/_GIT/Makany/MakanyProject/war/WEB-INF/lib/twitter4j-core-4.0.4.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

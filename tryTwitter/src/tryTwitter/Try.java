@@ -28,8 +28,8 @@ public class Try {
 	        	ResponseList<Status> a = twitter.getUserTimeline("HebaKhazbak",new Paging(1,5));
 	        	
 	        	for(Status b: a) {
-	        		System.out.println(b.getText());
-	        	}
+	        		System.out.println(b.getText() + " " + b.getCreatedAt());
+	        		}
 
 	        }catch(Exception e ){
 	        	System.out.println("Error");

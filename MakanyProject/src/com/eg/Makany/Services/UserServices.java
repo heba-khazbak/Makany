@@ -39,7 +39,7 @@ public class UserServices {
 	// works for user and store
 	@POST
 	@Path("/signUpService")
-	public String signUpService(@FormParam("type") String type,
+	public String signUpService(@FormParam("userType") String userType,
 			@FormParam("name") String name, 
 			@FormParam("email") String email,
 			@FormParam("password") String password,
@@ -57,7 +57,7 @@ public class UserServices {
 		}
 		
 		JSONObject object = new JSONObject();
-		if(type.equals("store")){
+		if(userType.equals("store")){
 			if(Store.checkStore(email, password)>0){
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
