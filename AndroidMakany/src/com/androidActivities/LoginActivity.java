@@ -2,6 +2,7 @@ package com.androidActivities;
 
 
 import com.controllers.UserController;
+import com.controllers.Application;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,11 +35,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-	//	UserController controller = Application.getUserController();
-		//controller.login(emailEditText.getText().toString(), passwordEditText
-			//			.getText().toString());
+		UserController controller = Application.getUserController();
+		controller.login(emailEditText.getText().toString(), passwordEditText
+						.getText().toString());
 		
-		Context context = getApplicationContext();
+		/*Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
 		CharSequence text ="!!!";
 		
@@ -55,7 +56,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		}
 
 		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();
+		toast.show();*/
 		
 	}
 
