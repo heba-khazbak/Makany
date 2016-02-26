@@ -35,8 +35,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		UserController controller = Application.getUserController();
-		controller.login(emailEditText.getText().toString(), passwordEditText
+		/*UserController controller = Application.getUserController();
+		if (controller == null)
+			Toast.makeText(getApplicationContext(), "null! ", Toast.LENGTH_LONG).show();
+		else*/
+		UserController.login(emailEditText.getText().toString(), passwordEditText
 						.getText().toString());
 		
 		/*Context context = getApplicationContext();
