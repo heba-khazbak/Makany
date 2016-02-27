@@ -39,7 +39,7 @@ public class UserController {
 		System.out.println("here1");
 		
 		new Connection().execute(
-				"http://localhost:8889/rest/LoginService", email,
+				"http://makanyapp.appspot.com/rest/LoginService", email,
 				password, "LoginService");
 		
 		System.out.println("here2");
@@ -88,9 +88,13 @@ public class UserController {
 				connection.setRequestProperty("Content-Type",
 						"application/x-www-form-urlencoded;charset=UTF-8");
 				System.out.println("feeh aml ?");
+				System.out.println("urlParameters " + urlParameters);
+				System.out.println("URL " + params[0]);
 				OutputStreamWriter writer = new OutputStreamWriter(
 						connection.getOutputStream());
+				System.out.println("ehhh ?");
 				writer.write(urlParameters);
+				System.out.println("tab delw2ty ?");
 				writer.flush();
 				
 				System.out.println("aml matet");
