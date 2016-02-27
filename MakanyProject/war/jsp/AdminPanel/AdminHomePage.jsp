@@ -14,7 +14,8 @@
 Show All Normal users <br>
 <a href="/makany/AddInterestPage">Add interests </a> <br>
 <a href="/makany/ShowAllInterests">Show All interests</a> <br>
-Get tweets from twitter <br>
+<a href="/makany/analyzeTwitter">Analyze Twitter tweets</a> <br>
+
 Get check-ins from foursquare <br>
 </body>
 </html>
