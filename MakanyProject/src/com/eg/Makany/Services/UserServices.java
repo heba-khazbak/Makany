@@ -39,12 +39,14 @@ public class UserServices {
 	// works for user and store
 	@POST
 	@Path("/signUpService")
-	public String signUpService(@FormParam("userType") String userType,
+	public String signUpService(@FormParam("uType") String uType,
 			@FormParam("name") String name, 
 			@FormParam("email") String email,
 			@FormParam("password") String password,
 			@FormParam("birthDate") String birthDate,
 			@FormParam("district") String district,
+			@FormParam("category") String category,
+			@FormParam("description") String description,
 			@FormParam("gender") String gender,
 			@FormParam("twitter") String twitter,
 			@FormParam("foursquare") String foursquare,
@@ -57,12 +59,12 @@ public class UserServices {
 		}
 		
 		JSONObject object = new JSONObject();
-		if(userType.equals("store")){
+		if(uType.equals("store")){
 			if(Store.checkStore(email, password)>0){
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
 			}
-			Store store = new Store(null,name,email,password,district,null);
+			Store store = new Store(null,name,email,password,district,category,description,null,null);
 			if(store.saveStore())
 				object.put("Status", "OK");
 			else
@@ -140,51 +142,6 @@ public class UserServices {
 		
 		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);
 		if(user.saveUser())
-			object.put("Status", "OK");
-		else
-			object.put("Status", "Failed");
-		
-		return object.toString();
-
-	}
-	
-	
-	//works for store only
-	@POST
-	@Path("/addOffersService")
-	public String addOffersService( 
-			@FormParam("email") String email,
-			@FormParam("offers") String strOffers) {
-		
-		Vector<String> offers=new Vector<String>();
-		if(strOffers!=null){
-			String tmp[]=strOffers.split("_");
-			for(int i=0;i<tmp.length;++i)offers.add(tmp[i]);
-		}
-		
-		JSONObject object = new JSONObject();
-		
-		if(Offer.addOffers(email, offers))
-			object.put("Status", "OK");
-		else
-			object.put("Status", "Failed");
-		
-		return object.toString();
-
-	}
-	
-	//works for store only
-	@POST
-	@Path("/removeOffersService")
-	public String removeOffersService(@FormParam("offerIDs") String strOfferIDs) {
-		
-		Vector<String> offerIDs=new Vector<String>();
-		String tmp[]=strOfferIDs.split("_");
-		for(int i=0;i<tmp.length;++i)offerIDs.add(tmp[i]);
-		
-		JSONObject object = new JSONObject();
-		
-		if(Offer.removeOffers(offerIDs))
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");

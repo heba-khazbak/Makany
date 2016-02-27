@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Item;
@@ -84,6 +85,79 @@ public class itemServices {
 			object.put("Status", "Failed");
 		
 		return object.toString();
+		
+	}
+	
+	
+	@POST
+	@Path("/viewItemService")
+	public String deleteItemService(@FormParam("itemID") String itemID) {
+		
+		JSONObject object = new JSONObject();
+		
+		Item item=new Item().getItemByID(itemID);
+		
+		if(item!=null){
+			object.put("id", item.getID());
+			object.put("name", item.getName());
+			object.put("description", item.getDescription());
+			object.put("userEmail", item.getUserEmail());
+			object.put("categories", item.getParsedCategories());
+		}
+		
+		return object.toString();
+		
+	}
+	
+	@POST
+	@Path("/getALLLoanItemsService")
+	public String getALLLoanItemsService() {
+		
+		JSONArray arr = new JSONArray();
+		
+		Vector<Item> items=Item.getAllItems(true);
+		
+		for(Item item:items){
+			JSONObject object = new JSONObject();
+			
+			if(item!=null){
+				object.put("id", item.getID());
+				object.put("name", item.getName());
+				object.put("description", item.getDescription());
+				object.put("userEmail", item.getUserEmail());
+				object.put("categories", item.getParsedCategories());
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
+		
+	}
+	
+	@POST
+	@Path("/getALLRequestItemsService")
+	public String getALLRequestItemsService() {
+		
+		JSONArray arr = new JSONArray();
+		
+		Vector<Item> items=Item.getAllItems(false);
+		
+		for(Item item:items){
+			JSONObject object = new JSONObject();
+			
+			if(item!=null){
+				object.put("id", item.getID());
+				object.put("name", item.getName());
+				object.put("description", item.getDescription());
+				object.put("userEmail", item.getUserEmail());
+				object.put("categories", item.getParsedCategories());
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
 		
 	}
 	

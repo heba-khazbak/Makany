@@ -1,5 +1,7 @@
 package com.eg.Makany.Services;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
@@ -7,9 +9,13 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.eg.Makany.Models.Comment;
 import com.eg.Makany.Models.Post;
+import com.eg.Makany.Models.Store;
+import com.eg.Makany.Models.StoreReview;
 import com.google.appengine.api.datastore.Key;
 
 
@@ -20,9 +26,10 @@ public class PostServices {
 	
 	@POST
 	@Path("/addPostService")
-	public String addPostService(@FormParam("type") String type,
+	public String addPostService(@FormParam("postType") String postType,
 			@FormParam("content") String content, 
 			@FormParam("photo") String photo,
+			@FormParam("district") String district,
 			@FormParam("userEmail") String userEmail,
 			@FormParam("categories") String strCategories) {
 		
@@ -32,7 +39,7 @@ public class PostServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,type,content,photo,userEmail,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,categories);
 		
 		if(post.savePost())
 			object.put("Status", "OK");
@@ -73,7 +80,7 @@ public class PostServices {
 		JSONObject object = new JSONObject();
 		
 		
-		if(Post.addComment(content, postID, userEmail))
+		if(new Comment(null,userEmail,null,content,postID).addComment())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -139,5 +146,73 @@ public class PostServices {
 		
 		return object.toString();
 		
+	}
+	
+	
+	@POST
+	@Path("/getFilteredPostsService")
+	public String getFilteredPostsService(@FormParam("category") String strCategories,
+			@FormParam("district") String district){
+		
+		Set<String> categories=new HashSet<String>();
+		if(strCategories!=null){
+			String tmp[]=strCategories.split("_");
+			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
+		}
+		
+		JSONArray arr = new JSONArray();
+		
+		Vector<Post> posts=Post.getFilteredPosts(district, categories);
+		
+		for(Post post:posts){
+			JSONObject object = new JSONObject();
+			
+			if(post!=null){
+				object.put("ID", post.getID());
+				object.put("postType", post.getPostType());
+				object.put("content", post.getContent());
+				object.put("photo", post.getPhoto());
+				object.put("userEmail", post.getUserEmail());
+				object.put("district", post.getDistrict());
+				
+				object.put("numApprovals", String.valueOf(post.getNumApprovals()));
+				object.put("approvalMails", post.getParsedApprovals());
+				
+				object.put("numDisApprovals", String.valueOf(post.getNumDisApprovals()));
+				object.put("disapprovalMails", post.getParsedDisApprovals());
+				
+				object.put("numReports", String.valueOf(post.getNumReports()));
+				object.put("reportMails", post.getParsedReports());
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
+	}
+	
+	
+	@POST
+	@Path("/getPostCommentsService")
+	public String getStoreReviewsService(@FormParam("postID") String postID){
+		
+		JSONArray arr = new JSONArray();
+		
+		Vector<Comment> comments=Comment.getComments(postID);
+		
+		for(Comment comment:comments){
+			JSONObject object = new JSONObject();
+			
+			if(comment!=null){
+				object.put("ID", comment.getID());
+				object.put("userEmail", comment.getUserEmail());
+				object.put("username", comment.getUserName());
+				object.put("content", comment.getContent());
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
 	}
 }

@@ -13,7 +13,15 @@ import com.google.appengine.api.datastore.Query;
 public class Item {
 	private String id;
 	private String name, description,userEmail;
-	Vector<String> categories;
+	private Vector<String> categories;
+	
+	public Item(){
+		this.id="";
+		this.name="";
+		this.description="";
+		this.userEmail="";
+		this.categories=new Vector<String>();
+	}
 	
 	public Item(String id,String name,String description,String userEmail,Vector<String> categories){
 		this.id=id;
@@ -21,6 +29,19 @@ public class Item {
 		this.description=description;
 		this.userEmail=userEmail;
 		this.categories=categories;
+	}
+	
+	public String getID(){return id;}
+	public String getName(){return name;}
+	public String getDescription(){return description;}
+	public String getUserEmail(){return userEmail;}
+	public String getParsedCategories(){
+		String ret="";
+		for(int i=0;i<categories.size();++i){
+			if(i>0)ret+="_";
+			ret+=categories.get(i);
+		}
+		return ret;
 	}
 	
 	
@@ -37,7 +58,7 @@ public class Item {
 		item.setProperty("userEmail", userEmail);
 		datastore.put(item);
 		
-		this.id=item.getKey().toString();
+		this.id=String.valueOf(item.getKey().getId());
 		for(String str:this.categories){
 			Entity category=new Entity("itemCategories");
 			category.setProperty("itemID", this.id);
@@ -56,7 +77,7 @@ public class Item {
 		Query gaeQuery = new Query("loanItem");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getKey().toString().equals(itemID)){
+			if(String.valueOf(entity.getKey().getId()).equals(itemID)){
 				if(!entity.getProperty("userEmail").toString().equals(userEmail))
 					return 2;
 				
@@ -69,7 +90,7 @@ public class Item {
 		gaeQuery = new Query("requestItem");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getKey().toString().equals(itemID)){
+			if(String.valueOf(entity.getKey().getId()).equals(itemID)){
 				if(!entity.getProperty("userEmail").toString().equals(userEmail))
 					return 2;
 				
@@ -92,5 +113,65 @@ public class Item {
 			datastore.delete(k);
 		
 		return 1;
+	}
+	
+	
+	public Item getItemByID(String itemID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		this.id=itemID;
+		Query gaeQuery = new Query("loanItem");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(String.valueOf(entity.getKey().getId()).equals(itemID)){
+				this.name=entity.getProperty("name").toString();
+				this.description=entity.getProperty("description").toString();
+				this.userEmail=entity.getProperty("userEmail").toString();
+				break;
+			}
+			
+		}
+		
+		gaeQuery = new Query("requestItem");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(String.valueOf(entity.getKey().getId()).equals(itemID)){
+				this.name=entity.getProperty("name").toString();
+				this.description=entity.getProperty("description").toString();
+				this.userEmail=entity.getProperty("userEmail").toString();
+				break;
+			}
+			
+		}
+		
+		
+		gaeQuery = new Query("itemCategories");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("itemID").toString().equals(itemID))
+				this.categories.add(entity.getProperty("name").toString());
+			
+		}
+		
+		return this;
+	}
+	
+	
+	public static Vector<Item> getAllItems(boolean loan){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Vector<Item> ret=new Vector<Item>();
+		Query gaeQuery;
+		if(loan)gaeQuery = new Query("loanItem");
+		else gaeQuery = new Query("requestItem");
+		
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable())
+			ret.add(new Item().getItemByID(String.valueOf(entity.getKey().getId())));
+		
+		
+		return ret;
 	}
 }
