@@ -6,63 +6,56 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.androidActivities.HomeActivity;
 
 
-public class UserController {
+public class UserController
+{
 
 	private static UserController userController = new UserController();
 
-	public static UserController getInstance() {
+	public static UserController getInstance() 
+	{
 		if (userController == null)
 			userController = new UserController();
+		
 		return userController;
 	}
 
-	private UserController() {
+	private UserController() 
+	{ }
 
-	}
-
-	static public  void login(String email, String password) {
-		
-		System.out.println("here1");
-		
-		new Connection().execute(
-				"http://makanyapp.appspot.com/rest/LoginService", email,
-				password, "LoginService");
-		
-		System.out.println("here2");
-	}
-
-	public void signUp(String userName, String email, String password) {
-		new Connection().execute(
-				"", userName,
-				email, password, "RegistrationService");
+	static public  void login(String email, String password) 
+	{
+		new Connection().execute( "http://makanyapp.appspot.com/rest/LoginService", 
+		email, password, "LoginService");
 	}
 	
+	//"http://localhost:8888/rest/LoginService", email,
 	
 	
+	/*public void signUp(String userName, String email, String password) 
+	{
+		new Connection().execute("", userName, email, password, "RegistrationService");
+	}*/
 	
-
-	static private class Connection extends AsyncTask<String, String, String> {
+	
+	static private class Connection extends AsyncTask<String, String, String> 
+	{
 
 		String serviceType;
 
 		@Override
-		protected String doInBackground(String... params) {
-			// TODO Auto-generated method stub
-			System.out.println("here3");
+		protected String doInBackground(String... params)
+		{
 			URL url;
 			serviceType = params[params.length - 1];
 			String urlParameters="";
@@ -87,17 +80,13 @@ public class UserController {
 
 				connection.setRequestProperty("Content-Type",
 						"application/x-www-form-urlencoded;charset=UTF-8");
-				System.out.println("feeh aml ?");
 				System.out.println("urlParameters " + urlParameters);
 				System.out.println("URL " + params[0]);
 				OutputStreamWriter writer = new OutputStreamWriter(
 						connection.getOutputStream());
-				System.out.println("ehhh ?");
 				writer.write(urlParameters);
-				System.out.println("tab delw2ty ?");
 				writer.flush();
 				
-				System.out.println("aml matet");
 				String line, retJson = "";
 				BufferedReader reader = new BufferedReader(
 						new InputStreamReader(connection.getInputStream()));
@@ -105,61 +94,81 @@ public class UserController {
 				while ((line = reader.readLine()) != null) {
 					retJson += line;
 				}
-				System.out.println("here4");
+				
 				return retJson;
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			}
+			catch (IOException e) 
+			{
 				e.printStackTrace();
 			}
-			System.out.println("here4 nothing");
+			
 			return null;
-
 		}
 
 		@Override
-		protected void onPostExecute(String result) {
-			// TODO Auto-generated method stub
+		protected void onPostExecute(String result) 
+		{
+
 			super.onPostExecute(result);
-			try {
-				
-				System.out.println("here5");
-				
-				if (serviceType.equals("LoginService")) {
+			
+			try 
+			{
+				if (serviceType.equals("LoginService")) 
+				{
 					System.out.println("result " + result);
+					
 					/*JSONParser parser = new JSONParser();
 					Object obj = parser.parse(result);
-					JSONObject object = (JSONObject) obj;
+					JSONObject object = (JSONObject) obj;*/
+					
+					JSONObject object = new JSONObject(result);
 					
 					
-					if(object== null || !object.has("Status") || object.getString("Status").equals("Failed")){
-						//Toast.makeText(Application.getAppContext(), "Error occured", Toast.LENGTH_LONG).show();
-						System.out.println("okk Noo ");
+					if(object== null || !object.has("Status"))
+					{
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
 						return;
 					}
-					System.out.println("okk");
-						
+					
+					if(object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: Retype your email",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("WrongPass"))
+					{
+						Toast.makeText(Application.getAppContext(), "Wrong Password",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					//Logged in successfully 
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
 				}
-				else if(serviceType.equals("RegistrationService")){
-					
-				}*/
-			}
-
-			} /*catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			catch (ParseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			catch(Exception e)
-			{
-					
-			}
+				
+				//Do the same for other services
+				//else if(serviceType.equals("RegistrationService"))
+				//{}
 			
+
+			} 
+			catch (JSONException e) 
+			{
+				e.printStackTrace();
+			}
+			catch(Exception e)
+			{}
+
 		}
 
 	}
 
 }
+
+	
