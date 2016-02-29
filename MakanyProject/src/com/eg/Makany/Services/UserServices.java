@@ -99,8 +99,10 @@ public class UserServices {
 			object.put("Status", "wrongPass");
 		else{
 			check=Store.checkStore(email, password);
-			if(check==1)
+			if(check==1){
 				object.put("Status", "OK");
+				object.put("username", User.getUserName(email));
+			}
 			else if(check==2)
 				object.put("Status", "wrongPass");
 			else
