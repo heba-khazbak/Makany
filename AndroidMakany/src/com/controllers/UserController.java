@@ -10,6 +10,7 @@ import java.net.URL;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.controllers.Application;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -17,11 +18,12 @@ import android.widget.Toast;
 import com.androidActivities.HomeActivity;
 
 
-public class UserController
+public class UserController 
 {
 
 	private static UserController userController = new UserController();
-
+	
+	
 	public static UserController getInstance() 
 	{
 		if (userController == null)
@@ -33,12 +35,19 @@ public class UserController
 	private UserController() 
 	{ }
 
-	static public  void login(String email, String password) 
+	public  void login(String email, String password) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/LoginService", 
-		email, password, "LoginService");
+		new Connection().execute( "http://makanyapp.appspot.com/rest/LoginService", email, password, "LoginService");
 	}
 	
+	public void Signup(String email, String username, String password, String birthDate, 
+			String district, String gender, String twitter, String foursquare, String interests) 
+	{
+		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", 
+		email, username, password,birthDate, district, gender, twitter, foursquare,
+		interests, "signUpService");
+	}
+
 	//"http://localhost:8888/rest/LoginService", email,
 	
 	
@@ -118,6 +127,9 @@ public class UserController
 				{
 					System.out.println("result " + result);
 					
+					Toast.makeText(Application.getAppContext(), "Loginnnnnnnn",
+					Toast.LENGTH_LONG).show();
+						
 					/*JSONParser parser = new JSONParser();
 					Object obj = parser.parse(result);
 					JSONObject object = (JSONObject) obj;*/
@@ -127,6 +139,7 @@ public class UserController
 					
 					if(object== null || !object.has("Status"))
 					{
+						System.out.println("eroor" );
 						Toast.makeText(Application.getAppContext(), "Error occured",
 						Toast.LENGTH_LONG).show();
 						return;
@@ -150,13 +163,36 @@ public class UserController
 					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
 					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					Application.getAppContext().startActivity(homeIntent);
+					System.out.println("okkkkkk " );
+					
 				}
+			
 				
+				else if(serviceType.equals("signUpService"))
+				{
+					System.out.println("result " + result);
+					
+					JSONObject object = new JSONObject(result);
+					
+					if(object== null || !object.has("Status") 
+					 ||object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					//Signed Up successfully 
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
+				}
+			
+
 				//Do the same for other services
 				//else if(serviceType.equals("RegistrationService"))
 				//{}
-			
-
+	
 			} 
 			catch (JSONException e) 
 			{
@@ -168,6 +204,7 @@ public class UserController
 		}
 
 	}
+
 
 }
 

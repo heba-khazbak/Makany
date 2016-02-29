@@ -6,7 +6,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.controllers.Application;
 import com.controllers.UserController;
 
 
@@ -31,11 +33,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		// TODO Auto-generated method stub
-		/*UserController controller = Application.getUserController();
+		UserController controller = Application.getUserController();
 		if (controller == null)
 			Toast.makeText(getApplicationContext(), "null! ", Toast.LENGTH_LONG).show();
-		else*/
-		UserController.login(emailEditText.getText().toString(), passwordEditText
+		else
+		controller.login(emailEditText.getText().toString(), passwordEditText
 						.getText().toString());
 		
 		/*Context context = getApplicationContext();
