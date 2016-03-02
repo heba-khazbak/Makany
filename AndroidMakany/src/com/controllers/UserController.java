@@ -11,17 +11,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.controllers.Application;
+import com.androidActivities.HomeActivity;
+import com.androidActivities.MainActivity;
+
+import android.R.string;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
-import com.androidActivities.HomeActivity;
 
 
 public class UserController 
 {
 
 	private static UserController userController = new UserController();
+	private static SimpleUser simpleUser;
 	
 	
 	public static UserController getInstance() 
@@ -35,8 +39,9 @@ public class UserController
 	private UserController() 
 	{ }
 
-	public  void login(String email, String password) 
+	public void login(String email, String password) 
 	{
+		simpleUser = new SimpleUser(email);
 		new Connection().execute( "http://makanyapp.appspot.com/rest/LoginService", email, password, "LoginService");
 	}
 	
@@ -127,9 +132,6 @@ public class UserController
 				{
 					System.out.println("result " + result);
 					
-					Toast.makeText(Application.getAppContext(), "Loginnnnnnnn",
-					Toast.LENGTH_LONG).show();
-						
 					/*JSONParser parser = new JSONParser();
 					Object obj = parser.parse(result);
 					JSONObject object = (JSONObject) obj;*/
@@ -152,7 +154,7 @@ public class UserController
 						return;
 					}
 					
-					if(object.getString("Status").equals("WrongPass"))
+					if(object.getString("Status").equals("wrongPass"))
 					{
 						Toast.makeText(Application.getAppContext(), "Wrong Password",
 						Toast.LENGTH_LONG).show();
@@ -160,10 +162,21 @@ public class UserController
 					}
 					
 					//Logged in successfully 
+					
 					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
 					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					
+					
+					//String username = User
+					//homeIntent.putExtra("id", user.getUserAccountId()+"");
+					//homeIntent.putExtra("name", user.getUserFullName());
+					
+					String email = simpleUser.get_email();
+					homeIntent.putExtra("email", email);
+					
 					Application.getAppContext().startActivity(homeIntent);
-					System.out.println("okkkkkk " );
+					System.out.println(simpleUser.get_email());
+					
 					
 				}
 			
@@ -183,9 +196,12 @@ public class UserController
 					}
 					
 					//Signed Up successfully 
-					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
-					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					Application.getAppContext().startActivity(homeIntent);
+					Toast.makeText(Application.getAppContext(), "Success",
+					Toast.LENGTH_LONG).show();
+					
+					Intent mainIntent = new Intent(Application.getAppContext(),MainActivity.class);
+					mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(mainIntent);
 				}
 			
 

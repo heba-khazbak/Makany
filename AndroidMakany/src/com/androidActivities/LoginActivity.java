@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.controllers.Application;
+//import com.controllers.SimpleUser;
 import com.controllers.UserController;
 
 
@@ -35,30 +36,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub
 		UserController controller = Application.getUserController();
 		if (controller == null)
+		{
 			Toast.makeText(getApplicationContext(), "null! ", Toast.LENGTH_LONG).show();
-		else
-		controller.login(emailEditText.getText().toString(), passwordEditText
-						.getText().toString());
-		
-		/*Context context = getApplicationContext();
-		int duration = Toast.LENGTH_SHORT;
-		CharSequence text ="!!!";
-		
-		UserController controller = new UserController();
-		int successfulLogin = controller.login(emailEditText.getText().toString(), passwordEditText.getText().toString());
-		
-		if(successfulLogin == 1)
-		{
-			text = "Success";
 		}
 		else
 		{
-			text = "NO";
-		}
-
-		Toast toast = Toast.makeText(context, text, duration);
-		toast.show();*/
-		
+			controller.login(emailEditText.getText().toString(), passwordEditText.getText().toString());
+		}		
 	}
 
 }

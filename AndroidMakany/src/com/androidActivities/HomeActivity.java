@@ -2,6 +2,7 @@ package com.androidActivities;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +25,11 @@ public class HomeActivity extends Activity implements OnClickListener
 	@Override
 	public void onClick(View v) 
 	{
-		Toast.makeText(getApplicationContext(), "Welocome User! ", Toast.LENGTH_LONG).show();
+	
+		Intent currentIntent = getIntent();
+		String currentEmail = currentIntent.getStringExtra("email");
+		Toast.makeText(getApplicationContext(),
+		"Welocome User!\nYour Email is: " + currentEmail, Toast.LENGTH_LONG).show();
 		
 	}
 
