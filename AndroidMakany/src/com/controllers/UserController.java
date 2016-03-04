@@ -54,11 +54,11 @@ public class UserController
 	}
 	
 	//new by magie
-	public void EditProfile(String email, String username, String password, String birthDate, 
+	public void EditProfile(String email, String name, String password, String birthDate, 
 			String district, String gender, String twitter, String foursquare, String interests) 
 	{
 		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", 
-		email, username, password,birthDate, district, gender, twitter, foursquare,
+		email, name, password,birthDate, district, gender, twitter, foursquare,
 		interests, "editProfileService");
 	}
 

@@ -15,6 +15,28 @@
 			@FormParam("foursquare") String foursquare,
 			@FormParam("interests") String strInterests) -->
     
+    <!-- username layout -->
+         
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal" >
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="username" />
+
+           <EditText
+               android:id="@+id/name"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text" >
+               
+               <requestFocus />
+           </EditText>
+       </LinearLayout>
+       
     
     <!-- email lyout -->
     
@@ -61,50 +83,6 @@
         
     </LinearLayout>
 
-     <!-- name layout -->
-         
-       <LinearLayout
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal" >
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="name" />
-
-           <EditText
-               android:id="@+id/name"
-               android:layout_width="120dp"
-               android:layout_height="wrap_content" 
-               android:inputType="text" >
-               
-               <requestFocus />
-           </EditText>
-       </LinearLayout>
-       
-       <!-- birthdate layout -->
-       
-        <LinearLayout 
-         
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-           
-          <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="birthDate" />
-          
-           <EditText
-               android:id="@+id/birthdate"
-               android:layout_width="120dp"
-               android:layout_height="wrap_content" 
-               android:inputType="datetime">
-           <requestFocus />
-           </EditText>
-         
-           
      <!-- district layout -->      
      </LinearLayout>
      
@@ -117,7 +95,7 @@
           <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="district" />
+               android:text="District" />
           
            <EditText
                android:id="@+id/district"
@@ -130,8 +108,10 @@
      </LinearLayout>
      
          
-     <!-- category layout -->
-     <LinearLayout 
+         
+       <!-- birthdate layout -->
+       
+        <LinearLayout 
          
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -140,41 +120,17 @@
           <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="category" />
+               android:text="BirthDate" />
           
            <EditText
-               android:id="@+id/category"
+               android:id="@+id/birthdate"
                android:layout_width="120dp"
                android:layout_height="wrap_content" 
-               android:inputType="text">
-               <requestFocus />
+               android:inputType="datetime">
+           <requestFocus />
            </EditText>
          
-     </LinearLayout>
-     
-      <!-- discription layout -->
-      <LinearLayout 
-         
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-           
-          <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:text="discription" />
-          
-           <EditText
-               android:id="@+id/discription"
-               android:layout_width="120dp"
-               android:layout_height="wrap_content" 
-               android:inputType="text">
-               <requestFocus />
-           </EditText>
-         
-     </LinearLayout>
-     
-       <!-- gender layout -->
+             <!-- gender layout -->
        <LinearLayout 
          
         android:layout_width="fill_parent"
@@ -184,7 +140,7 @@
           <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="gender" />
+               android:text="Gender" />
           
            <EditText
                android:id="@+id/gender"
@@ -195,7 +151,11 @@
            </EditText>
          
      </LinearLayout>
+           
+              
+    
      
+          
         <!-- twitter layout -->
         <LinearLayout 
          
@@ -206,7 +166,7 @@
           <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="twitter" />
+               android:text="Twitter" />
           
            <EditText
                android:id="@+id/twitter"
@@ -228,7 +188,7 @@
           <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="foursquare" />
+               android:text="Foursquare" />
           
            <EditText
                android:id="@+id/foursqaure"
@@ -250,7 +210,7 @@
           <TextView
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
-               android:text="intrests" />
+               android:text="Main Intrests" />
           
            <EditText
                android:id="@+id/intrests"

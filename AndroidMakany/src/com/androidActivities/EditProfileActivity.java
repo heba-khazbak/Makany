@@ -17,8 +17,6 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 	EditText passwordEditText;
 	EditText birthdateEditText;
 	EditText districtEditText;
-	EditText categoryEditText;
-	EditText discriptionEditText;
 	EditText genderEditText;
 	EditText twitterEditText;
 	EditText foursquareEditText;
@@ -32,12 +30,10 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editprofile);
 		emailEditText = (EditText) findViewById(R.id.email);
-		usernameEditText = (EditText) findViewById(R.id.name);
+		usernameEditText=(EditText) findViewById(R.id.name);
 		passwordEditText = (EditText) findViewById(R.id.password);
 		birthdateEditText = (EditText) findViewById(R.id.birthdate);
 		districtEditText= (EditText) findViewById(R.id.district);
-		categoryEditText = (EditText) findViewById(R.id.category);
-		discriptionEditText = (EditText) findViewById(R.id.discription);
 		genderEditText= (EditText) findViewById(R.id.gender);
 		twitterEditText = (EditText) findViewById(R.id.twitter);
 		foursquareEditText= (EditText) findViewById(R.id.foursqaure);

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="D:/GP/Makany/AndroidMakany/libs/android-support-v4.jar"/>
-	<classpathentry kind="lib" path="D:/GP/Makany/AndroidMakany/libs/json-20140107.jar"/>
-	<classpathentry kind="lib" path="D:/GP/Makany/AndroidMakany/libs/json-simple-1.1.1.jar"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="lib" path="libs/json-20140107.jar"/>
+	<classpathentry kind="lib" path="libs/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="E:/university/4&apos;th year/GP/Makany-master/MakanyProject/war/WEB-INF/lib/json-20140107.jar"/>
+	<classpathentry kind="lib" path="E:/university/4&apos;th year/GP/Makany-master/MakanyProject/war/WEB-INF/lib/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
