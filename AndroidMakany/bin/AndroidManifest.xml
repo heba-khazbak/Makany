@@ -49,6 +49,10 @@
             android:name=".EditProfileActivity"
             android:label="@string/title_activity_edit_profile" >
         </activity>
+        <activity
+            android:name=".GainActivity"
+            android:label="@string/title_activity_gain" >
+        </activity>
     </application>
 
 </manifest>
