@@ -25,7 +25,7 @@ public class UserController
 {
 
 	private static UserController userController = new UserController();
-	private static SimpleUser simpleUser;
+	protected static SimpleUser simpleUser;
 	
 	
 	public static UserController getInstance() 
@@ -52,6 +52,15 @@ public class UserController
 		email, username, password,birthDate, district, gender, twitter, foursquare,
 		interests, "signUpService");
 	}
+	
+	//new by magie
+	public void EditProfile(String email, String username, String password, String birthDate, 
+			String district, String gender, String twitter, String foursquare, String interests) 
+	{
+		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", 
+		email, username, password,birthDate, district, gender, twitter, foursquare,
+		interests, "editProfileService");
+	}
 
 	//"http://localhost:8888/rest/LoginService", email,
 	
@@ -61,8 +70,7 @@ public class UserController
 		new Connection().execute("", userName, email, password, "RegistrationService");
 	}*/
 	
-	
-	static private class Connection extends AsyncTask<String, String, String> 
+	static class Connection extends AsyncTask<String, String, String> 
 	{
 
 		String serviceType;
@@ -75,10 +83,13 @@ public class UserController
 			String urlParameters="";
 			if (serviceType.equals("LoginService"))
 				urlParameters = "email=" + params[1] + "&password=" + params[2];
-			else if(serviceType.equals("RegistrationService"))
-				urlParameters = "uname=" + params[1] + "&email=" + params[2]
-						+ "&password=" + params[3];
-			
+			else if(serviceType.equals("signUpService"))
+				urlParameters ="email=" + params[1] + "&username=" + params[2] + 
+							   "&password=" + params[3] + "&birthDate=" + params[4] + 
+							   "&district=" + params[5] + "&gender=" + params[6] + 
+							   "&twitter=" + params[7] + "&foursquare=" + params[8] + 
+							   "&interests=" + params[9]; 
+						
 
 			HttpURLConnection connection;
 			try {
@@ -204,11 +215,36 @@ public class UserController
 					Application.getAppContext().startActivity(mainIntent);
 				}
 			
+				else if(serviceType.equalsIgnoreCase("editProfileService"))
+				{
+					
+					System.out.println("result" + result);
+					
+					JSONObject object=new JSONObject (result);
+					
+					if(object== null || !object.has("Status") 
+					  ||object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+							
+					//edit profile succeed
+					Toast.makeText(Application.getAppContext(), "Success",
+					Toast.LENGTH_LONG).show();
+					
+					Intent mainIntent = new Intent(Application.getAppContext(),MainActivity.class);
+					mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(mainIntent);
+					
+					
+				}
 
 				//Do the same for other services
 				//else if(serviceType.equals("RegistrationService"))
 				//{}
-	
+
 			} 
 			catch (JSONException e) 
 			{
@@ -220,7 +256,8 @@ public class UserController
 		}
 
 	}
-
+	
+	
 
 }
 

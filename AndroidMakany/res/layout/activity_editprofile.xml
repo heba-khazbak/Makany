@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+   
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="269dp"
+    android:orientation="vertical" >
+    
+    	<!--  @FormParam("birthDate") String birthDate, -->
+		<!--  @FormParam("district") String district, -->	
+		<!--	@FormParam("gender") String gender,
+			@FormParam("twitter") String twitter,
+			@FormParam("foursquare") String foursquare,
+			@FormParam("interests") String strInterests) -->
+    
+    
+    <!-- email lyout -->
+    
+        <LinearLayout 
+            
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        
+        <TextView
+            android:layout_width="63dp"
+            android:layout_height="wrap_content"
+            android:text="Email" />
+        
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="107dp"
+            android:layout_height="25dp" />
+        
+     </LinearLayout>
+     
+      
+    <!--password layout -->
+         <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Password"
+            />
+
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword" >
+            </EditText>
+        
+    </LinearLayout>
+
+     <!-- name layout -->
+         
+       <LinearLayout
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal" >
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="name" />
+
+           <EditText
+               android:id="@+id/name"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text" >
+               
+               <requestFocus />
+           </EditText>
+       </LinearLayout>
+       
+       <!-- birthdate layout -->
+       
+        <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="birthDate" />
+          
+           <EditText
+               android:id="@+id/birthdate"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="datetime">
+           <requestFocus />
+           </EditText>
+         
+           
+     <!-- district layout -->      
+     </LinearLayout>
+     
+         <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="district" />
+          
+           <EditText
+               android:id="@+id/district"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+         
+     <!-- category layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="category" />
+          
+           <EditText
+               android:id="@+id/category"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+      <!-- discription layout -->
+      <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="discription" />
+          
+           <EditText
+               android:id="@+id/discription"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+       <!-- gender layout -->
+       <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="gender" />
+          
+           <EditText
+               android:id="@+id/gender"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+        <!-- twitter layout -->
+        <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="twitter" />
+          
+           <EditText
+               android:id="@+id/twitter"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+      <!-- foursqaure layout -->
+     </LinearLayout>
+     
+         <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="foursquare" />
+          
+           <EditText
+               android:id="@+id/foursqaure"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     <!-- intrests layout -->
+     </LinearLayout>
+     
+          <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="intrests" />
+          
+           <EditText
+               android:id="@+id/intrests"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+
+       <Button
+           android:id="@+id/Edit"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="edit profile" />
+
+</LinearLayout>
+</ScrollView>

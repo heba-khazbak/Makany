@@ -1,15 +1,12 @@
 package com.androidActivities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
-
-import com.controllers.UserController;
+import android.widget.Spinner;
 
 public class SignUpActivity extends Activity implements OnClickListener {
 
@@ -29,6 +26,12 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			signupButton = (Button) findViewById(R.id.RegistrationButton);
 			signupButton.setOnClickListener(this);
 		}
+		public void addListenerOnSpinnerItemSelection() 
+		{
+				Spinner spinner1 = (Spinner) findViewById(R.id.gender);
+				spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
+		}
+
 
 		@Override
 		public void onClick(View v) 

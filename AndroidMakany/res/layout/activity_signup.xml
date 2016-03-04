@@ -7,12 +7,14 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
     android:layout_height="wrap_content"
     android:orientation="vertical" >
     
-    	<!--  @FormParam("birthDate") String birthDate, -->
-		<!--  @FormParam("district") String district, -->	
-		<!--	@FormParam("gender") String gender,
-			@FormParam("twitter") String twitter,
+    	<!--  @FormParam("district") String district,
+    		@FormParam("interests") String strInterests) 
+		 -->	
+		
+		<!-- 
+		    @FormParam("twitter") String twitter,
 			@FormParam("foursquare") String foursquare,
-			@FormParam("interests") String strInterests) -->
+		-->
     
     <LinearLayout 
         android:layout_width="fill_parent"
@@ -60,12 +62,11 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
-        
-        <TextView 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Password"
-            />
+
+           <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Password" />
 
         <EditText
             android:id="@+id/password"
@@ -75,9 +76,113 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
             android:ems="10"
             android:inputType="textPassword" >
             </EditText>
+    </LinearLayout>
+		
+       
+    <LinearLayout  android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         
+	    <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="District"
+            />
+	    
+	    <!-- drop down menu   -->
+    
+	    
     </LinearLayout>
     
+       
+       
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+   		<TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="Birth Date" />
+    
+		<EditText
+           android:id="@+id/birthDate"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:ems="10"
+           android:inputType="date" />
+		>
+      
+ 	</LinearLayout>
+   
+	
+    <LinearLayout    
+        android:layout_width="fill_parent"
+    	android:layout_height="fill_parent"
+    	android:orientation="vertical" >
+ 
+   		<TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Gender " />
+
+   		<Spinner
+   		    android:id="@+id/gender"
+   		    android:layout_width="0dp"
+   		    android:layout_height="wrap_content"
+   		    android:layout_weight="1"
+   		    android:entries="@array/gender"
+   		    android:prompt="@string/gender_prompt" />
+
+ 	</LinearLayout>
+   
+	
+    <LinearLayout  android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    
+      <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Twitter Account"
+            />
+        
+        <EditText 
+            android:id="@+id/twitterAccount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+      
+    </LinearLayout>
+    
+    <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FourSquare Account"
+            />
+        
+        <EditText 
+            android:id="@+id/foursquareAccount"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+      
+	<LinearLayout  android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        
+	    <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Main Interests"
+            />
+	    
+	    <!-- checkboxes  -->
+    
+	    
+    </LinearLayout>
+    
+
       <Button 
         android:id="@+id/RegistrationButton"
         android:layout_width="wrap_content"
