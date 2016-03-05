@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
 	
 	Button login;
 	Button signUp;
+	Button signUpStore;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) 
@@ -24,6 +25,7 @@ public class MainActivity extends Activity {
           setContentView(R.layout.activity_main);
           login = (Button) findViewById(R.id.login);
           signUp = (Button) findViewById(R.id.signUp);
+          signUpStore = (Button) findViewById(R.id.signUpStore);
           
           login.setOnClickListener(new OnClickListener() 
           {
@@ -51,6 +53,18 @@ public class MainActivity extends Activity {
   			}
   		});
     
+          signUpStore.setOnClickListener(new OnClickListener() 
+          {
+  			
+  			@Override
+  			public void onClick(View arg0) 
+  			{
+  				// TODO Auto-generated method stub
+  				//Intent signUpStoreIntent = new Intent(getApplicationContext(),SignUpStoreActivity.class);
+  				//startActivity(signUpStoreIntent);
+  				
+  			}
+  		});
           
     }
     

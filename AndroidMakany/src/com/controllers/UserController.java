@@ -57,18 +57,12 @@ public class UserController
 	public void EditProfile(String email, String name, String password, String birthDate, 
 			String district, String gender, String twitter, String foursquare, String interests) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", 
+		new Connection().execute( "http://makanyapp.appspot.com/rest/editProfileService", 
 		email, name, password,birthDate, district, gender, twitter, foursquare,
 		interests, "editProfileService");
 	}
 
-	//"http://localhost:8888/rest/LoginService", email,
-	
-	
-	/*public void signUp(String userName, String email, String password) 
-	{
-		new Connection().execute("", userName, email, password, "RegistrationService");
-	}*/
+	//"http://localhost:8888/rest/LoginService",
 	
 	static class Connection extends AsyncTask<String, String, String> 
 	{
@@ -81,16 +75,26 @@ public class UserController
 			URL url;
 			serviceType = params[params.length - 1];
 			String urlParameters="";
+			
 			if (serviceType.equals("LoginService"))
 				urlParameters = "email=" + params[1] + "&password=" + params[2];
+			
+			//////////////////////
 			else if(serviceType.equals("signUpService"))
 				urlParameters ="email=" + params[1] + "&username=" + params[2] + 
 							   "&password=" + params[3] + "&birthDate=" + params[4] + 
 							   "&district=" + params[5] + "&gender=" + params[6] + 
 							   "&twitter=" + params[7] + "&foursquare=" + params[8] + 
 							   "&interests=" + params[9]; 
-						
-
+			
+			//////////////////////
+			else if(serviceType.equals("editProfileService"))
+				urlParameters ="email=" + params[1] + "&username=" + params[2] + 
+							   "&password=" + params[3] + "&birthDate=" + params[4] + 
+							   "&district=" + params[5] + "&gender=" + params[6] + 
+							   "&twitter=" + params[7] + "&foursquare=" + params[8] + 
+							   "&interests=" + params[9]; 
+				
 			HttpURLConnection connection;
 			try {
 				url = new URL(params[0]);
@@ -119,7 +123,6 @@ public class UserController
 				while ((line = reader.readLine()) != null) {
 					retJson += line;
 				}
-				
 				return retJson;
 
 			}
@@ -241,9 +244,6 @@ public class UserController
 					
 				}
 
-				//Do the same for other services
-				//else if(serviceType.equals("RegistrationService"))
-				//{}
 
 			} 
 			catch (JSONException e) 

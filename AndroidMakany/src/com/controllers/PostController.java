@@ -18,12 +18,37 @@ import com.androidActivities.HomeActivity;
 
 public class PostController 
 {
-	public void Signup(String email) 
+	public void addPost(String postType, String content, String photo, String district, 
+						String userEmail, String categories ) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", email, "signUpService");
+		new Connection().execute( "http://makanyapp.appspot.com/rest/addPostService",
+				postType, content, photo, district, userEmail, categories, "addPostService");
+	}
+	
+	public void deletePost(String postID, String userEmail) 
+	{
+	new Connection().execute( "http://makanyapp.appspot.com/rest/deletePostService",
+		postID, userEmail, "deletePostService");
 	}
 
-
+	public void addCommentOnPost(String postID, String userEmail) 
+	{
+	new Connection().execute( "http://makanyapp.appspot.com/rest/addCommentService",
+		postID, userEmail, "addCommentService");
+	}
+	
+	public void approvePost(String postID, String userEmail) 
+	{
+	new Connection().execute( "http://makanyapp.appspot.com/rest/approvePostService",
+		postID, userEmail, "approvePostService");
+	}
+	public void disapprovePost(String postID, String userEmail) 
+	{
+	new Connection().execute( "http://makanyapp.appspot.com/rest/disapprovePostService",
+		postID, userEmail, "disapprovePostService");
+	}
+	
+	
 	static class Connection extends AsyncTask<String, String, String> 
 	{
 
@@ -37,11 +62,16 @@ public class PostController
 			/////////////////////////////////
 			serviceType = params[params.length - 1];
 			String urlParameters="";
-			if (serviceType.equals("LoginService"))
-				urlParameters = "email=" + params[1] + "&password=" + params[2];
-			else if(serviceType.equals("RegistrationService"))
-				urlParameters = "uname=" + params[1] + "&email=" + params[2]
-						+ "&password=" + params[3];
+			if (serviceType.equals("addPostService"))
+				urlParameters = "postType="+ params[1] +"&content="+ params[2] +"&photo="
+						+ params[3] +"&district=" + params[4] +"&userEmail=" 
+						+ params[5] +"&categories="+ params[6];
+			
+			else if (serviceType.equals("deletePostService") 
+					|| serviceType.equals("addCommentService")
+					|| serviceType.equals("approvePostService")
+					|| serviceType.equals("disapprovePostService"))
+				urlParameters = "postID="+ params[1] +"&userEmail="+ params[2];
 			
 
 			HttpURLConnection connection;
@@ -92,13 +122,9 @@ public class PostController
 			
 			try 
 			{
-				if (serviceType.equals("LoginService")) 
+				if (serviceType.equals("addPostService")) 
 				{
 					System.out.println("result " + result);
-					
-					/*JSONParser parser = new JSONParser();
-					Object obj = parser.parse(result);
-					JSONObject object = (JSONObject) obj;*/
 					
 					JSONObject object = new JSONObject(result);
 					
@@ -113,33 +139,174 @@ public class PostController
 					
 					if(object.getString("Status").equals("Failed"))
 					{
-						Toast.makeText(Application.getAppContext(), "error: Retype your email",
+						Toast.makeText(Application.getAppContext(), "error: post was not added",
 						Toast.LENGTH_LONG).show();
 						return;
 					}
 					
-					if(object.getString("Status").equals("wrongPass"))
-					{
-						Toast.makeText(Application.getAppContext(), "Wrong Password",
-						Toast.LENGTH_LONG).show();
-						return;
-					}
-					
-					//Logged in successfully 
-					
+					//Post added successfully 
+					Toast.makeText(Application.getAppContext(), "SUCCESS",
+					Toast.LENGTH_LONG).show();
 					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
 					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-					
-					//String email = simpleUser.get_email();
-					//homeIntent.putExtra("email", email);
-					
 					Application.getAppContext().startActivity(homeIntent);
 					
 				}
 			
-			
+				if (serviceType.equals("deletePostService")) 
+				{
+					System.out.println("result " + result);
+					
+					JSONObject object = new JSONObject(result);
+					
+					
+					if(object== null || !object.has("Status"))
+					{
+						System.out.println("eroor" );
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: not able to delete post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("notYourPost"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: You are not allowed to delete"+
+								"this post\n It is not your post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					
+					//Post added successfully 
+					Toast.makeText(Application.getAppContext(), "post deleted!",
+					Toast.LENGTH_LONG).show();
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
+					
+				}
+				
+				if (serviceType.equals("addCommentService")) 
+				{
+					System.out.println("result " + result);
+					
+					JSONObject object = new JSONObject(result);
+					
+					
+					if(object== null || !object.has("Status"))
+					{
+						System.out.println("eroor" );
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: not able to delete post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					//Post added successfully 
+					Toast.makeText(Application.getAppContext(), "Comment added",
+					Toast.LENGTH_LONG).show();
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
+					// go to view post  ...  with new comments
+				}
+				
+				if (serviceType.equals("approvePostService")) 
+				{
+					System.out.println("result " + result);
+					
+					JSONObject object = new JSONObject(result);
+					
+					
+					if(object== null || !object.has("Status"))
+					{
+						System.out.println("eroor" );
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: not able to approve post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("alreadyApproved"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: You are not allowed to delete"+
+								"this post\nyou have already approved this post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					
+					//Post added successfully 
+					Toast.makeText(Application.getAppContext(), "post approved!",
+					Toast.LENGTH_LONG).show();
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
+					// go to view post with new number of approves
+				}
+				
+				if (serviceType.equals("disapprovePostService")) 
+				{
+					System.out.println("result " + result);
+					
+					JSONObject object = new JSONObject(result);
+					
+					
+					if(object== null || !object.has("Status"))
+					{
+						System.out.println("eroor" );
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: not able to disapprove post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("alreadyApproved"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: You are not allowed to delete"+
+								"this post\nyou have already disapproved this post",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					
+					//Post added successfully 
+					Toast.makeText(Application.getAppContext(), "post disapproved!",
+					Toast.LENGTH_LONG).show();
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
+					// go to view post with new number of disapproves
+				}
+				
+				
 				//Do the same for other services
-				//else if(serviceType.equals("RegistrationService"))
+				//else if(serviceType.equals(""))
 				//{}
 
 			} 
