@@ -9,8 +9,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
@@ -22,6 +24,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.server.mvc.Viewable;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -150,6 +153,35 @@ public class UserServices {
 		
 		return object.toString();
 
+	}
+	
+	
+	@POST
+	@Path("/getAllUsersService")
+	public String getAllUsersService(){
+		
+		JSONArray arr = new JSONArray();
+		
+		for(User user:User.getAllUsers()){
+			JSONObject object = new JSONObject();
+			
+			if(user!=null){
+				object.put("ID", user.getID());
+				object.put("name", user.getName());
+				object.put("email", user.getMail());
+				object.put("password", user.getPassword());
+				object.put("birthDate", user.getBirthDate());
+				object.put("district", user.getDistrict());
+				object.put("gender", user.getGender());
+				object.put("twitter", user.getTwitter());
+				object.put("foursquare", user.getFoursquare());
+				object.put("interests", user.getParsedInterests());
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
 	}
 
 }

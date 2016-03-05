@@ -20,7 +20,7 @@ import com.google.appengine.api.datastore.Query;
 
 public class Post {
 	private String id;
-	private String postType, content, photo, userEmail, district;
+	private String postType, content, photo, userEmail, district, onEventID;
 	private Vector<String> categories;
 	private Vector<String> approvals,disapprovals;
 	private Vector<Comment> comments;
@@ -33,6 +33,7 @@ public class Post {
 		this.photo=null;
 		this.userEmail=null;
 		this.district=null;
+		this.onEventID=null;
 		this.categories=new Vector<String>();
 		this.comments=new Vector<Comment>();
 		this.reports=new Vector<Report>();
@@ -40,13 +41,14 @@ public class Post {
 		this.disapprovals=new Vector<String>();
 	}
 
-	public Post(String id,String type,String content,String photo,String userEmail,String district,Vector<String> categories) {
+	public Post(String id,String type,String content,String photo,String userEmail,String district,String onEventID,Vector<String> categories) {
 		this.id=id;
 		this.postType=type;
 		this.content = content;
 		this.photo=photo;
 		this.userEmail=userEmail;
 		this.district=district;
+		this.onEventID=onEventID;
 		this.categories=categories;
 		this.comments=new Vector<Comment>();
 		this.reports=new Vector<Report>();
@@ -59,6 +61,7 @@ public class Post {
 	public String getPhoto(){return photo;}
 	public String getUserEmail(){return userEmail;}
 	public String getDistrict(){return district;}
+	public String getOnEventID(){return onEventID;}
 	public int getNumApprovals(){return approvals.size();}
 	public int getNumDisApprovals(){return disapprovals.size();}
 	public int getNumReports(){return reports.size();}
@@ -108,6 +111,7 @@ public class Post {
 		post.setProperty("photo", this.photo);
 		post.setProperty("userEmail", this.userEmail);
 		post.setProperty("district", this.district);
+		post.setProperty("onEventID", this.onEventID);
 		datastore.put(post);
 		
 		this.id=String.valueOf(post.getKey().getId());
@@ -178,6 +182,16 @@ public class Post {
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("postID").toString().equals(postID))
 				keysToDelete.add(entity.getKey());
+			
+		}
+		
+		gaeQuery = new Query("eventPosts");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("postID").toString().equals(postID)){
+				keysToDelete.add(entity.getKey());
+				break;
+			}
 			
 		}
 		
@@ -261,6 +275,7 @@ public class Post {
 		this.postType=post.getProperty("postType").toString();
 		this.userEmail=post.getProperty("userEmail").toString();
 		this.district=post.getProperty("district").toString();
+		this.onEventID=post.getProperty("onEventID").toString();
 		
 		Query gaeQuery = new Query("categories");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
@@ -301,7 +316,8 @@ public class Post {
 	}
 	
 	
-	public static Vector<Post> getFilteredPosts(String specificDistrict,
+	public static Vector<Post> getFilteredPosts(String specificEvent,
+			String specificDistrict,
 			Set<String> specificCategories){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
@@ -311,6 +327,10 @@ public class Post {
 		Query gaeQuery = new Query("posts");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
+			if(specificEvent!=null && 
+					!entity.getProperty("onEventID").toString().equals(specificEvent))
+				continue;
+			
 			if(specificDistrict!=null && 
 					!entity.getProperty("district").toString().equals(specificDistrict))
 				continue;

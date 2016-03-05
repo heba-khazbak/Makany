@@ -12,7 +12,7 @@ import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Offer;
 import com.eg.Makany.Models.Store;
-import com.eg.Makany.Models.StoreReview;
+import com.eg.Makany.Models.Review;
 
 
 @Path("/")
@@ -28,7 +28,7 @@ public class PlacesServices {
 		
 		JSONObject object = new JSONObject();
 		
-		StoreReview sreview=new StoreReview(null,uMail,storeMail,review,Integer.parseInt(rating));
+		Review sreview=new Review(null,uMail,storeMail,review,Integer.parseInt(rating));
 		
 		if(sreview.saveReview())
 			object.put("Status", "OK");
@@ -105,9 +105,9 @@ public class PlacesServices {
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<StoreReview> sreviews=StoreReview.getReviews(storeMail);
+		Vector<Review> sreviews=Review.getReviews(storeMail);
 		
-		for(StoreReview sreview:sreviews){
+		for(Review sreview:sreviews){
 			JSONObject object = new JSONObject();
 			
 			if(sreview!=null){
