@@ -47,7 +47,7 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 	@Override
 	public void onClick(View arg0) 
 	{
-		
+		//here we should update the user's info 
 	}
 
 }
