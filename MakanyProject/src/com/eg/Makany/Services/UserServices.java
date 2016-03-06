@@ -157,6 +157,35 @@ public class UserServices {
 	
 	
 	@POST
+	@Path("/getUserService")
+	public String getUserService(@FormParam("email") String email){
+		
+		
+		JSONObject object = new JSONObject();
+		
+		User user=User.getUser(email);
+		
+		if(user!=null){
+			object.put("Status", "OK");
+			object.put("ID", user.getID());
+			object.put("name", user.getName());
+			object.put("email", user.getMail());
+			object.put("password", user.getPassword());
+			object.put("birthDate", user.getBirthDate());
+			object.put("district", user.getDistrict());
+			object.put("gender", user.getGender());
+			object.put("twitter", user.getTwitter());
+			object.put("foursquare", user.getFoursquare());
+			object.put("interests", user.getParsedInterests());
+		}
+		else
+			object.put("Status", "Failed");
+		
+		return object.toString();
+	}
+	
+	
+	@POST
 	@Path("/getAllUsersService")
 	public String getAllUsersService(){
 		

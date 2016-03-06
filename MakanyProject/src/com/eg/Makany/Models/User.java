@@ -122,6 +122,31 @@ public class User {
 		return ret;
 	}
 	
+	public static User getUser(String email){
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			String userEmail=entity.getProperty("email").toString();
+			if(userEmail.equals(email)){
+				return new User(String.valueOf(entity.getKey().getId()),
+						entity.getProperty("name").toString(),
+						userEmail,
+						entity.getProperty("password").toString(),
+						entity.getProperty("birthDate").toString(),
+						entity.getProperty("district").toString(),
+						entity.getProperty("gender").toString(),
+						entity.getProperty("twitter").toString(),
+						entity.getProperty("foursquare").toString(),
+						getInterests(userEmail));
+			}
+		}
+		
+		return null;
+	}
+	
 	public static Vector<User> getAllUsers(){
 		Vector<User> ret=new Vector<User>();
 		
