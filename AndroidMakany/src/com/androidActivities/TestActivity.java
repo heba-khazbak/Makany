@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import com.controllers.AdminController;
 import com.controllers.Application;
+import com.controllers.PostController;
 import com.controllers.UserController;
 
 import android.app.Activity;
@@ -29,11 +30,10 @@ public class TestActivity extends Activity implements OnClickListener  {
 	@Override
 	public void onClick(View v) 
 	{
-		/*AdminController adminController = new AdminController();
+		PostController controllers = new PostController();
 		
-		adminController.getInterests();
-		ArrayList<String> interests = AdminController.get_InterestList();
-		*/
+		controllers.getPost("art", "maadi", "");
+		
 		//Toast.makeText(getApplicationContext(),interests.get(0), Toast.LENGTH_LONG).show();
 				
 	}

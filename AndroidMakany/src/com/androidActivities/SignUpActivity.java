@@ -38,11 +38,12 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			signupButton = (Button) findViewById(R.id.RegistrationButton);
 			
 			
-			int Array_Count=0;
 			ArrayList<String> Str_Array = null;
 			
 			Intent currentIntent = getIntent();
 			Str_Array = currentIntent.getStringArrayListExtra("interests");
+			
+			
 			Toast.makeText(getApplicationContext(),
 			"interst 1 is: " + Str_Array.get(0), Toast.LENGTH_LONG).show();
 			
@@ -54,31 +55,29 @@ public class SignUpActivity extends Activity implements OnClickListener {
 
 			//Toast.makeText(Application.getAppContext(), Integer.toString(Array_Count), Toast.LENGTH_LONG).show();
 					
-			LinearLayout my_layout = (LinearLayout)findViewById(R.id.interestLayout);
+		LinearLayout my_layout = (LinearLayout)findViewById(R.id.interestLayout);
 
-			for (int i = 0; i < Array_Count; i++) 
+			for (int i = 0; i < Str_Array.size(); i++) 
 			{
 			    TableRow row =new TableRow(this);
 			    row.setId(i);
 			    row.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 			    CheckBox checkBox = new CheckBox(this);
-			    checkBox.setOnCheckedChangeListener((OnCheckedChangeListener) this);
+			    //checkBox.setOnCheckedChangeListener((OnCheckedChangeListener) this);
 			    checkBox.setId(i);
 			    checkBox.setText(Str_Array.get(i));
 			    row.addView(checkBox);  
 			    my_layout.addView(row);
 			}
-			
-			
-			
+		
 			signupButton.setOnClickListener(this);
 		}
 		
-		public void addListenerOnSpinnerItemSelection() 
+		/*public void addListenerOnSpinnerItemSelection() 
 		{
 				Spinner spinner1 = (Spinner) findViewById(R.id.genderSpinner);
 				spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
-		}
+		}*/
 
 
 		@Override

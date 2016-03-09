@@ -115,7 +115,7 @@ public class AdminController
 				{
 					System.out.println("result " + result);
 					
-					String temp="";
+					//String temp="";
 					//interestsList = result;
 					
 					ArrayList<String> interestsList = new ArrayList<String>();
@@ -130,16 +130,22 @@ public class AdminController
 								object = (JSONObject)requestArray.get(i);
 								String x = object.getString("InterestValue");
 								interestsList.add(x);
-								temp+= x+ ",";
+								//temp+= x+ ",";
 							}
-						} 
+					
+					} 
+					
+					
 					catch (JSONException e) 
 					{
 						e.printStackTrace();
 					}
 					
+					
 					Intent signUpIntent = new Intent(Application.getAppContext(),SignUpActivity.class);
 					signUpIntent.putExtra("interests", interestsList);
+					System.out.println("testtttttt" + interestsList.get(0));	
+					signUpIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					Application.getAppContext().startActivity(signUpIntent);
 
 					

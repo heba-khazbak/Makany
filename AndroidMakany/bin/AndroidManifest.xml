@@ -61,6 +61,10 @@
             android:name=".TestActivity"
             android:label="@string/title_activity_test" >
         </activity>
+        <activity
+            android:name=".ViewPostActivity"
+            android:label="@string/title_activity_view_post" >
+        </activity>
     </application>
 
 </manifest>

@@ -49,10 +49,14 @@ public final class R {
         public static final int Edit=0x7f0a0009;
         public static final int RegistrationButton=0x7f0a0022;
         public static final int StoreRegistration=0x7f0a0027;
-        public static final int action_settings=0x7f0a0029;
+        public static final int action_settings=0x7f0a002e;
         public static final int addPostButton=0x7f0a000a;
         public static final int birthDate=0x7f0a001b;
         public static final int birthdate=0x7f0a0004;
+        public static final int button1=0x7f0a0029;
+        public static final int button2=0x7f0a002a;
+        public static final int button3=0x7f0a002b;
+        public static final int button4=0x7f0a002c;
         public static final int category=0x7f0a0018;
         public static final int checkBox1=0x7f0a0021;
         public static final int description=0x7f0a001c;
@@ -75,6 +79,7 @@ public final class R {
         public static final int password=0x7f0a0002;
         public static final int postButton=0x7f0a0012;
         public static final int postEditText=0x7f0a0011;
+        public static final int postLayout=0x7f0a002d;
         public static final int request=0x7f0a0019;
         public static final int reviews=0x7f0a0026;
         public static final int signUp=0x7f0a000e;
@@ -99,6 +104,7 @@ public final class R {
         public static final int activity_splash=0x7f030007;
         public static final int activity_store_sign_up=0x7f030008;
         public static final int activity_test=0x7f030009;
+        public static final int activity_view_post=0x7f03000a;
     }
     public static final class menu {
         public static final int edit_profile=0x7f090000;
@@ -117,6 +123,7 @@ public final class R {
         public static final int title_activity_splash=0x7f070003;
         public static final int title_activity_store_sign_up=0x7f070008;
         public static final int title_activity_test=0x7f070009;
+        public static final int title_activity_view_post=0x7f07000a;
     }
     public static final class style {
         /** 

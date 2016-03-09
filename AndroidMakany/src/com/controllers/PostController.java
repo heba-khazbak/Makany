@@ -6,7 +6,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,15 +41,21 @@ public class PostController
 	
 	public void approvePost(String postID, String userEmail) 
 	{
-	new Connection().execute( "http://makanyapp.appspot.com/rest/approvePostService",
+		new Connection().execute( "http://makanyapp.appspot.com/rest/approvePostService",
 		postID, userEmail, "approvePostService");
 	}
 	public void disapprovePost(String postID, String userEmail) 
 	{
-	new Connection().execute( "http://makanyapp.appspot.com/rest/disapprovePostService",
+		new Connection().execute( "http://makanyapp.appspot.com/rest/disapprovePostService",
 		postID, userEmail, "disapprovePostService");
 	}
 	
+	public void getPost(String category, String district, String onEventID ) 
+	{
+		new Connection().execute( "http://makanyapp.appspot.com/rest/getFilteredPostsService",
+		category, district, "", "getFilteredPostsService");
+	}
+
 	
 	static class Connection extends AsyncTask<String, String, String> 
 	{
@@ -73,7 +81,11 @@ public class PostController
 					|| serviceType.equals("disapprovePostService"))
 				urlParameters = "postID="+ params[1] +"&userEmail="+ params[2];
 			
-
+			if (serviceType.equals("getFilteredPostsService"))
+				urlParameters = "category="+ params[1] +"&district="+ params[2] +"&onEventID="
+						+ params[3];
+			
+			
 			HttpURLConnection connection;
 			try {
 				url = new URL(params[0]);
@@ -119,6 +131,8 @@ public class PostController
 		{
 
 			super.onPostExecute(result);
+			
+			
 			
 			try 
 			{
@@ -304,7 +318,48 @@ public class PostController
 					// go to view post with new number of disapproves
 				}
 				
-				
+				if (serviceType.equals("getFilteredPostsService")) 
+				{
+					System.out.println("result " + result);
+					
+					ArrayList<FilteredPost> posts = new ArrayList<FilteredPost>();
+					JSONArray requestArray;
+					
+					try {
+							requestArray = new JSONArray(result);
+							for(int i=0;i<requestArray.length();i++)
+							
+							{
+								JSONObject object=new JSONObject();
+								object = (JSONObject)requestArray.get(i);
+								
+								FilteredPost post = new FilteredPost(object.getString("ID"), object.getString("postType"), 
+										object.getString("content"), object.getString("photo"), object.getString("userEmail"), 
+										object.getString("district"), object.getString("numApprovals"), object.getString("approvalMails"),
+										object.getString("numDisApprovals"),object.getString("disapprovalMails"), 
+										object.getString("numreports"), object.getString("reportMails"));
+								posts.add(post);
+							}
+						} 
+					catch (JSONException e) 
+					{
+						e.printStackTrace();
+					}
+					
+					
+					
+					
+					
+					
+					//Post added successfully 
+					Toast.makeText(Application.getAppContext(), "SUCCESS\n" + posts.get(0).content,
+					Toast.LENGTH_LONG).show();
+					Intent homeIntent = new Intent(Application.getAppContext(),HomeActivity.class);
+					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					Application.getAppContext().startActivity(homeIntent);
+					
+				}
+			
 				//Do the same for other services
 				//else if(serviceType.equals(""))
 				//{}
