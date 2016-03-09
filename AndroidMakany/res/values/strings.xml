@@ -8,12 +8,14 @@
     <string name="title_activity_post">PostActivity</string>
     <string name="gender_prompt">Select your gender</string>
 
-    <string-array name="gender">
+    <string-array name="gender_array">
         <item>Male</item>
         <item>Female</item>
     </string-array>
 
     <string name="title_activity_edit_profile">EditProfileActivity</string>
-    <string name="title_activity_gain">GainActivity</string>
+    <string name="title_activity_request_item">Request Item</string>
+    <string name="title_activity_store_sign_up">StoreSignUpActivity</string>
+    <string name="title_activity_test">TestActivity</string>
 
 </resources>

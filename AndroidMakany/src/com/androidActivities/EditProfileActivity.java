@@ -28,7 +28,7 @@ public class EditProfileActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_editprofile);
+		setContentView(R.layout.activity_edit_profile);
 		emailEditText = (EditText) findViewById(R.id.email);
 		usernameEditText=(EditText) findViewById(R.id.name);
 		passwordEditText = (EditText) findViewById(R.id.password);

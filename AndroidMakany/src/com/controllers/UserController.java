@@ -45,12 +45,16 @@ public class UserController
 		new Connection().execute( "http://makanyapp.appspot.com/rest/LoginService", email, password, "LoginService");
 	}
 	
-	public void Signup(String email, String username, String password, String birthDate, 
-			String district, String gender, String twitter, String foursquare, String interests) 
+	public void Signup(String name, String email, String password, String birthDate, 
+						String district, String description, String gender, 
+						String twitter, String foursquare, String interests) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", 
-		email, username, password,birthDate, district, gender, twitter, foursquare,
-		interests, "signUpService");
+		String uType="normal";
+		String category="NONE";
+		
+		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", uType,
+		name, email, password, birthDate, district, category, description, gender, twitter, 
+		foursquare, interests, "signUpService");
 	}
 	
 	//new by magie
@@ -79,14 +83,14 @@ public class UserController
 			if (serviceType.equals("LoginService"))
 				urlParameters = "email=" + params[1] + "&password=" + params[2];
 			
-			//////////////////////
-			else if(serviceType.equals("signUpService"))
-				urlParameters ="email=" + params[1] + "&username=" + params[2] + 
-							   "&password=" + params[3] + "&birthDate=" + params[4] + 
-							   "&district=" + params[5] + "&gender=" + params[6] + 
-							   "&twitter=" + params[7] + "&foursquare=" + params[8] + 
-							   "&interests=" + params[9]; 
 			
+			else if(serviceType.equals("signUpService"))
+				urlParameters ="uType=" + params[1] + "&name=" + params[2] + "&email=" + params[3] + 
+							   "&password=" + params[4] + "&birthDate=" + params[5] + 
+							   "&district=" + params[6] + "&category=" + params[7] +"&description=" 
+							   + params[8] + "&gender=" + params[9] + "&twitter=" + params[10] 
+							   + "&foursquare=" + params[11] + "&interests=" + params[12];
+		
 			//////////////////////
 			else if(serviceType.equals("editProfileService"))
 				urlParameters ="email=" + params[1] + "&username=" + params[2] + 
@@ -215,6 +219,11 @@ public class UserController
 					
 					Intent mainIntent = new Intent(Application.getAppContext(),MainActivity.class);
 					mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					
+					AdminController adminController = new AdminController();
+					adminController.getInterests();	
+					
+					
 					Application.getAppContext().startActivity(mainIntent);
 				}
 			

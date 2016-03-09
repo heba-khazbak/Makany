@@ -10,7 +10,7 @@ package com.androidActivities;
 public final class R {
     public static final class array {
         public static final int androidcolors=0x7f050000;
-        public static final int gender=0x7f050001;
+        public static final int gender_array=0x7f050001;
     }
     public static final class attr {
     }
@@ -40,42 +40,65 @@ public final class R {
     public static final class drawable {
         public static final int buttonshape=0x7f020000;
         public static final int ic_launcher=0x7f020001;
-        public static final int makany_logo=0x7f020002;
-        public static final int test_image=0x7f020003;
+        public static final int item_test=0x7f020002;
+        public static final int makany_logo=0x7f020003;
+        public static final int test_image=0x7f020004;
     }
     public static final class id {
+        public static final int Discription=0x7f0a0024;
         public static final int Edit=0x7f0a0009;
-        public static final int RegistrationButton=0x7f0a0015;
-        public static final int action_settings=0x7f0a0016;
+        public static final int RegistrationButton=0x7f0a0022;
+        public static final int StoreRegistration=0x7f0a0027;
+        public static final int action_settings=0x7f0a0029;
         public static final int addPostButton=0x7f0a000a;
-        public static final int birthDate=0x7f0a0012;
+        public static final int birthDate=0x7f0a001b;
         public static final int birthdate=0x7f0a0004;
+        public static final int category=0x7f0a0018;
+        public static final int checkBox1=0x7f0a0021;
+        public static final int description=0x7f0a001c;
+        public static final int discription=0x7f0a0015;
         public static final int district=0x7f0a0003;
+        public static final int districtSpinner=0x7f0a001a;
         public static final int email=0x7f0a0001;
         public static final int foursqaure=0x7f0a0007;
-        public static final int foursquareAccount=0x7f0a0014;
+        public static final int foursquareAccount=0x7f0a001f;
         public static final int gender=0x7f0a0005;
+        public static final int genderSpinner=0x7f0a001d;
+        public static final int interestLayout=0x7f0a0020;
         public static final int intrests=0x7f0a0008;
+        public static final int itemDiscription=0x7f0a0014;
+        public static final int itemname=0x7f0a0013;
         public static final int login=0x7f0a000d;
         public static final int loginButton=0x7f0a000b;
         public static final int name=0x7f0a0000;
+        public static final int offers=0x7f0a0025;
         public static final int password=0x7f0a0002;
-        public static final int postButton=0x7f0a0011;
-        public static final int postEditText=0x7f0a0010;
+        public static final int postButton=0x7f0a0012;
+        public static final int postEditText=0x7f0a0011;
+        public static final int request=0x7f0a0019;
+        public static final int reviews=0x7f0a0026;
         public static final int signUp=0x7f0a000e;
         public static final int signUpStore=0x7f0a000f;
+        public static final int storeName=0x7f0a0023;
+        public static final int test=0x7f0a0010;
+        public static final int testButton=0x7f0a0028;
         public static final int textView1=0x7f0a000c;
         public static final int twitter=0x7f0a0006;
-        public static final int twitterAccount=0x7f0a0013;
+        public static final int twitterAccount=0x7f0a001e;
+        public static final int useremail=0x7f0a0016;
+        public static final int usermail=0x7f0a0017;
     }
     public static final class layout {
-        public static final int activity_editprofile=0x7f030000;
+        public static final int activity_edit_profile=0x7f030000;
         public static final int activity_home=0x7f030001;
         public static final int activity_login=0x7f030002;
         public static final int activity_main=0x7f030003;
         public static final int activity_post=0x7f030004;
-        public static final int activity_signup=0x7f030005;
-        public static final int activity_splash=0x7f030006;
+        public static final int activity_request_item=0x7f030005;
+        public static final int activity_signup=0x7f030006;
+        public static final int activity_splash=0x7f030007;
+        public static final int activity_store_sign_up=0x7f030008;
+        public static final int activity_test=0x7f030009;
     }
     public static final class menu {
         public static final int edit_profile=0x7f090000;
@@ -89,9 +112,11 @@ public final class R {
         public static final int gender_prompt=0x7f070005;
         public static final int hello_world=0x7f070001;
         public static final int title_activity_edit_profile=0x7f070006;
-        public static final int title_activity_gain=0x7f070007;
         public static final int title_activity_post=0x7f070004;
+        public static final int title_activity_request_item=0x7f070007;
         public static final int title_activity_splash=0x7f070003;
+        public static final int title_activity_store_sign_up=0x7f070008;
+        public static final int title_activity_test=0x7f070009;
     }
     public static final class style {
         /** 

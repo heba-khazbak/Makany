@@ -7,14 +7,10 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
     android:layout_height="wrap_content"
     android:orientation="vertical" >
     
-    	<!--  @FormParam("district") String district,
-    		@FormParam("interests") String strInterests) 
-		 -->	
-		
-		<!-- 
-		    @FormParam("twitter") String twitter,
-			@FormParam("foursquare") String foursquare,
-		-->
+    	<!--
+    	name, email, password, birthDate, district, category, description, gender, twitter, 
+		foursquare, interests
+    	-->
     
     <LinearLayout 
         android:layout_width="fill_parent"
@@ -68,16 +64,18 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
                android:layout_height="wrap_content"
                android:text="Password" />
 
-        <EditText
-            android:id="@+id/password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:ems="10"
-            android:inputType="textPassword" >
-            </EditText>
+	        <EditText
+	            android:id="@+id/password"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1"
+	            android:ems="10"
+	            android:inputType="textPassword" >
+	            </EditText>
+	            
     </LinearLayout>
 		
+       
        
     <LinearLayout  android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -89,9 +87,11 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
             android:text="District"
             />
 	    
-	    <!-- drop down menu   -->
-    
-	    
+		<Spinner
+        android:id="@+id/districtSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+        
     </LinearLayout>
     
        
@@ -115,10 +115,32 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
       
  	</LinearLayout>
    
-	
+    
+	<LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            />
+        
+        <EditText 
+            android:id="@+id/description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            />
+        
+    </LinearLayout>
+    
+    
+    
     <LinearLayout    
         android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
+    	android:layout_height="wrap_content"
     	android:orientation="vertical" >
  
    		<TextView
@@ -127,16 +149,15 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
            android:text="Gender " />
 
    		<Spinner
-   		    android:id="@+id/gender"
-   		    android:layout_width="0dp"
-   		    android:layout_height="wrap_content"
-   		    android:layout_weight="1"
-   		    android:entries="@array/gender"
+   		    android:id="@+id/genderSpinner"
+   		    android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+        	android:entries="@array/gender_array"
    		    android:prompt="@string/gender_prompt" />
 
  	</LinearLayout>
-   
-	
+
+    	
     <LinearLayout  android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -167,7 +188,9 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
             android:layout_height="wrap_content"
             />
       
-	<LinearLayout  android:layout_width="fill_parent"
+	<LinearLayout  
+	    android:id="@+id/interestLayout"
+	    android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         
@@ -178,7 +201,12 @@ android:layout_width="fill_parent" android:layout_height="fill_parent">
             />
 	    
 	    <!-- checkboxes  -->
-    
+
+	    <CheckBox
+	        android:id="@+id/checkBox1"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:text="CheckBox" />
 	    
     </LinearLayout>
     
