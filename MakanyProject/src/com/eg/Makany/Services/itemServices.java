@@ -17,7 +17,7 @@ import com.google.appengine.api.datastore.Key;
 
 @Path("/")
 @Produces("text/html")
-public class itemServices {
+public class ItemServices {
 
 	
 	@POST

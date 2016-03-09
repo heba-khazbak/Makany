@@ -15,7 +15,7 @@ import org.json.simple.JSONObject;
 import com.eg.Makany.Models.Comment;
 import com.eg.Makany.Models.Post;
 import com.eg.Makany.Models.Store;
-import com.eg.Makany.Models.StoreReview;
+import com.eg.Makany.Models.Review;
 import com.google.appengine.api.datastore.Key;
 
 
@@ -30,6 +30,7 @@ public class PostServices {
 			@FormParam("content") String content, 
 			@FormParam("photo") String photo,
 			@FormParam("district") String district,
+			@FormParam("onEventID") String onEventID,
 			@FormParam("userEmail") String userEmail,
 			@FormParam("categories") String strCategories) {
 		
@@ -39,7 +40,7 @@ public class PostServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,postType,content,photo,userEmail,district,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,categories);
 		
 		if(post.savePost())
 			object.put("Status", "OK");
@@ -152,7 +153,8 @@ public class PostServices {
 	@POST
 	@Path("/getFilteredPostsService")
 	public String getFilteredPostsService(@FormParam("category") String strCategories,
-			@FormParam("district") String district){
+			@FormParam("district") String district,
+			@FormParam("onEventID") String onEventID){
 		
 		Set<String> categories=new HashSet<String>();
 		if(strCategories!=null){
@@ -162,7 +164,7 @@ public class PostServices {
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Post> posts=Post.getFilteredPosts(district, categories);
+		Vector<Post> posts=Post.getFilteredPosts(onEventID, district, categories);
 		
 		for(Post post:posts){
 			JSONObject object = new JSONObject();

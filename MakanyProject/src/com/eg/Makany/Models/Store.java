@@ -15,11 +15,11 @@ public class Store {
 	private String id;
 	private String name, email, password, district, category, description;
 	private Vector<Offer> offers;
-	private Vector<StoreReview> reviews;
+	private Vector<Review> reviews;
 	
 	public Store(String id, String name,String email,String password,String district,
 			String category, String description,
-			Vector<Offer> offers,Vector<StoreReview> reviews){
+			Vector<Offer> offers,Vector<Review> reviews){
 		this.id=id;
 		this.name=name;
 		this.email=email;
@@ -80,7 +80,7 @@ public class Store {
 					entity.getProperty("category").toString(),
 					entity.getProperty("description").toString(),
 					Offer.getOffers(storeMail),
-					StoreReview.getReviews(storeMail)));
+					Review.getReviews(storeMail)));
 		}
 		
 		return ret;
