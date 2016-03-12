@@ -10,7 +10,6 @@ import javax.ws.rs.Produces;
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Offer;
-import com.eg.Makany.Models.Post;
 
 @Path("/")
 @Produces("text/html")

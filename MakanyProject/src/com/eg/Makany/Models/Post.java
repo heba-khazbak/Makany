@@ -1,19 +1,13 @@
 package com.eg.Makany.Models;
 
-import java.util.Date;
-import java.util.List;
+
 import java.util.Set;
 import java.util.Vector;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -69,7 +63,7 @@ public class Post {
 	public String getParsedCategories(){
 		String ret="";
 		for(int i=0;i<categories.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=categories.get(i);
 		}
 		return ret;
@@ -77,7 +71,7 @@ public class Post {
 	public String getParsedApprovals(){
 		String ret="";
 		for(int i=0;i<approvals.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=approvals.get(i);
 		}
 		return ret;
@@ -85,7 +79,7 @@ public class Post {
 	public String getParsedDisApprovals(){
 		String ret="";
 		for(int i=0;i<disapprovals.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=disapprovals.get(i);
 		}
 		return ret;
@@ -93,7 +87,7 @@ public class Post {
 	public String getParsedReports(){
 		String ret="";
 		for(int i=0;i<reports.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=reports.get(i);
 		}
 		return ret;

@@ -1,39 +1,22 @@
 package com.eg.Makany.Services;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
-import org.glassfish.jersey.server.mvc.Viewable;
+
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
-import com.eg.Makany.Models.Offer;
-import com.eg.Makany.Models.Post;
+
+
 import com.eg.Makany.Models.Store;
 import com.eg.Makany.Models.User;
-import com.google.appengine.api.datastore.Key;
 
 @Path("/")
 @Produces("text/html")
@@ -57,7 +40,7 @@ public class UserServices {
 		
 		Vector<String> interests=new Vector<String>();
 		if(strInterests!=null){
-			String tmp[]=strInterests.split("_");
+			String tmp[]=strInterests.split(";");
 			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
 		
@@ -117,13 +100,15 @@ public class UserServices {
 	}
 	
 	
-	// works for user type only
+	// works for user and store
 	@POST
 	@Path("/editProfileService")
-	public String editProfileService(
+	public String editProfileService(@FormParam("uType") String uType,
 			@FormParam("name") String name, 
 			@FormParam("email") String email,
 			@FormParam("password") String password,
+			@FormParam("category") String category,
+			@FormParam("description") String description,
 			@FormParam("birthDate") String birthDate,
 			@FormParam("district") String district,
 			@FormParam("gender") String gender,
@@ -132,17 +117,27 @@ public class UserServices {
 			@FormParam("interests") String strInterests) {
 		
 		
-		Vector<String> interests=new Vector<String>();
-		if(strInterests!=null){
-			String tmp[]=strInterests.split("_");
-			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
+		JSONObject object = new JSONObject();
+		
+		if(uType.equals("store")){
+			if(new Store(null,name,email,password,district,category,description,null,null).editStore())
+				object.put("Status", "OK");
+			else
+				object.put("Status", "Failed");
+			
+			return object.toString();
 		}
 		
-		JSONObject object = new JSONObject();
 		
 		if(!User.removeUser(email)){
 			object.put("Status", "Failed");
 			return object.toString();
+		}
+		
+		Vector<String> interests=new Vector<String>();
+		if(strInterests!=null){
+			String tmp[]=strInterests.split(";");
+			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
 		
 		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);

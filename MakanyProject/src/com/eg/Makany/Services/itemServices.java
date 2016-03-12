@@ -11,8 +11,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Item;
-import com.eg.Makany.Models.Post;
-import com.google.appengine.api.datastore.Key;
 
 
 @Path("/")
@@ -25,15 +23,18 @@ public class ItemServices {
 	public String loanItemService(@FormParam("name") String name,
 			@FormParam("description") String description, 
 			@FormParam("userEmail") String userEmail,
+			@FormParam("district") String district,
+			@FormParam("photo") String photo,
+			@FormParam("state") String state,
 			@FormParam("categories") String strCategories) {
 		
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split("_");
+		String tmp[]=strCategories.split(";");
 		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
 		
-		Item item=new Item(null,name,description,userEmail,categories);
+		Item item=new Item(null,name,description,userEmail,district,photo,state,categories);
 		
 		if(item.saveItem(true))
 			object.put("Status", "OK");
@@ -49,15 +50,18 @@ public class ItemServices {
 	public String requestItemService(@FormParam("name") String name,
 			@FormParam("description") String description, 
 			@FormParam("userEmail") String userEmail,
+			@FormParam("district") String district,
+			@FormParam("photo") String photo,
+			@FormParam("state") String state,
 			@FormParam("categories") String strCategories) {
 		
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split("_");
+		String tmp[]=strCategories.split(";");
 		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
 		
-		Item item=new Item(null,name,description,userEmail,categories);
+		Item item=new Item(null,name,description,userEmail,district,photo,state,categories);
 		
 		if(item.saveItem(false))
 			object.put("Status", "OK");
@@ -88,6 +92,43 @@ public class ItemServices {
 		
 	}
 	
+	@POST
+	@Path("/editItemService")
+	public String editItemService(@FormParam("itemID") String itemID,
+			@FormParam("name") String name,
+			@FormParam("description") String description, 
+			@FormParam("userEmail") String userEmail,
+			@FormParam("district") String district,
+			@FormParam("photo") String photo,
+			@FormParam("state") String state,
+			@FormParam("categories") String strCategories) {
+		
+		JSONObject object = new JSONObject();
+		
+		int res=Item.deleteItem(itemID, userEmail);
+		
+		if(res==3)
+			object.put("Status","notYourItem");
+		else if(res==1 || res==2){
+			Vector<String> categories=new Vector<String>();
+			String tmp[]=strCategories.split(";");
+			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
+			
+			
+			Item item=new Item(itemID,name,description,userEmail,district,photo,state,categories);
+			
+			if(item.saveItem((res==1)))
+				object.put("Status", "OK");
+			else
+				object.put("Status", "Failed");
+		}
+		else
+			object.put("Status", "Failed");
+		
+		return object.toString();
+		
+	}
+	
 	
 	@POST
 	@Path("/viewItemService")
@@ -102,6 +143,9 @@ public class ItemServices {
 			object.put("name", item.getName());
 			object.put("description", item.getDescription());
 			object.put("userEmail", item.getUserEmail());
+			object.put("district", item.getDistrict());
+			object.put("photo", item.getPhoto());
+			object.put("state", item.getState());
 			object.put("categories", item.getParsedCategories());
 		}
 		
@@ -110,12 +154,13 @@ public class ItemServices {
 	}
 	
 	@POST
-	@Path("/getALLLoanItemsService")
-	public String getALLLoanItemsService() {
+	@Path("/getFilteredLoanItemsService")
+	public String getFilteredLoanItemsService(@FormParam("district") String district,
+			@FormParam("state") String state) {
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Item> items=Item.getAllItems(true);
+		Vector<Item> items=Item.getAllItems(true,district,state);
 		
 		for(Item item:items){
 			JSONObject object = new JSONObject();
@@ -125,6 +170,9 @@ public class ItemServices {
 				object.put("name", item.getName());
 				object.put("description", item.getDescription());
 				object.put("userEmail", item.getUserEmail());
+				object.put("district", item.getDistrict());
+				object.put("photo", item.getPhoto());
+				object.put("state", item.getState());
 				object.put("categories", item.getParsedCategories());
 			}
 			
@@ -136,12 +184,13 @@ public class ItemServices {
 	}
 	
 	@POST
-	@Path("/getALLRequestItemsService")
-	public String getALLRequestItemsService() {
+	@Path("/getFilteredRequestItemsService")
+	public String getFilteredRequestItemsService(@FormParam("district") String district,
+			@FormParam("state") String state) {
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Item> items=Item.getAllItems(false);
+		Vector<Item> items=Item.getAllItems(false,district,state);
 		
 		for(Item item:items){
 			JSONObject object = new JSONObject();
@@ -151,6 +200,9 @@ public class ItemServices {
 				object.put("name", item.getName());
 				object.put("description", item.getDescription());
 				object.put("userEmail", item.getUserEmail());
+				object.put("district", item.getDistrict());
+				object.put("photo", item.getPhoto());
+				object.put("state", item.getState());
 				object.put("categories", item.getParsedCategories());
 			}
 			
