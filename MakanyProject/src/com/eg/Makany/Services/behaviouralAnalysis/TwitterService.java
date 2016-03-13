@@ -26,6 +26,8 @@ import twitter4j.auth.AccessToken;
 
 import com.alchemyapi.api.AlchemyAPI;
 import com.eg.Makany.Models.User;
+import com.eg.Makany.Models.BA.TweetTopic;
+import com.eg.Makany.Models.BA.TwitterTweets;
 
 
 
@@ -60,20 +62,31 @@ public class TwitterService {
 		for (User user : allUsers)
 		{
 			JSONObject object = new JSONObject();
-
+			
 			String screenName = user.getTwitter();
 			object.put("user", screenName);
 			
 			System.out.println("screenName " + screenName);
 				try {
-	        	
-				ResponseList<Status> myTweets = twitter.getUserTimeline(screenName,new Paging(1,5));
-					
-				// get 20 tweets 	
-	        	//ResponseList<Status> myTweets = twitter.getUserTimeline(screenName);
-	        	String allText = "";
+				//Paging page = new Paging(1, 200, TwitterTweets.getMaxTweetID(user.getMail()));
+				Paging page = new Paging(1, 10);
+				ResponseList<Status> myTweets = twitter.getUserTimeline(screenName,page);
+
 	        	for(Status s: myTweets) {
-	        		System.out.println(s.getText() + " " + s.getCreatedAt());
+	        		TwitterTweets T = new TwitterTweets();
+	        		T.setUserEmail(user.getMail());
+					T.setTweetID(s.getId());
+					T.setContent(s.getText());
+					T.setCreatedAt(s.getCreatedAt());
+					T.setLang(s.getLang());
+					
+	        		/*s.getId();
+	        		//Date x = new Date(year,month,day);
+	        		Date y = new Date(2015,2,15);
+	        		s.getCreatedAt().before(y);
+	        		s.getLang();*/
+	        		
+	        		System.out.println(s.getText() + " " + s.getCreatedAt() +" " +  s.getLang());
 	        		Document doc = alchemyObj.TextGetTaxonomy(s.getText());
 	        		String theXmlResult = getStringFromDocument(doc);
 	        		org.json.JSONObject xmlJSONObj = XML.toJSONObject(theXmlResult);
@@ -82,15 +95,27 @@ public class TwitterService {
 	        		label and score and may be some things else 
 	        		score is value from 0-1 and label is seperated with /  */
 	        		
-	        		//String label = xmlJSONObj.getString("label");
-	        		//String score = xmlJSONObj.getString("score");
+	      
+	        		org.json.JSONArray arr = xmlJSONObj.getJSONObject("results").getJSONObject("taxonomy").getJSONArray("element");
+	        		System.out.println(arr.toString());
 	        		
-	        		String x = xmlJSONObj.getJSONObject("results").getJSONObject("taxonomy").toString();
-	        		System.out.println(x);
-	        		//System.out.println("element " + element.toString());
-	        		//System.out.println("label" + label + " Score" + score);
-	                //System.out.println(xmlJSONObj.toString());
+	        		Vector <TweetTopic> myTopics = new Vector<TweetTopic>();
 	        		
+	        		for (int i = 0 ; i < arr.length(); i++)
+	        		{
+	        			org.json.JSONObject J = arr.getJSONObject(i);
+	        			String label = J.getString("label");
+	        			String score = J.getString("score");
+	        			
+	        			System.out.println("label " + label + " score " + score);
+	        			
+	        			TweetTopic topic = new TweetTopic (T.getTweetID(),label , Double.parseDouble(score));
+	        			myTopics.add(topic);
+	   
+	        		}
+	        		T.setTopics(myTopics);
+	        		
+	        		T.saveAnalyzedTweet();
 	        		}
 	        	ReturnedArray.add(object);
 

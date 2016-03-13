@@ -38,8 +38,6 @@ public class Admin {
 	public Boolean saveUser() {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query gaeQuery = new Query(TABLENAME);
-		PreparedQuery pq = datastore.prepare(gaeQuery);
 
 		Entity user = new Entity(TABLENAME);
 

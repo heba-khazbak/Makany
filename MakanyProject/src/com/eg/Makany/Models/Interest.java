@@ -34,8 +34,6 @@ public class Interest {
 		// should be unique 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query gaeQuery = new Query(TABLENAME);
-		PreparedQuery pq = datastore.prepare(gaeQuery);
 
 		Entity interest = new Entity(TABLENAME);
 
