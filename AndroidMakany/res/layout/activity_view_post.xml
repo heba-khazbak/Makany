@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <EditText
+        android:id="@+id/postEditText"
+        android:layout_width="match_parent"
+        android:layout_height="174dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:ems="10"
+        android:inputType="textMultiLine" >
+            <requestFocus />
+    </EditText>
+
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/postButton"
+         android:layout_alignTop="@+id/postButton"
+         android:text="delete" />
+
+     <Button
+         android:id="@+id/postButton"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentRight="true"
+         android:layout_below="@+id/postEditText"
+         android:layout_marginRight="21dp"
+         android:text="comment" />
+
+     <Button
+         android:id="@+id/button2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBottom="@+id/postButton"
+         android:layout_marginLeft="29dp"
+         android:layout_toRightOf="@+id/button1"
+         android:text="report" />
+
+     <Button
+         android:id="@+id/button3"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/button2"
+         android:layout_below="@+id/button1"
+         android:layout_marginRight="46dp"
+         android:layout_marginTop="26dp"
+         android:text="approve" />
+
+     <Button
+         android:id="@+id/button4"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignBaseline="@+id/button3"
+         android:layout_alignBottom="@+id/button3"
+         android:layout_toRightOf="@+id/button3"
+         android:text="disapprove" />
+     
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+  android:id="@+id/postLayout">
+</LinearLayout>
+     
+   
+     </RelativeLayout>
+      
+    

@@ -51,6 +51,28 @@ public class Store {
 		return true;
 	}
 	
+	public boolean editStore(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Query gaeQuery = new Query("stores");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(this.email)){
+				entity.setProperty("name", this.name);
+				entity.setProperty("password", this.password);
+				entity.setProperty("district", this.district);
+				entity.setProperty("category", this.category);
+				entity.setProperty("description", this.description);
+				datastore.put(entity);
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
 	public static Vector<Store> getAllStores(String specificCategory,String specificDistrict){
 		Vector<Store> ret=new Vector<Store>();
 		

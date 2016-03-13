@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="fill_parent" android:layout_height="fill_parent">
+   
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+    
+    <!-- store name layout -->
+    <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Store Name" />
+          
+           <EditText
+               android:id="@+id/storeName"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+    
+
+      <!-- email layout -->
+      <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Eamil" />
+          
+           <EditText
+               android:id="@+id/email"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+       <!-- password layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Password" />
+          
+           <EditText
+               android:id="@+id/password"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+     <!-- password layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="District" />
+          
+           <EditText
+               android:id="@+id/district"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+     <!-- category layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Category" />
+          
+           <EditText
+               android:id="@+id/category"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+     <!-- discription layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Discrption" />
+          
+           <EditText
+               android:id="@+id/Discription"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+     <!-- Offers layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Offers" />
+          
+           <EditText
+               android:id="@+id/offers"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+     <!-- reviews layout -->
+     <LinearLayout 
+         
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+           
+          <TextView
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Reviews" />
+          
+           <EditText
+               android:id="@+id/reviews"
+               android:layout_width="120dp"
+               android:layout_height="wrap_content" 
+               android:inputType="text">
+               <requestFocus />
+           </EditText>
+         
+     </LinearLayout>
+     
+       <Button 
+        android:id="@+id/StoreRegistration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="signUp"
+        />
+     
+     
+  </LinearLayout>   
+  </ScrollView>

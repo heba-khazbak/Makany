@@ -44,7 +44,7 @@ public class PostActivity extends Activity implements OnClickListener {
 			
 			PostController postController = new PostController();
 			postController.addPost("normal", postEditText.getText().toString(), "no-pic", 
-			"maadi",currentEmail, "none");
+			"maadi",currentEmail, "art");
 		}		
 	
 	}

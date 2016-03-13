@@ -12,6 +12,9 @@ import com.eg.Makany.Models.Store;
 import com.eg.Makany.Models.User;
 
 
+
+
+
 @Path("/")
 @Produces("text/html")
 public class UserServices {
@@ -34,7 +37,7 @@ public class UserServices {
 		
 		Vector<String> interests=new Vector<String>();
 		if(strInterests!=null){
-			String tmp[]=strInterests.split("_");
+			String tmp[]=strInterests.split(";");
 			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
 		
@@ -94,13 +97,15 @@ public class UserServices {
 	}
 	
 	
-	// works for user type only
+	// works for user and store
 	@POST
 	@Path("/editProfileService")
-	public String editProfileService(
+	public String editProfileService(@FormParam("uType") String uType,
 			@FormParam("name") String name, 
 			@FormParam("email") String email,
 			@FormParam("password") String password,
+			@FormParam("category") String category,
+			@FormParam("description") String description,
 			@FormParam("birthDate") String birthDate,
 			@FormParam("district") String district,
 			@FormParam("gender") String gender,
@@ -109,17 +114,27 @@ public class UserServices {
 			@FormParam("interests") String strInterests) {
 		
 		
-		Vector<String> interests=new Vector<String>();
-		if(strInterests!=null){
-			String tmp[]=strInterests.split("_");
-			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
+		JSONObject object = new JSONObject();
+		
+		if(uType.equals("store")){
+			if(new Store(null,name,email,password,district,category,description,null,null).editStore())
+				object.put("Status", "OK");
+			else
+				object.put("Status", "Failed");
+			
+			return object.toString();
 		}
 		
-		JSONObject object = new JSONObject();
 		
 		if(!User.removeUser(email)){
 			object.put("Status", "Failed");
 			return object.toString();
+		}
+		
+		Vector<String> interests=new Vector<String>();
+		if(strInterests!=null){
+			String tmp[]=strInterests.split(";");
+			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
 		
 		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);

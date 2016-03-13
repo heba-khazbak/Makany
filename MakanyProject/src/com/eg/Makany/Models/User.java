@@ -42,7 +42,7 @@ public class User {
 	public String getParsedInterests(){
 		String ret="";
 		for(int i=0;i<interests.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=interests.get(i);
 		}
 		return ret;

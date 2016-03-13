@@ -3,6 +3,7 @@ package com.eg.Makany.Models;
 import java.util.Set;
 import java.util.Vector;
 
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -61,7 +62,7 @@ public class Post {
 	public String getParsedCategories(){
 		String ret="";
 		for(int i=0;i<categories.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=categories.get(i);
 		}
 		return ret;
@@ -69,7 +70,7 @@ public class Post {
 	public String getParsedApprovals(){
 		String ret="";
 		for(int i=0;i<approvals.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=approvals.get(i);
 		}
 		return ret;
@@ -77,7 +78,7 @@ public class Post {
 	public String getParsedDisApprovals(){
 		String ret="";
 		for(int i=0;i<disapprovals.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=disapprovals.get(i);
 		}
 		return ret;
@@ -85,7 +86,7 @@ public class Post {
 	public String getParsedReports(){
 		String ret="";
 		for(int i=0;i<reports.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=reports.get(i);
 		}
 		return ret;

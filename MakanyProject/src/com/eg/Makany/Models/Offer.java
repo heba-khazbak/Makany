@@ -41,7 +41,7 @@ public class Offer {
 	public String getParsedViewers(){
 		String ret="";
 		for(int i=0;i<viewers.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=viewers.get(i);
 		}
 		return ret;
@@ -49,7 +49,7 @@ public class Offer {
 	public String getParsedThumbsup(){
 		String ret="";
 		for(int i=0;i<thumbsup.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=thumbsup.get(i);
 		}
 		return ret;
@@ -57,7 +57,7 @@ public class Offer {
 	public String getParsedThumbsDown(){
 		String ret="";
 		for(int i=0;i<thumbsdown.size();++i){
-			if(i>0)ret+="_";
+			if(i>0)ret+=";";
 			ret+=thumbsdown.get(i);
 		}
 		return ret;
@@ -143,14 +143,38 @@ public class Offer {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
-		Key toDelete=null;
+		Vector<Key> toDelete=new Vector<Key>();
 		Query gaeQuery = new Query("offers");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
 			if(String.valueOf(entity.getKey().getId()).equals(offerID)){
-				toDelete=entity.getKey();
+				toDelete.add(entity.getKey());
 				break;
 			}
+			
+		}
+		
+		gaeQuery = new Query("offersViewers");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("offerID").toString().equals(offerID))
+				toDelete.add(entity.getKey());
+			
+		}
+		
+		gaeQuery = new Query("offersThumbsup");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("offerID").toString().equals(offerID))
+				toDelete.add(entity.getKey());
+			
+		}
+		
+		gaeQuery = new Query("offersThumbsDown");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("offerID").toString().equals(offerID))
+				toDelete.add(entity.getKey());
 			
 		}
 

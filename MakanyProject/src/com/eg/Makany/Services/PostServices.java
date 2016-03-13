@@ -13,7 +13,6 @@ import com.eg.Makany.Models.Comment;
 import com.eg.Makany.Models.Post;
 
 
-
 @Path("/")
 @Produces("text/html")
 public class PostServices {
@@ -30,7 +29,7 @@ public class PostServices {
 			@FormParam("categories") String strCategories) {
 		
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split("_");
+		String tmp[]=strCategories.split(";");
 		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
@@ -153,7 +152,7 @@ public class PostServices {
 		
 		Set<String> categories=new HashSet<String>();
 		if(strCategories!=null){
-			String tmp[]=strCategories.split("_");
+			String tmp[]=strCategories.split(";");
 			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		}
 		
