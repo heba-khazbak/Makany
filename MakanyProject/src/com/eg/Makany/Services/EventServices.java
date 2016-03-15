@@ -93,7 +93,7 @@ public class EventServices {
 			@FormParam("categories") String strCategories) {
 		
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split("_");
+		String tmp[]=strCategories.split(";");
 		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();

@@ -4,14 +4,11 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import java.util.List;
 import java.util.Vector;
-
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -36,9 +33,6 @@ public class District {
 		// should be unique 
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
-		Query gaeQuery = new Query(TABLENAME);
-		PreparedQuery pq = datastore.prepare(gaeQuery);
-		List<Entity> list = pq.asList(FetchOptions.Builder.withDefaults());
 
 		Entity district = new Entity(TABLENAME);
 

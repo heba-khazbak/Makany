@@ -1,13 +1,9 @@
 package com.eg.Makany.Models;
 
-import java.util.List;
 import java.util.Vector;
-
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -53,6 +49,28 @@ public class Store {
 		datastore.put(store);
 
 		return true;
+	}
+	
+	public boolean editStore(){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Query gaeQuery = new Query("stores");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(this.email)){
+				entity.setProperty("name", this.name);
+				entity.setProperty("password", this.password);
+				entity.setProperty("district", this.district);
+				entity.setProperty("category", this.category);
+				entity.setProperty("description", this.description);
+				datastore.put(entity);
+				return true;
+			}
+		}
+
+		return false;
 	}
 	
 	public static Vector<Store> getAllStores(String specificCategory,String specificDistrict){

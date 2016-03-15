@@ -3,20 +3,14 @@ package com.eg.Makany.Services;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
 import com.eg.Makany.Models.Comment;
 import com.eg.Makany.Models.Post;
-import com.eg.Makany.Models.Store;
-import com.eg.Makany.Models.Review;
-import com.google.appengine.api.datastore.Key;
 
 
 @Path("/")
@@ -35,7 +29,7 @@ public class PostServices {
 			@FormParam("categories") String strCategories) {
 		
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split("_");
+		String tmp[]=strCategories.split(";");
 		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		
 		JSONObject object = new JSONObject();
@@ -158,7 +152,7 @@ public class PostServices {
 		
 		Set<String> categories=new HashSet<String>();
 		if(strCategories!=null){
-			String tmp[]=strCategories.split("_");
+			String tmp[]=strCategories.split(";");
 			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		}
 		
