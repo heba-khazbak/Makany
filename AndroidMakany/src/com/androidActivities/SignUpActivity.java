@@ -1,9 +1,9 @@
 package com.androidActivities;
 
 import java.util.ArrayList;
-
-import com.controllers.AdminController;
-import com.controllers.Application;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -13,18 +13,31 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.Toast;
+
+import com.controllers.Application;
+import com.controllers.UserController;
 
 public class SignUpActivity extends Activity implements OnClickListener {
 
 		EditText emailEditText;
 		EditText usernameEditText;
 		EditText passwordEditText;
+		//spinner district
+		EditText birthdateEditText;
+		EditText descriptionEditText;
+		//spinner genre
+		EditText twitterAccountEditText;
+		EditText foursquareAccountEditText;
+		//checkbox interests
+		
+		Set<String> interestsSet = new HashSet<String>();
+
+		
+		
 		Button signupButton;
 
 		@Override
@@ -35,7 +48,15 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			emailEditText = (EditText) findViewById(R.id.email);
 			usernameEditText = (EditText) findViewById(R.id.name);
 			passwordEditText = (EditText) findViewById(R.id.password);
+			
+			birthdateEditText =(EditText) findViewById(R.id.birthDate);
+			descriptionEditText = (EditText) findViewById(R.id.description);
+			twitterAccountEditText = (EditText) findViewById(R.id.twitterAccount);
+			foursquareAccountEditText = (EditText) findViewById(R.id.foursquareAccount);
+			
+			
 			signupButton = (Button) findViewById(R.id.RegistrationButton);
+			
 			
 			
 			ArrayList<String> Str_Array = null;
@@ -63,10 +84,13 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			    row.setId(i);
 			    row.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 			    CheckBox checkBox = new CheckBox(this);
+			    //checkBox.setOnClickListener(this);
+			    checkBox.setTag(Str_Array);
 			    //checkBox.setOnCheckedChangeListener((OnCheckedChangeListener) this);
 			    checkBox.setId(i);
 			    checkBox.setText(Str_Array.get(i));
 			    row.addView(checkBox);  
+			    checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
 			    my_layout.addView(row);
 			}
 		
@@ -83,9 +107,60 @@ public class SignUpActivity extends Activity implements OnClickListener {
 		@Override
 		public void onClick(View v) 
 		{
-			//UserController.Signup(emailEditText.getText().toString(), usernameEditText.getText().toString(), 
-			//passwordEditText.getText().toString(), "", "", "", "", "", "");
+			UserController userController = Application.getUserController();
+			if (userController == null)
+			{
+				Toast.makeText(getApplicationContext(), "null! ", Toast.LENGTH_LONG).show();
+			}
+			else
+			{
+				
+				String finalChosenInterests="";
+				
+				 Iterator iterator = interestsSet.iterator(); 
+			      
+				 while (iterator.hasNext())
+				 {
+					 finalChosenInterests += iterator.next().toString() + "_";  
+				 } 
+				
+				 System.out.println("Final interest stringgggg"+ finalChosenInterests);
+				 
+				 
+				 
+				userController.Signup(usernameEditText.getText().toString(), 
+				  emailEditText.getText().toString(), passwordEditText.getText().toString(), 
+				  birthdateEditText.getText().toString(), "maadi",
+				  descriptionEditText.getText().toString(),
+				  "female", twitterAccountEditText.getText().toString(),
+				  foursquareAccountEditText.getText().toString(), "food_sport");
+
+			}				
+					
 		}
 
+		
+		View.OnClickListener getOnClickDoSomething(final Button button) 
+		{
+			return new View.OnClickListener() 
+			{ 
+				public void onClick(View v) 
+				{ 
+					if (interestsSet.contains(button.getText().toString()))
+					{
+						interestsSet.remove(button.getText().toString());
+						System.out.println(button.getText().toString() + "Is UNchecked");
+					}
+					else
+					{
+						interestsSet.add(button.getText().toString());
+						System.out.println(button.getText().toString() + "Is checked");
+						
+					}
+					
+				}
+			};
+		} 
 
+	
 }
