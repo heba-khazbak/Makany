@@ -98,7 +98,7 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,0,categories);
 		
 		if(post.savePost()){
 			if(Event.addPost(eventID, post.getID()))

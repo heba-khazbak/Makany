@@ -1,5 +1,6 @@
 package com.eg.Makany.Models;
 
+
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -13,11 +14,12 @@ public class User {
 	private String id;
 	private String name, email, password, birthDate, district, gender;
 	private String twitter, foursquare;
+	private int trust;
 	private Vector<String> interests;
 	
 	public User(String id, String name,String email,String password,String birthDate,
 			String district, String gender, String twitter, String foursquare,
-			Vector<String> interests){
+			int trust, Vector<String> interests){
 		this.id=id;
 		this.name=name;
 		this.email=email;
@@ -27,6 +29,7 @@ public class User {
 		this.gender=gender;
 		this.twitter=twitter;
 		this.foursquare=foursquare;
+		this.trust=trust;
 		this.interests=interests;
 	}
 	
@@ -39,6 +42,7 @@ public class User {
 	public String getGender(){return gender;}
 	public String getTwitter(){return twitter;}
 	public String getFoursquare(){return foursquare;}
+	public int getTrust(){return trust;}
 	public String getParsedInterests(){
 		String ret="";
 		for(int i=0;i<interests.size();++i){
@@ -63,6 +67,7 @@ public class User {
 		user.setProperty("gender", this.gender);
 		user.setProperty("twitter", this.twitter);
 		user.setProperty("foursquare", this.foursquare);
+		user.setProperty("trust", this.trust);
 		datastore.put(user);
 		
 		
@@ -138,6 +143,7 @@ public class User {
 						entity.getProperty("gender").toString(),
 						entity.getProperty("twitter").toString(),
 						entity.getProperty("foursquare").toString(),
+						Integer.parseInt(entity.getProperty("trust").toString()),
 						getInterests(userEmail));
 			}
 		}
@@ -163,6 +169,7 @@ public class User {
 					entity.getProperty("gender").toString(),
 					entity.getProperty("twitter").toString(),
 					entity.getProperty("foursquare").toString(),
+					Integer.parseInt(entity.getProperty("trust").toString()),
 					getInterests(userEmail)));
 		}
 		
@@ -200,5 +207,40 @@ public class User {
 			}
 		}
 		return ret;
+	}
+	
+	public static int getTrust(String email){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(email))
+				return Integer.parseInt(entity.getProperty("trust").toString());
+			
+		}
+		assert(true);
+		return 0;
+	}
+	
+	public static boolean updateTrust(String email,int newTrust){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(email)){
+				entity.setProperty("trust", newTrust);
+				datastore.put(entity);
+				return true;
+			}
+			
+		}
+
+		return false;
 	}
 }

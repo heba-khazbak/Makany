@@ -3,12 +3,15 @@ package com.eg.Makany.Services;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
 import com.eg.Makany.Models.Comment;
 import com.eg.Makany.Models.Post;
 
@@ -34,7 +37,7 @@ public class PostServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,0,categories);
 		
 		if(post.savePost())
 			object.put("Status", "OK");
@@ -170,6 +173,8 @@ public class PostServices {
 				object.put("photo", post.getPhoto());
 				object.put("userEmail", post.getUserEmail());
 				object.put("district", post.getDistrict());
+				object.put("onEventID", post.getOnEventID());
+				object.put("score", post.getScore());
 				
 				object.put("numApprovals", String.valueOf(post.getNumApprovals()));
 				object.put("approvalMails", post.getParsedApprovals());
