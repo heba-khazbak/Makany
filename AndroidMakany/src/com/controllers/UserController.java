@@ -14,6 +14,7 @@ import com.controllers.Application;
 import com.androidActivities.HomeActivity;
 import com.androidActivities.MainActivity;
 
+import SimpleModels.SimpleUser;
 import android.R.string;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -220,8 +221,8 @@ public class UserController
 					Intent mainIntent = new Intent(Application.getAppContext(),MainActivity.class);
 					mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					
-					AdminController adminController = new AdminController();
-					adminController.getInterests();	
+					//AdminController adminController = new AdminController();
+					///adminController.getInterests();	
 					
 					
 					Application.getAppContext().startActivity(mainIntent);

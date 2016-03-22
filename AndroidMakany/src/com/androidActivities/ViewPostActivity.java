@@ -2,6 +2,7 @@ package com.androidActivities;
 
 import java.util.ArrayList;
 
+import SimpleModels.FilteredPost;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,8 +10,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import com.controllers.FilteredPost;
 
 public class ViewPostActivity extends Activity {
 

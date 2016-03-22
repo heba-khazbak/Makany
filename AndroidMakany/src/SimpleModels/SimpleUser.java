@@ -1,4 +1,4 @@
-package com.controllers;
+package SimpleModels;
 
 import java.util.Vector;
 

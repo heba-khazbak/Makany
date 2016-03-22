@@ -86,11 +86,9 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			    CheckBox checkBox = new CheckBox(this);
 			    //checkBox.setOnClickListener(this);
 			    checkBox.setTag(Str_Array);
-			    //checkBox.setOnCheckedChangeListener((OnCheckedChangeListener) this);
 			    checkBox.setId(i);
 			    checkBox.setText(Str_Array.get(i));
 			    row.addView(checkBox);  
-			    checkBox.setOnClickListener(getOnClickDoSomething(checkBox));
 			    my_layout.addView(row);
 			}
 		
@@ -114,20 +112,7 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			}
 			else
 			{
-				
-				String finalChosenInterests="";
-				
-				 Iterator iterator = interestsSet.iterator(); 
-			      
-				 while (iterator.hasNext())
-				 {
-					 finalChosenInterests += iterator.next().toString() + "_";  
-				 } 
-				
-				 System.out.println("Final interest stringgggg"+ finalChosenInterests);
-				 
-				 
-				 
+			
 				userController.Signup(usernameEditText.getText().toString(), 
 				  emailEditText.getText().toString(), passwordEditText.getText().toString(), 
 				  birthdateEditText.getText().toString(), "maadi",
@@ -138,29 +123,6 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			}				
 					
 		}
-
-		
-		View.OnClickListener getOnClickDoSomething(final Button button) 
-		{
-			return new View.OnClickListener() 
-			{ 
-				public void onClick(View v) 
-				{ 
-					if (interestsSet.contains(button.getText().toString()))
-					{
-						interestsSet.remove(button.getText().toString());
-						System.out.println(button.getText().toString() + "Is UNchecked");
-					}
-					else
-					{
-						interestsSet.add(button.getText().toString());
-						System.out.println(button.getText().toString() + "Is checked");
-						
-					}
-					
-				}
-			};
-		} 
 
 	
 }
