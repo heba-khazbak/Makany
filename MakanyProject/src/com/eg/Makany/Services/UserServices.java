@@ -2,18 +2,21 @@ package com.eg.Makany.Services;
 
 
 import java.util.Vector;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+
+
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+
+
 import com.eg.Makany.Models.Store;
 import com.eg.Makany.Models.User;
-
-
-
-
 
 @Path("/")
 @Produces("text/html")
@@ -58,7 +61,7 @@ public class UserServices {
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
 			}
-			User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);
+			User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,0,interests);
 			if(user.saveUser())
 				object.put("Status", "OK");
 			else
@@ -137,7 +140,7 @@ public class UserServices {
 			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
 		
-		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,interests);
+		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,0,interests);
 		if(user.saveUser())
 			object.put("Status", "OK");
 		else
@@ -168,6 +171,7 @@ public class UserServices {
 			object.put("gender", user.getGender());
 			object.put("twitter", user.getTwitter());
 			object.put("foursquare", user.getFoursquare());
+			object.put("trust", user.getTrust());
 			object.put("interests", user.getParsedInterests());
 		}
 		else
@@ -196,6 +200,7 @@ public class UserServices {
 				object.put("gender", user.getGender());
 				object.put("twitter", user.getTwitter());
 				object.put("foursquare", user.getFoursquare());
+				object.put("trust", user.getTrust());
 				object.put("interests", user.getParsedInterests());
 			}
 			

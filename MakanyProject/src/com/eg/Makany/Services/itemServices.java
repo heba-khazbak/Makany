@@ -13,7 +13,6 @@ import org.json.simple.JSONObject;
 import com.eg.Makany.Models.Item;
 
 
-
 @Path("/")
 @Produces("text/html")
 public class ItemServices {
