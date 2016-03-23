@@ -6,7 +6,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Vector;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -27,7 +30,7 @@ public class UserController
 
 	private static UserController userController = new UserController();
 	protected static SimpleUser simpleUser;
-	
+	protected static String email;
 	
 	public static UserController getInstance() 
 	{
@@ -42,8 +45,13 @@ public class UserController
 
 	public void login(String email, String password) 
 	{
-		simpleUser = new SimpleUser(email);
-		new Connection().execute( "http://makanyapp.appspot.com/rest/LoginService", email, password, "LoginService");
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/LoginService", email, password, "LoginService");
+		this.email=email;
+	}
+	
+	public static void getUser(String email) 
+	{
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/getUserService", email, "getUserService");
 	}
 	
 	public void Signup(String name, String email, String password, String birthDate, 
@@ -53,7 +61,7 @@ public class UserController
 		String uType="normal";
 		String category="NONE";
 		
-		new Connection().execute( "http://makanyapp.appspot.com/rest/signUpService", uType,
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/signUpService", uType,
 		name, email, password, birthDate, district, category, description, gender, twitter, 
 		foursquare, interests, "signUpService");
 	}
@@ -62,12 +70,13 @@ public class UserController
 	public void EditProfile(String email, String name, String password, String birthDate, 
 			String district, String gender, String twitter, String foursquare, String interests) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/editProfileService", 
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/editProfileService", 
 		email, name, password,birthDate, district, gender, twitter, foursquare,
 		interests, "editProfileService");
 	}
 
 	//"http://localhost:8888/rest/LoginService",
+	
 	
 	static class Connection extends AsyncTask<String, String, String> 
 	{
@@ -83,6 +92,10 @@ public class UserController
 			
 			if (serviceType.equals("LoginService"))
 				urlParameters = "email=" + params[1] + "&password=" + params[2];
+			
+			
+			if (serviceType.equals("getUserService"))
+				urlParameters = "email=" + params[1];
 			
 			
 			else if(serviceType.equals("signUpService"))
@@ -186,20 +199,94 @@ public class UserController
 					homeIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					
 					
+					
+					
+					
 					//String username = User
 					//homeIntent.putExtra("id", user.getUserAccountId()+"");
 					//homeIntent.putExtra("name", user.getUserFullName());
 					
-					String email = simpleUser.get_email();
+					
+					//String email = simpleUser.get_email();
+					
+					////////////////////////////////////
+					//getUser(email);
+					///////////////////////////////////
+					
 					homeIntent.putExtra("email", email);
+					//homeIntent.putExtra("username", simpleUser.name);
+					
+					//System.out.println(simpleUser.get_email());
+					//System.out.println(simpleUser.name);
+					
 					
 					Application.getAppContext().startActivity(homeIntent);
-					System.out.println(simpleUser.get_email());
 					
 					
 				}
 			
 				
+				if (serviceType.equals("getUserService")) 
+				{
+					System.out.println("result " + result);
+					
+					/*JSONParser parser = new JSONParser();
+					Object obj = parser.parse(result);
+					JSONObject object = (JSONObject) obj;*/
+					
+					JSONObject object = new JSONObject(result);
+					
+					
+					if(object== null || !object.has("Status"))
+					{
+						System.out.println("eroor" );
+						Toast.makeText(Application.getAppContext(), "Error occured",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					if(object.getString("Status").equals("Failed"))
+					{
+						Toast.makeText(Application.getAppContext(), "error: Retype your email",
+						Toast.LENGTH_LONG).show();
+						return;
+					}
+					
+					JSONObject currentUser;
+					
+					try {
+							currentUser = object;
+							
+							String interests = currentUser.getString("interests");
+							String [] interestsArray = interests.split(";");
+							
+							Vector<String> interestsVector = new Vector<String>();
+							
+							for(int i=0; i<interestsArray.length; i++)
+							{
+								interestsVector.add(interestsArray[i]);
+							}
+							
+							simpleUser = new SimpleUser(currentUser.getString("ID"),
+									currentUser.getString("name"),currentUser.getString("email"),
+									currentUser.getString("password"),currentUser.getString("birthDate"),
+									currentUser.getString("district"),currentUser.getString("gender"),
+									currentUser.getString("twitter"),currentUser.getString("foursquare"),
+									Integer.parseInt(currentUser.getString("trust")), interestsVector);
+							
+					} 
+					
+					
+					catch (JSONException e) 
+					{
+						e.printStackTrace();
+					}
+					
+				
+					
+				}
+			
+					
 				else if(serviceType.equals("signUpService"))
 				{
 					System.out.println("result " + result);

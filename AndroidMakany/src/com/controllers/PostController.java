@@ -24,36 +24,36 @@ public class PostController
 	public void addPost(String postType, String content, String photo, String district, 
 						String userEmail, String categories ) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/addPostService",
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/addPostService",
 				postType, content, photo, district, userEmail, categories, "addPostService");
 	}
 	
 	public void deletePost(String postID, String userEmail) 
 	{
-	new Connection().execute( "http://makanyapp.appspot.com/rest/deletePostService",
+	new Connection().execute( "http://makanyapp2.appspot.com/rest/deletePostService",
 		postID, userEmail, "deletePostService");
 	}
 
 	public void addCommentOnPost(String postID, String userEmail) 
 	{
-	new Connection().execute( "http://makanyapp.appspot.com/rest/addCommentService",
+	new Connection().execute( "http://makanyapp2.appspot.com/rest/addCommentService",
 		postID, userEmail, "addCommentService");
 	}
 	
 	public void approvePost(String postID, String userEmail) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/approvePostService",
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/approvePostService",
 		postID, userEmail, "approvePostService");
 	}
 	public void disapprovePost(String postID, String userEmail) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/disapprovePostService",
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/disapprovePostService",
 		postID, userEmail, "disapprovePostService");
 	}
 	
 	public void getPost(String category, String district, String onEventID ) 
 	{
-		new Connection().execute( "http://makanyapp.appspot.com/rest/getFilteredPostsService",
+		new Connection().execute( "http://makanyapp2.appspot.com/rest/getFilteredPostsService",
 		category, district, "", "getFilteredPostsService");
 	}
 

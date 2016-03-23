@@ -65,6 +65,14 @@
             android:name=".ViewPostActivity"
             android:label="@string/title_activity_view_post" >
         </activity>
+        <activity
+            android:name=".EventsMenuActivity"
+            android:label="@string/title_activity_events_menu" >
+        </activity>
+        <activity
+            android:name=".CreateEventActivity"
+            android:label="@string/title_activity_create_event" >
+        </activity>
     </application>
 
 </manifest>

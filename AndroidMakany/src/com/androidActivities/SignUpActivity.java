@@ -7,12 +7,14 @@ import java.util.Set;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableRow;
@@ -35,9 +37,9 @@ public class SignUpActivity extends Activity implements OnClickListener {
 		//checkbox interests
 		
 		Set<String> interestsSet = new HashSet<String>();
+		ArrayList<CheckBox> checks = new ArrayList<CheckBox>() ;
+		String checkedInterests;
 
-		
-		
 		Button signupButton;
 
 		@Override
@@ -60,13 +62,17 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			
 			
 			ArrayList<String> Str_Array = null;
+			ArrayList<String> Str_Array2 = null;
+			
 			
 			Intent currentIntent = getIntent();
 			Str_Array = currentIntent.getStringArrayListExtra("interests");
+			Str_Array2 = currentIntent.getStringArrayListExtra("districts");
+
 			
 			
 			Toast.makeText(getApplicationContext(),
-			"interst 1 is: " + Str_Array.get(0), Toast.LENGTH_LONG).show();
+			"district 1 is: " + Str_Array2.get(0), Toast.LENGTH_LONG).show();
 			
 			
 			//AdminController adminController = new AdminController();
@@ -77,25 +83,30 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			//Toast.makeText(Application.getAppContext(), Integer.toString(Array_Count), Toast.LENGTH_LONG).show();
 					
 		LinearLayout my_layout = (LinearLayout)findViewById(R.id.interestLayout);
+		
 
+//loop of generation of checkboxes
 			for (int i = 0; i < Str_Array.size(); i++) 
 			{
 			    TableRow row =new TableRow(this);
 			    row.setId(i);
 			    row.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT));
 			    CheckBox checkBox = new CheckBox(this);
-			    //checkBox.setOnClickListener(this);
 			    checkBox.setTag(Str_Array);
 			    checkBox.setId(i);
 			    checkBox.setText(Str_Array.get(i));
+			   // checkBox.setOnClickListener();
+			    checks.add(checkBox);
 			    row.addView(checkBox);  
-			    my_layout.addView(row);
+			    my_layout.addView(row); 
+			        
 			}
-		
+					
 			signupButton.setOnClickListener(this);
 		}
-		
-		/*public void addListenerOnSpinnerItemSelection() 
+				
+
+				/*public void addListenerOnSpinnerItemSelection() 
 		{
 				Spinner spinner1 = (Spinner) findViewById(R.id.genderSpinner);
 				spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
@@ -113,6 +124,15 @@ public class SignUpActivity extends Activity implements OnClickListener {
 			else
 			{
 			
+				for(int i=0;i<checks.size();i++)
+				{
+					if(checks.get(i).isChecked())
+					{
+						checkedInterests+=checks.get(i).getText()+";";
+						System.out.println(checkedInterests);
+					}
+						
+				}
 				userController.Signup(usernameEditText.getText().toString(), 
 				  emailEditText.getText().toString(), passwordEditText.getText().toString(), 
 				  birthdateEditText.getText().toString(), "maadi",
