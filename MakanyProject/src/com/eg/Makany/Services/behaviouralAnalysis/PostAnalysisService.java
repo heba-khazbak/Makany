@@ -1,0 +1,115 @@
+package com.eg.Makany.Services.behaviouralAnalysis;
+
+
+import java.io.IOException;
+import java.util.Vector;
+
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.XPathExpressionException;
+
+import org.json.JSONException;
+import org.json.simple.JSONObject;
+import org.xml.sax.SAXException;
+
+import com.eg.Makany.Models.Comment;
+import com.eg.Makany.Models.Post;
+import com.eg.Makany.Models.User;
+import com.eg.Makany.Models.BA.CommentTopic;
+import com.eg.Makany.Models.BA.MakanyAlchemy;
+import com.eg.Makany.Models.BA.PhotoTopic;
+import com.eg.Makany.Models.BA.PostTopic;
+
+
+
+
+
+@Path("/")
+@Produces("text/html")
+public class PostAnalysisService {
+	
+
+	@POST
+	@Path("/AnalyzePosts")
+	public String AnalyzePosts() throws XPathExpressionException, JSONException, IOException, SAXException, ParserConfigurationException {
+		JSONObject object = new JSONObject();
+		
+		Vector <User> allUsers = User.getAllUsers();
+		
+		// Analyze Text in normal posts and comments by a user
+		for (User user : allUsers)
+		{
+			// Analyze Text in normal posts written by user
+			
+			Vector <Post> myPosts = null;
+			long maxPostID = PostTopic.getMaxPostID(user.getMail());
+			//myPosts = Post.getAllPostsByUser(user.getMail(), maxPostID);
+			for(Post post : myPosts)
+			{
+				Vector<String> topics = MakanyAlchemy.getFromAlchemy(post.getContent());
+				if (topics != null)
+				{
+					for (String A : topics)
+					{
+						String temp[]=A.split(";");
+						double score = Double.parseDouble(temp[1]);
+						PostTopic p = new PostTopic (user.getMail() , post.getID() , temp[0] , score);
+						p.savePostTopic();
+					}
+					
+					if (!post.getPhoto().isEmpty())
+					{
+						topics.clear();
+						topics = MakanyAlchemy.AnalyzePhoto(post.getPhoto());
+						if (topics != null)
+						{
+							for (String A : topics)
+							{
+								String temp[]=A.split(";");
+								double score = Double.parseDouble(temp[1]);
+								PhotoTopic p = new PhotoTopic (user.getMail() , post.getID() , temp[0] , score);
+								p.savePhotoTopic();
+							}
+						}
+					}
+				}
+				
+			}
+			
+			// Analyze Text in comments written by user
+			
+				Vector <Comment> myComments = null;
+				long maxCommentID = CommentTopic.getMaxCommentID(user.getMail());
+				//myComments = Comment.getAllCommentsByUser (user.getMail(), maxCommentID);
+				for(Comment comment : myComments)
+				{
+					Vector<String> topics = MakanyAlchemy.getFromAlchemy(comment.getContent());
+					for (String A : topics)
+					{
+						String temp[]=A.split(";");
+						double score = Double.parseDouble(temp[1]);
+						CommentTopic c = new CommentTopic (user.getMail() , comment.getPostID() , comment.getID() , temp[0] , score);
+						c.saveCommentTopic();
+					}
+
+				}
+		}
+		
+		
+	    return object.toString();
+
+
+	}
+	
+
+	
+	
+
+	
+
+	
+
+
+}

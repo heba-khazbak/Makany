@@ -1,33 +1,11 @@
 package com.eg.Makany.Services.behaviouralAnalysis;
 
-import java.io.StringWriter;
-import java.util.Vector;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.json.XML;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.w3c.dom.Document;
-
-import twitter4j.Paging;
-import twitter4j.ResponseList;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
-
-import com.alchemyapi.api.AlchemyAPI;
-import com.eg.Makany.Models.User;
-
 import fi.foyt.foursquare.api.FoursquareApi;
 import fi.foyt.foursquare.api.FoursquareApiException;
 import fi.foyt.foursquare.api.Result;
