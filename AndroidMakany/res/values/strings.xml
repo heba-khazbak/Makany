@@ -18,5 +18,7 @@
     <string name="title_activity_store_sign_up">StoreSignUpActivity</string>
     <string name="title_activity_test">TestActivity</string>
     <string name="title_activity_view_post">ViewPostActivity</string>
+    <string name="title_activity_events_menu">EventsMenuActivity</string>
+    <string name="title_activity_create_event">CreateEventActivity</string>
 
 </resources>

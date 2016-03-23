@@ -4,9 +4,11 @@ import java.util.Vector;
 
 public class SimpleUser 
 {
-		private String id;
-		private String name, email, password, birthDate, district, gender;
-		private String twitter, foursquare;
+		public String id;
+		public String name, email, password, birthDate, district, gender;
+		public String twitter, foursquare;
+		public int trust;
+		
 		private Vector<String> interests;
 		
 		public SimpleUser(String email)
@@ -25,7 +27,7 @@ public class SimpleUser
 
 		
 		public SimpleUser(String id, String name,String email,String password,String birthDate,
-				String district, String gender, String twitter, String foursquare,
+				String district, String gender, String twitter, String foursquare, int trust,
 				Vector<String> interests)
 		{
 			this.id=id;
@@ -38,6 +40,7 @@ public class SimpleUser
 			this.twitter=twitter;
 			this.foursquare=foursquare;
 			this.interests=interests;
+			this.trust=trust;
 		}
 		
 		public String get_email () 
