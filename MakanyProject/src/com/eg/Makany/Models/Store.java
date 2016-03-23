@@ -82,11 +82,11 @@ public class Store {
 		Query gaeQuery = new Query("stores");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(specificDistrict!=null &&
+			if(!specificDistrict.isEmpty() &&
 					!specificDistrict.equals(entity.getProperty("district").toString()))
 				continue;
 			
-			if(specificCategory!=null &&
+			if(!specificCategory.isEmpty() &&
 					!specificCategory.equals(entity.getProperty("category").toString()))
 				continue;
 			

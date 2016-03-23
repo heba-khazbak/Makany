@@ -358,11 +358,11 @@ public class Post {
 		Query gaeQuery = new Query("posts");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(specificEvent!=null && 
+			if(!specificEvent.isEmpty() && 
 					!entity.getProperty("onEventID").toString().equals(specificEvent))
 				continue;
 			
-			if(specificDistrict!=null && 
+			if(!specificDistrict.isEmpty() && 
 					!entity.getProperty("district").toString().equals(specificDistrict))
 				continue;
 			
