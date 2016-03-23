@@ -192,10 +192,10 @@ public class Item {
 		
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(specificDistrict!=null &&
+			if(!specificDistrict.isEmpty() &&
 					!specificDistrict.equals(entity.getProperty("district").toString()))
 				continue;
-			if(specificState!=null &&
+			if(!specificState.isEmpty() &&
 					!specificState.equals(entity.getProperty("state").toString()))
 				continue;
 			
