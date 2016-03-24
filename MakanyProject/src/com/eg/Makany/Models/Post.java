@@ -1,7 +1,9 @@
 package com.eg.Makany.Models;
 
+
 import java.util.Set;
 import java.util.Vector;
+
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -101,6 +103,13 @@ public class Post {
 				.getDatastoreService();
 
 		Entity post = new Entity("posts");
+		
+		if(this.postType==null)this.postType="";
+		if(this.content==null)this.content="";
+		if(this.photo==null)this.photo="";
+		if(this.userEmail==null)this.userEmail="";
+		if(this.district==null)this.district="";
+		if(this.onEventID==null)this.onEventID="";
 		
 		post.setProperty("postType", this.postType);
 		post.setProperty("content", this.content);
@@ -203,6 +212,7 @@ public class Post {
 				.getDatastoreService();
 		
 		Entity rep=new Entity("reports");
+		if(reason==null)reason="";
 		rep.setProperty("reason", reason);
 		rep.setProperty("postID", postID);
 		rep.setProperty("userEmail", userEmail);
@@ -314,7 +324,7 @@ public class Post {
 			
 		}
 		
-		this.comments=Comment.getComments(postID);
+		this.comments=Comment.getFilteredComments(postID,null,null);
 		
 		gaeQuery = new Query("reports");
 		pq = datastore.prepare(gaeQuery);
@@ -345,22 +355,33 @@ public class Post {
 	}
 	
 	
-	public static Vector<Post> getFilteredPosts(String specificEvent,
+	public static Vector<Post> getFilteredPosts(String specificUser,
+			String specificEvent,
 			String specificDistrict,
-			Set<String> specificCategories){
+			Set<String> specificCategories, 
+			String postID){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		Vector<Post> ret=new Vector<Post>();
 		
 		Query gaeQuery = new Query("posts");
+		long pid=-1;
+		if(postID!=null && !postID.isEmpty())pid=Long.parseLong(postID);
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(!specificEvent.isEmpty() && 
+			if(entity.getKey().getId()<=pid)
+				continue;
+			
+			if(specificUser!=null && !specificUser.isEmpty() && 
+					!entity.getProperty("userEmail").toString().equals(specificUser))
+				continue;
+			
+			if(specificEvent!=null && !specificEvent.isEmpty() && 
 					!entity.getProperty("onEventID").toString().equals(specificEvent))
 				continue;
 			
-			if(!specificDistrict.isEmpty() && 
+			if(specificDistrict!=null && !specificDistrict.isEmpty() && 
 					!entity.getProperty("district").toString().equals(specificDistrict))
 				continue;
 			

@@ -67,6 +67,9 @@ public class Offer {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
+		if(this.description==null)this.description="";
+		if(this.photo==null)this.photo="";
+		
 		Entity offer=new Entity("offers");
 		offer.setProperty("storeMail", this.storeMail);
 		offer.setProperty("description", this.description);
@@ -188,6 +191,9 @@ public class Offer {
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		if(newDescription==null)newDescription="";
+		if(newPhoto==null)newPhoto="";
 		
 		Query gaeQuery = new Query("offers");
 		PreparedQuery pq = datastore.prepare(gaeQuery);

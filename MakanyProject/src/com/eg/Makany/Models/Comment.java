@@ -29,6 +29,7 @@ public class Comment {
 				.getDatastoreService();
 		
 		Entity comment=new Entity("comments");
+		if(this.content==null)this.content="";
 		comment.setProperty("content", this.content);
 		comment.setProperty("postID", this.postID);
 		comment.setProperty("userEmail", this.userEmail);
@@ -36,20 +37,36 @@ public class Comment {
 		return true;
 	}
 	
-	public static Vector<Comment> getComments(String ppostID){
+	public static Vector<Comment> getFilteredComments(String specificPostID,
+			String specificUser,String commID){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		Vector<Comment> ret=new Vector<Comment>();
 		Query gaeQuery = new Query("comments");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		long cid=-1;
+		if(commID!=null && !commID.isEmpty())cid=Long.parseLong(commID);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("postID").toString().equals(ppostID)){
-				String mail=entity.getProperty("userEmail").toString();
-				ret.add(new Comment(String.valueOf(entity.getKey().getId()),
-						mail,User.getUserName(mail),
-						entity.getProperty("content").toString(),ppostID));
-			}
+			if(entity.getKey().getId()<=cid)
+				continue;
+			
+			if(specificPostID!=null && !specificPostID.isEmpty() 
+					&& !specificPostID.equals(entity.getProperty("postID").toString()))
+				continue;
+			
+			String mail=entity.getProperty("userEmail").toString();
+			
+			if(specificUser!=null && !specificUser.isEmpty() 
+					&& !specificUser.equals(mail))
+				continue;
+			
+			
+			ret.add(new Comment(String.valueOf(entity.getKey().getId()),
+					mail,User.getUserName(mail),
+					entity.getProperty("content").toString(),
+					entity.getProperty("postID").toString()));
 			
 		}
 		return ret;

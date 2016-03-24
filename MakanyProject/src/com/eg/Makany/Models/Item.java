@@ -66,6 +66,15 @@ public class Item {
 		if(this.id==null)item=new Entity(tableName);
 		else item=new Entity(tableName,Long.parseLong(this.id));
 		
+		
+		if(this.name==null)this.name="";
+		if(this.description==null)this.description="";
+		if(this.photo==null)this.photo="";
+		if(this.userEmail==null)this.userEmail="";
+		if(this.district==null)this.district="";
+		if(this.state==null)this.state="";
+		if(this.categories==null)this.categories=new Vector<String>();
+		
 		item.setProperty("name", name);
 		item.setProperty("description", description);
 		item.setProperty("userEmail", userEmail);
@@ -192,10 +201,10 @@ public class Item {
 		
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(!specificDistrict.isEmpty() &&
+			if(specificDistrict!=null && !specificDistrict.isEmpty() &&
 					!specificDistrict.equals(entity.getProperty("district").toString()))
 				continue;
-			if(!specificState.isEmpty() &&
+			if(specificState!=null && !specificState.isEmpty() &&
 					!specificState.equals(entity.getProperty("state").toString()))
 				continue;
 			

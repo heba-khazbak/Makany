@@ -17,6 +17,20 @@ public class User {
 	private int trust;
 	private Vector<String> interests;
 	
+	public User(){
+		this.id="";
+		this.name="";
+		this.email="";
+		this.password="";
+		this.birthDate="";
+		this.district="";
+		this.gender="";
+		this.twitter="";
+		this.foursquare="";
+		this.trust=0;
+		this.interests=new Vector<String>();
+	}
+	
 	public User(String id, String name,String email,String password,String birthDate,
 			String district, String gender, String twitter, String foursquare,
 			int trust, Vector<String> interests){
@@ -58,6 +72,16 @@ public class User {
 				.getDatastoreService();
 
 		Entity user = new Entity("users");
+		
+		if(this.name==null)this.name="";
+		if(this.email==null)this.email="";
+		if(this.password==null)this.password="";
+		if(this.birthDate==null)this.birthDate="";
+		if(this.district==null)this.district="";
+		if(this.gender==null)this.gender="";
+		if(this.twitter==null)this.twitter="";
+		if(this.foursquare==null)this.foursquare="";
+		if(this.interests==null)this.interests=new Vector<String>();
 
 		user.setProperty("name", this.name);
 		user.setProperty("email", this.email);
@@ -125,30 +149,32 @@ public class User {
 		return ret;
 	}
 	
-	public static User getUser(String email){
+	public User getUser(String userMail){
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		
 		Query gaeQuery = new Query("users");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
 			String userEmail=entity.getProperty("email").toString();
-			if(userEmail.equals(email)){
-				return new User(String.valueOf(entity.getKey().getId()),
-						entity.getProperty("name").toString(),
-						userEmail,
-						entity.getProperty("password").toString(),
-						entity.getProperty("birthDate").toString(),
-						entity.getProperty("district").toString(),
-						entity.getProperty("gender").toString(),
-						entity.getProperty("twitter").toString(),
-						entity.getProperty("foursquare").toString(),
-						Integer.parseInt(entity.getProperty("trust").toString()),
-						getInterests(userEmail));
+			if(userEmail.equals(userMail)){
+				this.id=String.valueOf(entity.getKey().getId());
+				this.email=userEmail;
+				this.password=entity.getProperty("password").toString();
+				this.birthDate=entity.getProperty("birthDate").toString();
+				this.district=entity.getProperty("district").toString();
+				this.gender=entity.getProperty("gender").toString();
+				this.twitter=entity.getProperty("twitter").toString();
+				this.foursquare=entity.getProperty("foursquare").toString();
+				this.trust=Integer.parseInt(entity.getProperty("trust").toString());
+				this.interests=getInterests(userEmail);
+				break;
 			}
 		}
 		
-		return null;
+		return this;
 	}
 	
 	public static Vector<User> getAllUsers(){

@@ -15,6 +15,18 @@ public class Event {
 	private String ownerMail;
 	private Vector<String> goingMails, postIDs;
 	
+	public Event(){
+		
+		this.id="";
+		this.name="";
+		this.category="";
+		this.description="";
+		this.latitude=0;
+		this.longitude=0;
+		this.ownerMail="";
+		this.goingMails=new Vector<String>();
+		this.postIDs=new Vector<String>();
+	}
 	
 	public Event(String id, String name, String category, String description,
 			double latitude, double longitude, String ownerMail,
@@ -31,10 +43,39 @@ public class Event {
 		this.postIDs=postIDs;
 	}
 	
+	public String getID(){return id;}
+	public String getName(){return name;}
+	public String getCategory(){return category;}
+	public String getDescription(){return description;}
+	public double getLatitude(){return latitude;}
+	public double getLongitude(){return longitude;}
+	public String getOwnerMail(){return ownerMail;}
+	public String getParsedGoingMails(){
+		String ret="";
+		for(int i=0;i<goingMails.size();++i){
+			if(i>0)ret+=";";
+			ret+=goingMails.get(i);
+		}
+		return ret;
+	}
+	public String getParsedPostIDs(){
+		String ret="";
+		for(int i=0;i<postIDs.size();++i){
+			if(i>0)ret+=";";
+			ret+=postIDs.get(i);
+		}
+		return ret;
+	}
+	
 	public boolean saveEvent(){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Entity event = new Entity("events");
+		
+		if(this.name==null)this.name="";
+		if(this.category==null)this.category="";
+		if(this.description==null)this.description="";
+		if(this.ownerMail==null)this.ownerMail="";
 
 		event.setProperty("name", this.name);
 		event.setProperty("category", this.category);
@@ -53,6 +94,9 @@ public class Event {
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		if(newCategory==null)newCategory="";
+		if(newDescription==null)newDescription="";
 		
 		Query gaeQuery = new Query("events");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
@@ -95,6 +139,23 @@ public class Event {
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("eventID").toString().equals(eventID))
 				ret.add(entity.getProperty("userMail").toString());
+			
+		}
+		return ret;
+	}
+	
+	public static Vector<String> getGoingEvents(String userEmail){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Vector<String> ret=new Vector<String>();
+		
+		Query gaeQuery = new Query("eventGoing");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("userMail").toString().equals(userEmail))
+				ret.add(entity.getProperty("eventID").toString());
 			
 		}
 		return ret;
@@ -154,4 +215,47 @@ public class Event {
 		
 		return 1;
 	}
+	
+	
+	public Event getEventByID(String eventID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		this.id=eventID;
+		Query gaeQuery = new Query("events");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(String.valueOf(entity.getKey().getId()).equals(eventID)){
+				this.name=entity.getProperty("name").toString();
+				this.category=entity.getProperty("category").toString();
+				this.description=entity.getProperty("description").toString();
+				this.latitude=Double.parseDouble(entity.getProperty("latitude").toString());
+				this.longitude=Double.parseDouble(entity.getProperty("longitude").toString());
+				this.ownerMail=entity.getProperty("ownerMail").toString();
+				break;
+			}
+			
+		}
+		
+		gaeQuery = new Query("eventPosts");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("eventID").toString().equals(eventID))
+				this.postIDs.add(entity.getProperty("postID").toString());
+			
+			
+		}
+		
+		
+		gaeQuery = new Query("eventGoing");
+		pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("eventID").toString().equals(eventID))
+				this.goingMails.add(entity.getProperty("userMail").toString());
+			
+		}
+		
+		return this;
+	}
+	
 }

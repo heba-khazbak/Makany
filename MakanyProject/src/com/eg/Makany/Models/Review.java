@@ -31,6 +31,10 @@ public class Review {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Entity sreview = new Entity("reviews");
+		
+		if(this.reviewerMail==null)this.reviewerMail="";
+		if(this.reviewedID==null)this.reviewedID="";
+		if(this.review==null)this.review="";
 
 		sreview.setProperty("reviewerMail", this.reviewerMail);
 		sreview.setProperty("reviewedID", this.reviewedID);

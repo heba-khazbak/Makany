@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Event;
+import com.eg.Makany.Models.Item;
 import com.eg.Makany.Models.Post;
 import com.eg.Makany.Models.Review;
 
@@ -93,8 +94,10 @@ public class EventServices {
 			@FormParam("categories") String strCategories) {
 		
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split(";");
-		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
+		if(strCategories!=null && !strCategories.isEmpty()){
+			String tmp[]=strCategories.split(";");
+			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
+		}
 		
 		JSONObject object = new JSONObject();
 		
@@ -146,5 +149,45 @@ public class EventServices {
 		
 		
 		return arr.toString();
+	}
+	
+	@POST
+	@Path("/getGoingEventsService")
+	public String getGoingEventsService(@FormParam("userEmail") String userEmail){
+		
+		JSONArray arr = new JSONArray();
+		
+		for(String str:Event.getGoingEvents(userEmail)){
+			JSONObject object = new JSONObject();
+			object.put("eventID", str);
+			arr.add(object);
+		}
+		
+		
+		return arr.toString();
+	}
+	
+	@POST
+	@Path("/getEventByIDService")
+	public String getEventByIDService(@FormParam("eventID") String eventID) {
+		
+		JSONObject object = new JSONObject();
+		
+		Event event=new Event().getEventByID(eventID);
+		
+		if(event!=null){
+			object.put("id", event.getID());
+			object.put("name", event.getName());
+			object.put("category", event.getCategory());
+			object.put("description", event.getDescription());
+			object.put("latitude", event.getLatitude());
+			object.put("longitude", event.getLongitude());
+			object.put("ownerMail", event.getOwnerMail());
+			object.put("goingMails", event.getParsedGoingMails());
+			object.put("postIDs", event.getParsedPostIDs());
+		}
+		
+		return object.toString();
+		
 	}
 }

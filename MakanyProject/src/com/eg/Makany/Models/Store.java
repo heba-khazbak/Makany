@@ -40,6 +40,13 @@ public class Store {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Entity store = new Entity("stores");
+		
+		if(this.name==null)this.name="";
+		if(this.email==null)this.email="";
+		if(this.password==null)this.password="";
+		if(this.district==null)this.district="";
+		if(this.category==null)this.category="";
+		if(this.description==null)this.description="";
 
 		store.setProperty("name", this.name);
 		store.setProperty("email", this.email);
@@ -58,6 +65,13 @@ public class Store {
 		
 		Query gaeQuery = new Query("stores");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		if(this.name==null)this.name="";
+		if(this.email==null)this.email="";
+		if(this.password==null)this.password="";
+		if(this.district==null)this.district="";
+		if(this.category==null)this.category="";
+		if(this.description==null)this.description="";
 		
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("email").toString().equals(this.email)){
@@ -82,11 +96,11 @@ public class Store {
 		Query gaeQuery = new Query("stores");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(!specificDistrict.isEmpty() &&
+			if(specificDistrict!=null && !specificDistrict.isEmpty() &&
 					!specificDistrict.equals(entity.getProperty("district").toString()))
 				continue;
 			
-			if(!specificCategory.isEmpty() &&
+			if(specificCategory!=null && !specificCategory.isEmpty() &&
 					!specificCategory.equals(entity.getProperty("category").toString()))
 				continue;
 			

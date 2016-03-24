@@ -39,7 +39,7 @@ public class UserServices {
 			@FormParam("interests") String strInterests) {
 		
 		Vector<String> interests=new Vector<String>();
-		if(strInterests!=null){
+		if(strInterests!=null && !strInterests.isEmpty()){
 			String tmp[]=strInterests.split(";");
 			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
@@ -135,7 +135,7 @@ public class UserServices {
 		}
 		
 		Vector<String> interests=new Vector<String>();
-		if(strInterests!=null){
+		if(strInterests!=null && !strInterests.isEmpty()){
 			String tmp[]=strInterests.split(";");
 			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
@@ -158,7 +158,7 @@ public class UserServices {
 		
 		JSONObject object = new JSONObject();
 		
-		User user=User.getUser(email);
+		User user=new User().getUser(email);
 		
 		if(user!=null){
 			object.put("Status", "OK");

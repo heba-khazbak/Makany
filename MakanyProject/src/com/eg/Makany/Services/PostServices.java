@@ -31,9 +31,13 @@ public class PostServices {
 			@FormParam("userEmail") String userEmail,
 			@FormParam("categories") String strCategories) {
 		
+
 		Vector<String> categories=new Vector<String>();
-		String tmp[]=strCategories.split(";");
-		for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
+		
+		if(strCategories!=null && !strCategories.isEmpty()){
+			String tmp[]=strCategories.split(";");
+			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
+		}
 		
 		JSONObject object = new JSONObject();
 		
@@ -149,19 +153,22 @@ public class PostServices {
 	
 	@POST
 	@Path("/getFilteredPostsService")
-	public String getFilteredPostsService(@FormParam("category") String strCategories,
+	public String getFilteredPostsService(
+			@FormParam("userEmail") String userEmail,
+			@FormParam("category") String strCategories,
 			@FormParam("district") String district,
-			@FormParam("onEventID") String onEventID){
+			@FormParam("onEventID") String onEventID,
+			@FormParam("postID") String postID){
 		
 		Set<String> categories=new HashSet<String>();
-		if(strCategories!=null){
+		if(strCategories!=null && !strCategories.isEmpty()){
 			String tmp[]=strCategories.split(";");
 			for(int i=0;i<tmp.length;++i)categories.add(tmp[i]);
 		}
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Post> posts=Post.getFilteredPosts(onEventID, district, categories);
+		Vector<Post> posts=Post.getFilteredPosts(userEmail, onEventID, district, categories, postID);
 		
 		for(Post post:posts){
 			JSONObject object = new JSONObject();
@@ -194,12 +201,15 @@ public class PostServices {
 	
 	
 	@POST
-	@Path("/getPostCommentsService")
-	public String getStoreReviewsService(@FormParam("postID") String postID){
+	@Path("/getFilteredCommentsService")
+	public String getStoreReviewsService(
+			@FormParam("postID") String postID,
+			@FormParam("userEmail") String userEmail,
+			@FormParam("commentID") String commentID){
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Comment> comments=Comment.getComments(postID);
+		Vector<Comment> comments=Comment.getFilteredComments(postID,userEmail,commentID);
 		
 		for(Comment comment:comments){
 			JSONObject object = new JSONObject();
