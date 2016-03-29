@@ -138,7 +138,7 @@ public class ItemServices {
 	
 	@POST
 	@Path("/viewItemService")
-	public String deleteItemService(@FormParam("itemID") String itemID) {
+	public String viewItemService(@FormParam("itemID") String itemID) {
 		
 		JSONObject object = new JSONObject();
 		

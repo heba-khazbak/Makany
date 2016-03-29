@@ -22,7 +22,7 @@ public class EventServices {
 
 	@POST
 	@Path("/createEventService")
-	public String loanItemService(@FormParam("name") String name,
+	public String createEventService(@FormParam("name") String name,
 			@FormParam("category") String category,
 			@FormParam("description") String description,
 			@FormParam("latitude") String latitude, 
@@ -118,7 +118,7 @@ public class EventServices {
 	
 	@POST
 	@Path("/reviewEventService")
-	public String reviewStoreService(@FormParam("userMail") String uMail,
+	public String reviewEventService(@FormParam("userMail") String uMail,
 			@FormParam("eventID") String eventID,
 			@FormParam("review") String review,
 			@FormParam("rating") String rating){

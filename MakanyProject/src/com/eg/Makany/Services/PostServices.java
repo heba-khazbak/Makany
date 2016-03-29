@@ -202,7 +202,7 @@ public class PostServices {
 	
 	@POST
 	@Path("/getFilteredCommentsService")
-	public String getStoreReviewsService(
+	public String getFilteredCommentsService(
 			@FormParam("postID") String postID,
 			@FormParam("userEmail") String userEmail,
 			@FormParam("commentID") String commentID){
