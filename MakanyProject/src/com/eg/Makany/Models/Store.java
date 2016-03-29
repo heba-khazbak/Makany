@@ -88,14 +88,21 @@ public class Store {
 		return false;
 	}
 	
-	public static Vector<Store> getAllStores(String specificCategory,String specificDistrict){
+	public static Vector<Store> getAllStores(String specificCategory,String specificDistrict,
+			String maxID){
 		Vector<Store> ret=new Vector<Store>();
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("stores");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		long sid=-1;
+		if(maxID!=null && !maxID.isEmpty())sid=Long.parseLong(maxID);
 		for(Entity entity:pq.asIterable()){
+			if(entity.getKey().getId()<=sid)
+				continue;
+			
 			if(specificDistrict!=null && !specificDistrict.isEmpty() &&
 					!specificDistrict.equals(entity.getProperty("district").toString()))
 				continue;
@@ -117,6 +124,28 @@ public class Store {
 		}
 		
 		return ret;
+	}
+	
+	public static Store getStoreByID(String storeMail){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("stores");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(storeMail)){
+				return new Store(String.valueOf(entity.getKey().getId()),
+						entity.getProperty("name").toString(),
+						storeMail,
+						entity.getProperty("password").toString(),
+						entity.getProperty("district").toString(),
+						entity.getProperty("category").toString(),
+						entity.getProperty("description").toString(),
+						Offer.getOffers(storeMail),
+						Review.getReviews(storeMail));
+			}
+		}
+		return null;
 	}
 	
 	public static int checkStore(String email, String password){

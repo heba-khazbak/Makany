@@ -8,32 +8,44 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
-public class PostTopic {
-
-	private static final String TABLENAME = "PostTopics";
+public class EventTopic {
+	private static final String TABLENAME = "EventTopics";
 	private String userEmail;
-	private String postID;
+	private String eventID;
 	private String topic;
 	private double score;
 	
-	public PostTopic(String userEmail , String postID, String topic, double score) {
+	public EventTopic(String userEmail , String eventID, String topic, double score) {
 		this.userEmail = userEmail;
-		this.postID = postID;
+		this.eventID = eventID;
 		this.topic = topic;
 		this.score = score;
 	}
 	
-	public PostTopic() {
-		// TODO Auto-generated constructor stub
+	public EventTopic(){
+		this.userEmail="";
+		this.eventID="";
+		this.topic="";
+		this.score=0;
 	}
-
-	public boolean savePostTopic(){
+	
+	public boolean saveEventTopic(){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
+		Query gaeQuery = new Query(TABLENAME);
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("userEmail").toString().equals(this.userEmail)
+					&& entity.getProperty("eventID").toString().equals(this.eventID)){
+				return false;
+			}
+		}
+		
 		Entity topic=new Entity(TABLENAME);
 		topic.setProperty("userEmail", this.userEmail);
-		topic.setProperty("postID", this.postID);
+		topic.setProperty("eventID", this.eventID);
 		topic.setProperty("topic", this.topic);
 		topic.setProperty("score", this.score);
 		
@@ -41,40 +53,24 @@ public class PostTopic {
 		return true;
 	}
 	
-	public static Vector<PostTopic> getPostsTopics(String userEmail){
+	public static Vector<EventTopic> getEventTopics(String userEmail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
-		Vector<PostTopic> ret=new Vector<PostTopic>();
+		Vector<EventTopic> ret=new Vector<EventTopic>();
 		Query gaeQuery = new Query(TABLENAME);
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("userEmail").toString().equals(userEmail)){
-				PostTopic temp = new PostTopic();
-				temp.userEmail = entity.getProperty("userEmail").toString();
-				temp.topic = entity.getProperty("topic").toString();
-				temp.score = (double) entity.getProperty("score");
-				temp.postID = entity.getProperty("postID").toString();
-				ret.add(temp);
+				ret.add(new EventTopic(
+						userEmail,
+						entity.getProperty("eventID").toString(),
+						entity.getProperty("topic").toString(),
+						Double.parseDouble(entity.getProperty("score").toString())));
 			}
 			
 		}
 		return ret;
 	}
 	
-	public static long getMaxPostID (String email)
-	{
-		Vector<PostTopic> myPosts = getPostsTopics(email);
-		if (myPosts == null)
-			return 0;
-		
-		long max = 0;
-		for (PostTopic T : myPosts)
-		{
-			if (Long.parseLong(T.postID) > max)
-				max = Long.parseLong(T.postID);
-		}
-		
-		return max;
-	}
 }

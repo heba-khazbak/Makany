@@ -3,6 +3,7 @@ package com.eg.Makany.Models;
 
 import java.util.Vector;
 
+import com.eg.Makany.Models.BA.PostTopic;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -268,5 +269,89 @@ public class User {
 		}
 
 		return false;
+	}
+	
+	public static void saveLovedPlaces(String userEmail,String placeCategory,String placeID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("userLovedPlaces");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("userEmail").toString().equals(userEmail)
+					&& entity.getProperty("placeID").toString().equals(placeID)){
+				return;
+			}
+		}
+		
+		gaeQuery = new Query("userLovedPlaceCategories");
+		pq = datastore.prepare(gaeQuery);
+		
+
+		boolean found=false;
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("userEmail").toString().equals(userEmail)
+					&& entity.getProperty("placeCategory").toString().equals(placeCategory)){
+				int score=Integer.parseInt(entity.getProperty("score").toString());
+				entity.setProperty("score", score+1);
+				datastore.put(entity);
+				found=true;
+				break;
+			}
+		}
+		if(!found){
+			Entity entity=new Entity("userLovedPlaceCategories");
+			entity.setProperty("userEmail", userEmail);
+			entity.setProperty("placeCategory", placeCategory);
+			entity.setProperty("score", 1);
+		}
+
+		Entity entity2=new Entity("userLovedPlaces");
+		entity2.setProperty("userEmail", userEmail);
+		entity2.setProperty("placeID", placeID);
+
+	}
+	
+	public static void saveLovedEvents(String userEmail,String eventCategory,String eventID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("userLovedEvents");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("userEmail").toString().equals(userEmail)
+					&& entity.getProperty("eventID").toString().equals(eventID)){
+				return;
+			}
+		}
+		
+		
+		gaeQuery = new Query("userLovedEventCategories");
+		pq = datastore.prepare(gaeQuery);
+		
+
+		boolean found=false;
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("userEmail").toString().equals(userEmail)
+					&& entity.getProperty("eventCategory").toString().equals(eventCategory)){
+				int score=Integer.parseInt(entity.getProperty("score").toString());
+				entity.setProperty("score", score+1);
+				datastore.put(entity);
+				found=true;
+				break;
+			}
+		}
+		
+		if(!found){
+			Entity entity=new Entity("userLovedEventCategories");
+			entity.setProperty("userEmail", userEmail);
+			entity.setProperty("eventCategory", eventCategory);
+			entity.setProperty("score", 1);
+		}
+		
+		Entity entity2=new Entity("userLovedEvents");
+		entity2.setProperty("userEmail", userEmail);
+		entity2.setProperty("eventID", eventID);
+
 	}
 }

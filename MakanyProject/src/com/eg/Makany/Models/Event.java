@@ -144,18 +144,24 @@ public class Event {
 		return ret;
 	}
 	
-	public static Vector<String> getGoingEvents(String userEmail){
+	public static Vector<Event> getGoingEvents(String userEmail,String specificID){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
-		Vector<String> ret=new Vector<String>();
+		Vector<Event> ret=new Vector<Event>();
 		
 		Query gaeQuery = new Query("eventGoing");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
+		long eid=-1;
+		if(specificID!=null && !specificID.isEmpty())eid=Long.parseLong(specificID);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("userMail").toString().equals(userEmail))
-				ret.add(entity.getProperty("eventID").toString());
+			if(entity.getProperty("userMail").toString().equals(userEmail)){
+				if(Long.parseLong(entity.getProperty("eventID").toString())<=eid)
+					continue;
+				ret.add(new Event().getEventByID(entity.getProperty("eventID").toString()));
+			}
+				
 			
 		}
 		return ret;

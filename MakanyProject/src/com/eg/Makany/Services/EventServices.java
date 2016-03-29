@@ -153,13 +153,25 @@ public class EventServices {
 	
 	@POST
 	@Path("/getGoingEventsService")
-	public String getGoingEventsService(@FormParam("userEmail") String userEmail){
+	public String getGoingEventsService(@FormParam("userEmail") String userEmail,
+			@FormParam("maxEventID") String maxEventID){
 		
 		JSONArray arr = new JSONArray();
 		
-		for(String str:Event.getGoingEvents(userEmail)){
+		for(Event event:Event.getGoingEvents(userEmail,maxEventID)){
 			JSONObject object = new JSONObject();
-			object.put("eventID", str);
+			
+			if(event!=null){
+				object.put("id", event.getID());
+				object.put("name", event.getName());
+				object.put("category", event.getCategory());
+				object.put("description", event.getDescription());
+				object.put("latitude", event.getLatitude());
+				object.put("longitude", event.getLongitude());
+				object.put("ownerMail", event.getOwnerMail());
+				object.put("goingMails", event.getParsedGoingMails());
+				object.put("postIDs", event.getParsedPostIDs());
+			}
 			arr.add(object);
 		}
 		

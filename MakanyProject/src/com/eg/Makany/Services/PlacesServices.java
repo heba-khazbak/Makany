@@ -42,11 +42,12 @@ public class PlacesServices {
 	@POST
 	@Path("/getFilteredStoresService")
 	public String getFilteredStoresService(@FormParam("category") String category,
-			@FormParam("district") String district){
+			@FormParam("district") String district,
+			@FormParam("maxStoreID") String maxStoreID){
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Store> stores=Store.getAllStores(category, district);
+		Vector<Store> stores=Store.getAllStores(category, district,maxStoreID);
 		
 		for(Store store:stores){
 			JSONObject object = new JSONObject();

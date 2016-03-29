@@ -60,4 +60,26 @@ public class StoreReview {
 		}
 		return ret;
 	}
+	
+	public static Vector<StoreReview> getGoodReviewsByUser(String userEmail){
+		Vector<StoreReview> ret=new Vector<StoreReview>();
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("storeReviews");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("reviewerMail").toString().equals(userEmail)
+					&& Integer.parseInt(entity.getProperty("rating").toString())>=4)
+				ret.add(new StoreReview(String.valueOf(entity.getKey().getId()),
+						entity.getProperty("reviewerMail").toString(),
+						entity.getProperty("storeMail").toString(),
+						entity.getProperty("review").toString(),
+						Integer.parseInt(entity.getProperty("rating").toString())));
+			
+		}
+		return ret;
+	}
 }
