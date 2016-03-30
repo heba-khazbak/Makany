@@ -9,6 +9,7 @@ import javax.ws.rs.Produces;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.xml.sax.SAXException;
 
