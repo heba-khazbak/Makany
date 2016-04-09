@@ -162,6 +162,7 @@ public class User {
 			String userEmail=entity.getProperty("email").toString();
 			if(userEmail.equals(userMail)){
 				this.id=String.valueOf(entity.getKey().getId());
+this.name=entity.getProperty("name").toString();
 				this.email=userEmail;
 				this.password=entity.getProperty("password").toString();
 				this.birthDate=entity.getProperty("birthDate").toString();
