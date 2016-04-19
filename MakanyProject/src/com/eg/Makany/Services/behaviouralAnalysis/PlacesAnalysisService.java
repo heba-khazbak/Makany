@@ -7,12 +7,12 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
-
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Store;
 import com.eg.Makany.Models.StoreReview;
 import com.eg.Makany.Models.User;
+import com.eg.Makany.Models.UpdateProfile.UserProfileUpdate;
 
 @Path("/")
 @Produces("text/html")
@@ -29,7 +29,7 @@ public class PlacesAnalysisService {
 			Vector <StoreReview> lovedPlaces = StoreReview.getGoodReviewsByUser(user.getMail());
 			
 			for(StoreReview sreview:lovedPlaces){
-				User.saveLovedPlaces(user.getMail(), Store.getStoreByID(sreview.getStoreMail()).getCategory(), sreview.getStoreMail());
+				UserProfileUpdate.saveLovedPlaces(user.getMail(), Store.getStoreByID(sreview.getStoreMail()).getCategory(), sreview.getStoreMail());
 			}
 		}
 		

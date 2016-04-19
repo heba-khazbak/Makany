@@ -43,6 +43,8 @@ public class EventTopic {
 			}
 		}
 		
+		if(topic==null)return true;
+		
 		Entity topic=new Entity(TABLENAME);
 		topic.setProperty("userEmail", this.userEmail);
 		topic.setProperty("eventID", this.eventID);

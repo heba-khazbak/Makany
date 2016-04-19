@@ -21,6 +21,7 @@ import com.eg.Makany.Models.BA.CommentTopic;
 import com.eg.Makany.Models.BA.MakanyAlchemy;
 import com.eg.Makany.Models.BA.PhotoTopic;
 import com.eg.Makany.Models.BA.PostTopic;
+import com.eg.Makany.Models.UpdateProfile.UserProfileUpdate;
 
 
 
@@ -51,12 +52,15 @@ public class PostAnalysisService {
 				Vector<String> topics = MakanyAlchemy.getFromAlchemy(post.getContent());
 				if (topics != null)
 				{
+					int cnt1=0;
 					for (String A : topics)
 					{
 						String temp[]=A.split(";");
 						double score = Double.parseDouble(temp[1]);
 						PostTopic p = new PostTopic (user.getMail() , post.getID() , temp[0] , score);
 						p.savePostTopic();
+						if(++cnt1<3)
+							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
 					}
 					
 					if (!post.getPhoto().isEmpty())
@@ -65,12 +69,15 @@ public class PostAnalysisService {
 						topics = MakanyAlchemy.AnalyzePhoto(post.getPhoto());
 						if (topics != null)
 						{
+							int cnt2=0;
 							for (String A : topics)
 							{
 								String temp[]=A.split(";");
 								double score = Double.parseDouble(temp[1]);
 								PhotoTopic p = new PhotoTopic (user.getMail() , post.getID() , temp[0] , score);
 								p.savePhotoTopic();
+								if(++cnt2<3)
+									UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
 							}
 						}
 					}
@@ -86,12 +93,16 @@ public class PostAnalysisService {
 				for(Comment comment : myComments)
 				{
 					Vector<String> topics = MakanyAlchemy.getFromAlchemy(comment.getContent());
+					
+					int cnt=0;
 					for (String A : topics)
 					{
 						String temp[]=A.split(";");
 						double score = Double.parseDouble(temp[1]);
 						CommentTopic c = new CommentTopic (user.getMail() , comment.getPostID() , comment.getID() , temp[0] , score);
 						c.saveCommentTopic();
+						if(++cnt<3)
+							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
 					}
 
 				}

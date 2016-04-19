@@ -17,6 +17,7 @@ import com.eg.Makany.Models.Event;
 import com.eg.Makany.Models.User;
 import com.eg.Makany.Models.BA.EventTopic;
 import com.eg.Makany.Models.BA.MakanyAlchemy;
+import com.eg.Makany.Models.UpdateProfile.UserProfileUpdate;
 
 @Path("/")
 @Produces("text/html")
@@ -34,18 +35,24 @@ public class EventAnalysisService {
 			Vector <Event> myEvents = Event.getGoingEvents(user.getMail(),null);
 			for(Event event : myEvents)
 			{
+				if(!new EventTopic(user.getMail(),event.getID(),null,0).saveEventTopic())
+					continue;
+				
 				Vector<String> topics = MakanyAlchemy.getFromAlchemy(event.getDescription());
 				if (topics != null)
 				{
+					int cnt=0;
 					for (String A : topics)
 					{
 						String temp[]=A.split(";");
 						double score = Double.parseDouble(temp[1]);
 						EventTopic e = new EventTopic (user.getMail() , event.getID() , temp[0] , score);
 						e.saveEventTopic();
+						if(++cnt<3)
+							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
 					}
 				}
-				User.saveLovedEvents(user.getMail(), event.getCategory(), event.getID());
+				UserProfileUpdate.saveLovedEvents(user.getMail(), event.getCategory(), event.getID());
 			}
 		}
 		
