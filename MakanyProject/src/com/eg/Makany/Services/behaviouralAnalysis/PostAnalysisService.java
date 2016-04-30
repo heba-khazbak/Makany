@@ -19,7 +19,6 @@ import com.eg.Makany.Models.Post;
 import com.eg.Makany.Models.User;
 import com.eg.Makany.Models.BA.CommentTopic;
 import com.eg.Makany.Models.BA.MakanyAlchemy;
-import com.eg.Makany.Models.BA.PhotoTopic;
 import com.eg.Makany.Models.BA.PostTopic;
 import com.eg.Makany.Models.UpdateProfile.UserProfileUpdate;
 
@@ -45,8 +44,9 @@ public class PostAnalysisService {
 			// Analyze Text in normal posts written by user
 			
 			Vector <Post> myPosts = null;
-			long maxPostID = PostTopic.getMaxPostID(user.getMail());
-			//myPosts = Post.getAllPostsByUser(user.getMail(), maxPostID);
+			long maxID = PostTopic.getMaxPostID(user.getMail());
+			String maxPostID = Long.toString(maxID);
+			myPosts = Post.getFilteredPosts(user.getMail(),null,null,null,maxPostID);
 			for(Post post : myPosts)
 			{
 				Vector<String> topics = MakanyAlchemy.getFromAlchemy(post.getContent());
@@ -74,8 +74,8 @@ public class PostAnalysisService {
 							{
 								String temp[]=A.split(";");
 								double score = Double.parseDouble(temp[1]);
-								PhotoTopic p = new PhotoTopic (user.getMail() , post.getID() , temp[0] , score);
-								p.savePhotoTopic();
+								PostTopic p = new PostTopic (user.getMail() , post.getID() , temp[0] , score);
+								p.savePostTopic();
 								if(++cnt2<3)
 									UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
 							}
@@ -88,8 +88,9 @@ public class PostAnalysisService {
 			// Analyze Text in comments written by user
 			
 				Vector <Comment> myComments = null;
-				long maxCommentID = CommentTopic.getMaxCommentID(user.getMail());
-				//myComments = Comment.getAllCommentsByUser (user.getMail(), maxCommentID);
+				maxID = CommentTopic.getMaxCommentID(user.getMail());
+				String maxCommentID = Long.toString(maxID);
+				myComments = Comment.getFilteredComments(null,user.getMail(),maxCommentID);
 				for(Comment comment : myComments)
 				{
 					Vector<String> topics = MakanyAlchemy.getFromAlchemy(comment.getContent());
@@ -108,7 +109,7 @@ public class PostAnalysisService {
 				}
 		}
 		
-		
+		object.put("Status", "OK");
 	    return object.toString();
 
 

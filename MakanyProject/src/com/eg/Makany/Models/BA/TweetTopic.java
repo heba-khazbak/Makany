@@ -12,11 +12,13 @@ public class TweetTopic {
 	
 
 	private static final String TABLENAME = "TweetTopics";
+	private String userEmail;
 	private long tweetID;
 	private String topic;
 	private double score;
 	
-	public TweetTopic(long tweetID, String topic, double score) {
+	public TweetTopic(String userEmail,long tweetID, String topic, double score) {
+		this.userEmail = userEmail;
 		this.tweetID = tweetID;
 		this.topic = topic;
 		this.score = score;
@@ -31,6 +33,7 @@ public class TweetTopic {
 				.getDatastoreService();
 		
 		Entity topic=new Entity(TABLENAME);
+		topic.setProperty("userEmail", this.userEmail);
 		topic.setProperty("tweetID", this.tweetID);
 		topic.setProperty("topic", this.topic);
 		topic.setProperty("score", this.score);
