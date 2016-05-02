@@ -51,7 +51,7 @@ public class EventServices {
 			@FormParam("eventID") String eventID,
 			@FormParam("category") String category,
 			@FormParam("description") String description,
-			@FormParam("description") String district,
+			@FormParam("district") String district,
 			@FormParam("latitude") String latitude,
 			@FormParam("longitude") String longitude) {
 		
