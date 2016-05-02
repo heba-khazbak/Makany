@@ -12,7 +12,7 @@ import com.google.appengine.api.datastore.Query;
 public class Event {
 	private String id, name, category, description;
 	private double latitude, longitude;
-	private String ownerMail;
+	private String ownerMail, district;
 	private Vector<String> goingMails, postIDs;
 	
 	public Event(){
@@ -24,12 +24,13 @@ public class Event {
 		this.latitude=0;
 		this.longitude=0;
 		this.ownerMail="";
+		this.district="";
 		this.goingMails=new Vector<String>();
 		this.postIDs=new Vector<String>();
 	}
 	
 	public Event(String id, String name, String category, String description,
-			double latitude, double longitude, String ownerMail,
+			double latitude, double longitude, String ownerMail, String district, 
 			Vector<String> goingMails, Vector<String> postIDs){
 		
 		this.id=id;
@@ -39,6 +40,7 @@ public class Event {
 		this.latitude=latitude;
 		this.longitude=longitude;
 		this.ownerMail=ownerMail;
+		this.district=district;
 		this.goingMails=goingMails;
 		this.postIDs=postIDs;
 	}
@@ -50,6 +52,7 @@ public class Event {
 	public double getLatitude(){return latitude;}
 	public double getLongitude(){return longitude;}
 	public String getOwnerMail(){return ownerMail;}
+	public String getDistrict(){return district;}
 	public String getParsedGoingMails(){
 		String ret="";
 		for(int i=0;i<goingMails.size();++i){
@@ -76,6 +79,7 @@ public class Event {
 		if(this.category==null)this.category="";
 		if(this.description==null)this.description="";
 		if(this.ownerMail==null)this.ownerMail="";
+		if(this.district==null)this.district="";
 
 		event.setProperty("name", this.name);
 		event.setProperty("category", this.category);
@@ -83,20 +87,23 @@ public class Event {
 		event.setProperty("latitude", this.latitude);
 		event.setProperty("longitude", this.longitude);
 		event.setProperty("ownerMail", this.ownerMail);
+		event.setProperty("district", this.district);
 		
 		datastore.put(event);
 
-		return true;
+		return Event.addGoingUser(String.valueOf(event.getKey().getId()), this.ownerMail) > 0;
 	}
 	
 	public static boolean editEvent(String eventID,
-			String newCategory,String newDescription,double newLatitude,double newLongitude){
+			String newCategory,String newDescription,String newDistrict,
+			double newLatitude,double newLongitude){
 		
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		
 		if(newCategory==null)newCategory="";
 		if(newDescription==null)newDescription="";
+		if(newDistrict==null)newDistrict="";
 		
 		Query gaeQuery = new Query("events");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
@@ -104,6 +111,7 @@ public class Event {
 			if(String.valueOf(entity.getKey().getId()).equals(eventID)){
 				entity.setProperty("category", newCategory);
 				entity.setProperty("description", newDescription);
+				entity.setProperty("district", newDistrict);
 				entity.setProperty("latitude", newLatitude);
 				entity.setProperty("longitude", newLongitude);
 				datastore.put(entity);
@@ -115,16 +123,51 @@ public class Event {
 		return false;
 	}
 	
-	public static boolean addGoingUser(String eventID,String userMail){
+	public static int addGoingUser(String eventID,String userMail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
+		
+		Query gaeQuery = new Query("eventGoing");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("eventID").toString().equals(eventID)
+					&& entity.getProperty("userMail").toString().equals(userMail))
+				return 2;
+			
+		}
 		
 		Entity eventGo = new Entity("eventGoing");
 		
 		eventGo.setProperty("eventID", eventID);
 		eventGo.setProperty("userMail", userMail);
 		datastore.put(eventGo);
-		return true;
+		return 1;
+	}
+	
+	public static int cancelGoing(String eventID,String userMail){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		
+		Key keyToDelete=null;
+		
+		Query gaeQuery = new Query("eventGoing");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("eventID").toString().equals(eventID)
+					&& entity.getProperty("userMail").toString().equals(userMail)){
+				keyToDelete=entity.getKey();
+				break;
+			}
+			
+		}
+
+		if(keyToDelete==null)
+			return 2;
+
+		datastore.delete(keyToDelete);
+		return 1;
 	}
 	
 	public static Vector<String> getEventGoing(String eventID){
@@ -238,6 +281,7 @@ public class Event {
 				this.latitude=Double.parseDouble(entity.getProperty("latitude").toString());
 				this.longitude=Double.parseDouble(entity.getProperty("longitude").toString());
 				this.ownerMail=entity.getProperty("ownerMail").toString();
+				this.district=entity.getProperty("district").toString();
 				break;
 			}
 			
@@ -262,6 +306,31 @@ public class Event {
 		}
 		
 		return this;
+	}
+	
+	public static Vector<Event> getFilteredEvents(String specificCategory,String specificDistrict){
+		Vector<Event> ret=new Vector<Event>();
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("events");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+
+		for(Entity entity:pq.asIterable()){
+			
+			if(specificDistrict!=null && !specificDistrict.isEmpty() &&
+					!specificDistrict.equals(entity.getProperty("district").toString()))
+				continue;
+			
+			if(specificCategory!=null && !specificCategory.isEmpty() &&
+					!specificCategory.equals(entity.getProperty("category").toString()))
+				continue;
+			
+			ret.add(new Event().getEventByID(String.valueOf(entity.getKey().getId())));
+		}
+		
+		return ret;
 	}
 	
 }

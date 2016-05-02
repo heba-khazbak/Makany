@@ -14,6 +14,7 @@ import com.eg.Makany.Models.Event;
 import com.eg.Makany.Models.Item;
 import com.eg.Makany.Models.Post;
 import com.eg.Makany.Models.Review;
+import com.eg.Makany.Models.Store;
 
 
 @Path("/")
@@ -27,14 +28,15 @@ public class EventServices {
 			@FormParam("description") String description,
 			@FormParam("latitude") String latitude, 
 			@FormParam("longitude") String longitude, 
-			@FormParam("ownerMail") String ownerMail) {
+			@FormParam("ownerMail") String ownerMail,
+			@FormParam("district") String district) {
 		
 		JSONObject object = new JSONObject();
 
 		
 		if(new Event(null,name,category,description,
 				Double.parseDouble(latitude),Double.parseDouble(longitude),
-				ownerMail,null,null).saveEvent())
+				ownerMail,district,null,null).saveEvent())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -49,13 +51,14 @@ public class EventServices {
 			@FormParam("eventID") String eventID,
 			@FormParam("category") String category,
 			@FormParam("description") String description,
+			@FormParam("description") String district,
 			@FormParam("latitude") String latitude,
 			@FormParam("longitude") String longitude) {
 		
 		
 		JSONObject object = new JSONObject();
 		
-		if(Event.editEvent(eventID, category, description, Double.parseDouble(latitude), Double.parseDouble(longitude)))
+		if(Event.editEvent(eventID, category, description, district, Double.parseDouble(latitude), Double.parseDouble(longitude)))
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -72,8 +75,32 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 		
-		if(Event.addGoingUser(eventID, userMail))
+		int ret=Event.addGoingUser(eventID, userMail);
+		if(ret==1)
 			object.put("Status", "OK");
+		else if(ret==2)
+			object.put("Status", "alreadyGoing");
+		else
+			object.put("Status", "Failed");
+		
+		return object.toString();
+
+	}
+	
+	
+	@POST
+	@Path("/cancelGoingEventService")
+	public String cancelGoingEventService(@FormParam("eventID") String eventID,
+			@FormParam("userMail") String userMail) {
+		
+		
+		JSONObject object = new JSONObject();
+		
+		int ret=Event.cancelGoing(eventID, userMail);
+		if(ret==1)
+			object.put("Status", "OK");
+		else if(ret==2)
+			object.put("Status", "wasn't going");
 		else
 			object.put("Status", "Failed");
 		
@@ -169,6 +196,7 @@ public class EventServices {
 				object.put("latitude", event.getLatitude());
 				object.put("longitude", event.getLongitude());
 				object.put("ownerMail", event.getOwnerMail());
+				object.put("district", event.getDistrict());
 				object.put("goingMails", event.getParsedGoingMails());
 				object.put("postIDs", event.getParsedPostIDs());
 			}
@@ -195,11 +223,43 @@ public class EventServices {
 			object.put("latitude", event.getLatitude());
 			object.put("longitude", event.getLongitude());
 			object.put("ownerMail", event.getOwnerMail());
+			object.put("district", event.getDistrict());
 			object.put("goingMails", event.getParsedGoingMails());
 			object.put("postIDs", event.getParsedPostIDs());
 		}
 		
 		return object.toString();
 		
+	}
+	
+	@POST
+	@Path("/getFilteredEventsService")
+	public String getFilteredEventsService(@FormParam("category") String category,
+			@FormParam("district") String district){
+		
+		JSONArray arr = new JSONArray();
+		
+		Vector<Event> events=Event.getFilteredEvents(category, district);
+		
+		for(Event event:events){
+			JSONObject object = new JSONObject();
+			
+			if(event!=null){
+				object.put("id", event.getID());
+				object.put("name", event.getName());
+				object.put("category", event.getCategory());
+				object.put("description", event.getDescription());
+				object.put("latitude", event.getLatitude());
+				object.put("longitude", event.getLongitude());
+				object.put("ownerMail", event.getOwnerMail());
+				object.put("district", event.getDistrict());
+				object.put("goingMails", event.getParsedGoingMails());
+				object.put("postIDs", event.getParsedPostIDs());
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
 	}
 }
