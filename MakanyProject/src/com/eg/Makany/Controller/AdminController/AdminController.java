@@ -24,6 +24,12 @@ import com.eg.Makany.Controller.Connector;
 public class AdminController {
 	
 	@GET
+	@Path("/")
+	public Response entryPoint() {
+		return Response.ok(new Viewable("/jsp/entryPoint")).build();
+	}
+	
+	@GET
 	@Path("/LoginPage")
 	public Response login() {
 		return Response.ok(new Viewable("/jsp/AdminPanel/Login")).build();
