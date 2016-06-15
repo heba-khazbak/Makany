@@ -1,8 +1,6 @@
 package com.eg.Makany.Models;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -15,7 +13,6 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 public class Message {
 	
 	private static final String TABLENAME = "messages";
-	//private String id;
 	private String senderMail, reciverMail,content;
 	private String senderName, reciverName;
 	
@@ -138,11 +135,11 @@ public class Message {
 	}
 	
 	
-	public static Set<Message> getMsgNames(String usermail){
+	public static Vector<Message> getMsgNames(String usermail){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 
-		Set<Message> ret =new HashSet<Message>();
+		Vector<Message> ret =new Vector<Message>();
 		Query gaeQuery = new Query(TABLENAME);
 		
 		PreparedQuery pq = datastore.prepare(gaeQuery);
@@ -152,19 +149,46 @@ public class Message {
 			{
 				String name = User.getUserName(entity.getProperty("reciverMail").toString());
 				Message M = new Message(entity.getProperty("reciverMail").toString(),name);
-				ret.add(M);
+				
+				boolean flag = true;
+				for (Message X : ret)
+				{
+					if (X.getSenderMail().equals(M.getSenderMail()))
+					{
+						flag = false;
+						break;
+					}
+				}
+				
+				if (flag)
+					ret.add(M);
 			}
 			else if (entity.getProperty("reciverMail").toString().equals(usermail))	
 			{
 				String name = User.getUserName(entity.getProperty("senderMail").toString());
 				Message M = new Message(entity.getProperty("senderMail").toString(),name);
-				ret.add(M);
+				
+				boolean flag = true;
+				for (Message X : ret)
+				{
+					if (X.getSenderMail().equals(M.getSenderMail()))
+					{
+						flag = false;
+						break;
+					}
+				}
+				
+				if (flag)
+					ret.add(M);
+				
 			}
 			
 		}
+		
+		
 		return ret;
 	}
-
+	
 	
 
 

@@ -26,7 +26,7 @@ public class MessageServices {
 
 		JSONArray arr = new JSONArray();
 		
-		Set<Message> names = Message.getMsgNames(usermail);
+		Vector<Message> names = Message.getMsgNames(usermail);
 		
 		for(Message m:names){
 			JSONObject object = new JSONObject();
