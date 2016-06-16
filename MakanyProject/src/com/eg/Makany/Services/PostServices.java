@@ -14,6 +14,7 @@ import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Comment;
 import com.eg.Makany.Models.Post;
+import com.eg.Makany.Models.User;
 
 
 @Path("/")
@@ -174,6 +175,11 @@ public class PostServices {
 			JSONObject object = new JSONObject();
 			
 			if(post!=null){
+				
+				User user=new User().getUser(post.getUserEmail());
+				object.put("username", user.getName());
+				object.put("categories", post.getParsedCategories());
+				
 				object.put("ID", post.getID());
 				object.put("postType", post.getPostType());
 				object.put("content", post.getContent());
