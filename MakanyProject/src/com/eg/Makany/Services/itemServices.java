@@ -11,6 +11,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Item;
+import com.eg.Makany.Models.User;
 
 
 @Path("/")
@@ -172,6 +173,9 @@ public class ItemServices {
 			JSONObject object = new JSONObject();
 			
 			if(item!=null){
+				User user=new User().getUser(item.getUserEmail());
+				object.put("username", user.getName());
+				
 				object.put("id", item.getID());
 				object.put("name", item.getName());
 				object.put("description", item.getDescription());
@@ -202,6 +206,9 @@ public class ItemServices {
 			JSONObject object = new JSONObject();
 			
 			if(item!=null){
+				User user=new User().getUser(item.getUserEmail());
+				object.put("username", user.getName());
+				
 				object.put("id", item.getID());
 				object.put("name", item.getName());
 				object.put("description", item.getDescription());

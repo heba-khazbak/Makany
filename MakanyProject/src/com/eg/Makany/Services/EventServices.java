@@ -15,6 +15,7 @@ import com.eg.Makany.Models.Item;
 import com.eg.Makany.Models.Post;
 import com.eg.Makany.Models.Review;
 import com.eg.Makany.Models.Store;
+import com.eg.Makany.Models.User;
 
 
 @Path("/")
@@ -245,6 +246,9 @@ public class EventServices {
 			JSONObject object = new JSONObject();
 			
 			if(event!=null){
+				User user=new User().getUser(event.getOwnerMail());
+				object.put("username", user.getName());
+				
 				object.put("id", event.getID());
 				object.put("name", event.getName());
 				object.put("category", event.getCategory());
