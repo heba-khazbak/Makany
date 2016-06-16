@@ -30,7 +30,7 @@ public class UserProfileUpdate {
 		int tot=0;
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("userEmail").toString().equals(userEmail)
-					&& entity.getProperty("placeCategory").toString().equals(placeCategory)){
+					&& entity.getProperty("category").toString().equals(placeCategory)){
 				int numloved=Integer.parseInt(entity.getProperty("numloved").toString());
 				entity.setProperty("numloved", numloved+1);
 				datastore.put(entity);
@@ -43,7 +43,7 @@ public class UserProfileUpdate {
 		if(!found){
 			Entity entity=new Entity("userLovedCategories");
 			entity.setProperty("userEmail", userEmail);
-			entity.setProperty("placeCategory", placeCategory);
+			entity.setProperty("category", placeCategory);
 			entity.setProperty("numloved", 1);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);
@@ -89,7 +89,7 @@ public class UserProfileUpdate {
 		int tot=0;
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("userEmail").toString().equals(userEmail)
-					&& entity.getProperty("eventCategory").toString().equals(eventCategory)){
+					&& entity.getProperty("category").toString().equals(eventCategory)){
 				int numloved=Integer.parseInt(entity.getProperty("numloved").toString());
 				entity.setProperty("numloved", numloved+1);
 				datastore.put(entity);
@@ -103,7 +103,7 @@ public class UserProfileUpdate {
 		if(!found){
 			Entity entity=new Entity("userLovedCategories");
 			entity.setProperty("userEmail", userEmail);
-			entity.setProperty("eventCategory", eventCategory);
+			entity.setProperty("category", eventCategory);
 			entity.setProperty("numloved", 1);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);
