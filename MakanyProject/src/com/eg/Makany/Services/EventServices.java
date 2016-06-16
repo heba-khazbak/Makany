@@ -37,7 +37,7 @@ public class EventServices {
 		
 		if(new Event(null,name,category,description,
 				Double.parseDouble(latitude),Double.parseDouble(longitude),
-				ownerMail,district,null,null).saveEvent())
+				ownerMail,district,"",null,null).saveEvent())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -129,7 +129,7 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,0,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,"",0,categories);
 		
 		if(post.savePost()){
 			if(Event.addPost(eventID, post.getID()))
@@ -198,6 +198,7 @@ public class EventServices {
 				object.put("longitude", event.getLongitude());
 				object.put("ownerMail", event.getOwnerMail());
 				object.put("district", event.getDistrict());
+				object.put("date", event.getDate());
 				object.put("goingMails", event.getParsedGoingMails());
 				object.put("postIDs", event.getParsedPostIDs());
 			}
@@ -225,6 +226,7 @@ public class EventServices {
 			object.put("longitude", event.getLongitude());
 			object.put("ownerMail", event.getOwnerMail());
 			object.put("district", event.getDistrict());
+			object.put("date", event.getDate());
 			object.put("goingMails", event.getParsedGoingMails());
 			object.put("postIDs", event.getParsedPostIDs());
 		}
@@ -257,6 +259,7 @@ public class EventServices {
 				object.put("longitude", event.getLongitude());
 				object.put("ownerMail", event.getOwnerMail());
 				object.put("district", event.getDistrict());
+				object.put("date", event.getDate());
 				object.put("goingMails", event.getParsedGoingMails());
 				object.put("postIDs", event.getParsedPostIDs());
 			}

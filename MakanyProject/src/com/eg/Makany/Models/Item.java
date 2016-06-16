@@ -1,5 +1,6 @@
 package com.eg.Makany.Models;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -11,7 +12,7 @@ import com.google.appengine.api.datastore.Query;
 
 public class Item {
 	private String id;
-	private String name, description,userEmail, district, photo, state;
+	private String name, description,userEmail, district, photo, state, date;
 	private Vector<String> categories;
 	
 	public Item(){
@@ -22,11 +23,12 @@ public class Item {
 		this.district="";
 		this.photo="";
 		this.state="";
+		this.date="";
 		this.categories=new Vector<String>();
 	}
 	
 	public Item(String id,String name,String description,String userEmail,
-			String district,String photo,String state,
+			String district,String photo,String state,String date,
 			Vector<String> categories){
 		this.id=id;
 		this.name=name;
@@ -35,6 +37,7 @@ public class Item {
 		this.district=district;
 		this.photo=photo;
 		this.state=state;
+		this.date=date;
 		this.categories=categories;
 	}
 	
@@ -45,6 +48,7 @@ public class Item {
 	public String getDistrict(){return district;}
 	public String getPhoto(){return photo;}
 	public String getState(){return state;}
+	public String getDate(){return date;}
 	public String getParsedCategories(){
 		String ret="";
 		for(int i=0;i<categories.size();++i){
@@ -81,6 +85,7 @@ public class Item {
 		item.setProperty("district", district);
 		item.setProperty("photo", photo);
 		item.setProperty("state", state);
+		item.setProperty("date", new Date());
 		datastore.put(item);
 		
 		this.id=String.valueOf(item.getKey().getId());
@@ -159,6 +164,7 @@ public class Item {
 				this.district=entity.getProperty("district").toString();
 				this.photo=entity.getProperty("photo").toString();
 				this.state=entity.getProperty("state").toString();
+				this.date=entity.getProperty("date").toString();
 				break;
 			}
 			

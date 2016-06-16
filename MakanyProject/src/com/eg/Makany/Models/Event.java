@@ -1,5 +1,6 @@
 package com.eg.Makany.Models;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -12,7 +13,7 @@ import com.google.appengine.api.datastore.Query;
 public class Event {
 	private String id, name, category, description;
 	private double latitude, longitude;
-	private String ownerMail, district;
+	private String ownerMail, district, date;
 	private Vector<String> goingMails, postIDs;
 	
 	public Event(){
@@ -25,12 +26,13 @@ public class Event {
 		this.longitude=0;
 		this.ownerMail="";
 		this.district="";
+		this.date="";
 		this.goingMails=new Vector<String>();
 		this.postIDs=new Vector<String>();
 	}
 	
 	public Event(String id, String name, String category, String description,
-			double latitude, double longitude, String ownerMail, String district, 
+			double latitude, double longitude, String ownerMail, String district, String date,
 			Vector<String> goingMails, Vector<String> postIDs){
 		
 		this.id=id;
@@ -41,6 +43,7 @@ public class Event {
 		this.longitude=longitude;
 		this.ownerMail=ownerMail;
 		this.district=district;
+		this.date=date;
 		this.goingMails=goingMails;
 		this.postIDs=postIDs;
 	}
@@ -53,6 +56,7 @@ public class Event {
 	public double getLongitude(){return longitude;}
 	public String getOwnerMail(){return ownerMail;}
 	public String getDistrict(){return district;}
+	public String getDate(){return date;}
 	public String getParsedGoingMails(){
 		String ret="";
 		for(int i=0;i<goingMails.size();++i){
@@ -88,6 +92,7 @@ public class Event {
 		event.setProperty("longitude", this.longitude);
 		event.setProperty("ownerMail", this.ownerMail);
 		event.setProperty("district", this.district);
+		event.setProperty("date", new Date());
 		
 		datastore.put(event);
 
@@ -112,6 +117,7 @@ public class Event {
 				entity.setProperty("category", newCategory);
 				entity.setProperty("description", newDescription);
 				entity.setProperty("district", newDistrict);
+				entity.setProperty("date", new Date());
 				entity.setProperty("latitude", newLatitude);
 				entity.setProperty("longitude", newLongitude);
 				datastore.put(entity);
@@ -282,6 +288,7 @@ public class Event {
 				this.longitude=Double.parseDouble(entity.getProperty("longitude").toString());
 				this.ownerMail=entity.getProperty("ownerMail").toString();
 				this.district=entity.getProperty("district").toString();
+				this.date=entity.getProperty("date").toString();
 				break;
 			}
 			

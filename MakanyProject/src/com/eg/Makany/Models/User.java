@@ -1,6 +1,7 @@
 package com.eg.Makany.Models;
 
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.eg.Makany.Models.BA.PostTopic;
@@ -14,7 +15,7 @@ import com.google.appengine.api.datastore.Query;
 public class User {
 	private String id;
 	private String name, email, password, birthDate, district, gender;
-	private String twitter, foursquare;
+	private String twitter, foursquare, date;
 	private int trust;
 	private Vector<String> interests;
 	
@@ -28,13 +29,14 @@ public class User {
 		this.gender="";
 		this.twitter="";
 		this.foursquare="";
+		this.date="";
 		this.trust=0;
 		this.interests=new Vector<String>();
 	}
 	
 	public User(String id, String name,String email,String password,String birthDate,
 			String district, String gender, String twitter, String foursquare,
-			int trust, Vector<String> interests){
+			String date,int trust, Vector<String> interests){
 		this.id=id;
 		this.name=name;
 		this.email=email;
@@ -44,6 +46,7 @@ public class User {
 		this.gender=gender;
 		this.twitter=twitter;
 		this.foursquare=foursquare;
+		this.date=date;
 		this.trust=trust;
 		this.interests=interests;
 	}
@@ -57,6 +60,7 @@ public class User {
 	public String getGender(){return gender;}
 	public String getTwitter(){return twitter;}
 	public String getFoursquare(){return foursquare;}
+	public String getDate(){return date;}
 	public int getTrust(){return trust;}
 	public String getParsedInterests(){
 		String ret="";
@@ -92,6 +96,7 @@ public class User {
 		user.setProperty("gender", this.gender);
 		user.setProperty("twitter", this.twitter);
 		user.setProperty("foursquare", this.foursquare);
+		user.setProperty("date", new Date());
 		user.setProperty("trust", this.trust);
 		datastore.put(user);
 		
@@ -170,6 +175,7 @@ this.name=entity.getProperty("name").toString();
 				this.gender=entity.getProperty("gender").toString();
 				this.twitter=entity.getProperty("twitter").toString();
 				this.foursquare=entity.getProperty("foursquare").toString();
+				this.date=entity.getProperty("date").toString();
 				this.trust=Integer.parseInt(entity.getProperty("trust").toString());
 				this.interests=getInterests(userEmail);
 				break;
@@ -197,6 +203,7 @@ this.name=entity.getProperty("name").toString();
 					entity.getProperty("gender").toString(),
 					entity.getProperty("twitter").toString(),
 					entity.getProperty("foursquare").toString(),
+					entity.getProperty("date").toString(),
 					Integer.parseInt(entity.getProperty("trust").toString()),
 					getInterests(userEmail)));
 		}

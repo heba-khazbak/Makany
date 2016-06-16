@@ -24,7 +24,7 @@ public class OffersServices {
 		
 		JSONObject object = new JSONObject();
 		
-		if(new Offer(null,description,storeMail,photo).addOffer())
+		if(new Offer(null,description,storeMail,photo,"").addOffer())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -82,6 +82,7 @@ public class OffersServices {
 		object.put("storeMail", offer.getStoreMail());
 		object.put("description", offer.getDescription());
 		object.put("photo", offer.getPhoto());
+		object.put("date", offer.getDate());
 
 		
 		object.put("numViewers", String.valueOf(offer.getNumViewers()));

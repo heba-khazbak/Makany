@@ -1,5 +1,6 @@
 package com.eg.Makany.Models;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -11,7 +12,7 @@ import com.google.appengine.api.datastore.Query;
 
 public class Offer {
 	private String id;
-	private String description, storeMail, photo;
+	private String description, storeMail, photo, date;
 	private Vector<String> viewers,thumbsup,thumbsdown;
 	
 	public Offer(){
@@ -19,22 +20,25 @@ public class Offer {
 		this.description="";
 		this.storeMail="";
 		this.photo="";
+		this.date="";
 		this.viewers=new Vector<String>();
 		this.thumbsup=new Vector<String>();
 		this.thumbsdown=new Vector<String>();
 	}
 	
-	public Offer(String id,String description,String storeMail,String photo){
+	public Offer(String id,String description,String storeMail,String photo,String date){
 		this.id=id;
 		this.description=description;
 		this.storeMail=storeMail;
 		this.photo=photo;
+		this.date=date;
 	}
 	
 	public String getID(){return id;}
 	public String getDescription(){return description;}
 	public String getStoreMail(){return storeMail;}
 	public String getPhoto(){return photo;}
+	public String getDate(){return date;}
 	public int getNumViewers(){return viewers.size();}
 	public int getNumThumbsUp(){return thumbsup.size();}
 	public int getNumThumbsDown(){return thumbsdown.size();}
@@ -74,6 +78,7 @@ public class Offer {
 		offer.setProperty("storeMail", this.storeMail);
 		offer.setProperty("description", this.description);
 		offer.setProperty("photo", this.photo);
+		offer.setProperty("date", new Date());
 		datastore.put(offer);
 		
 		return true;
@@ -93,6 +98,7 @@ public class Offer {
 				this.description=off.getProperty("description").toString();
 				this.storeMail=off.getProperty("storeMail").toString();
 				this.photo=off.getProperty("photo").toString();
+				this.date=off.getProperty("date").toString();
 				
 				gaeQuery = new Query("offersViewers");
 				pq = datastore.prepare(gaeQuery);
@@ -201,6 +207,7 @@ public class Offer {
 			if(String.valueOf(entity.getKey().getId()).equals(offerID)){
 				entity.setProperty("description", newDescription);
 				entity.setProperty("photo", newPhoto);
+				entity.setProperty("date", new Date());
 				datastore.put(entity);
 				return true;
 			}

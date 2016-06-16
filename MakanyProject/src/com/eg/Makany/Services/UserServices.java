@@ -50,7 +50,7 @@ public class UserServices {
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
 			}
-			Store store = new Store(null,name,email,password,district,category,description,null,null);
+			Store store = new Store(null,name,email,password,district,category,description,"",null,null);
 			if(store.saveStore())
 				object.put("Status", "OK");
 			else
@@ -61,7 +61,7 @@ public class UserServices {
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
 			}
-			User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,0,interests);
+			User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,"",0,interests);
 			if(user.saveUser())
 				object.put("Status", "OK");
 			else
@@ -120,7 +120,7 @@ public class UserServices {
 		JSONObject object = new JSONObject();
 		
 		if(uType.equals("store")){
-			if(new Store(null,name,email,password,district,category,description,null,null).editStore())
+			if(new Store(null,name,email,password,district,category,description,"",null,null).editStore())
 				object.put("Status", "OK");
 			else
 				object.put("Status", "Failed");
@@ -140,7 +140,7 @@ public class UserServices {
 			for(int i=0;i<tmp.length;++i)interests.add(tmp[i]);
 		}
 		
-		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,0,interests);
+		User user = new User(null,name,email,password,birthDate,district,gender,twitter,foursquare,"",0,interests);
 		if(user.saveUser())
 			object.put("Status", "OK");
 		else
@@ -171,6 +171,7 @@ public class UserServices {
 			object.put("gender", user.getGender());
 			object.put("twitter", user.getTwitter());
 			object.put("foursquare", user.getFoursquare());
+			object.put("date", user.getDate());
 			object.put("trust", user.getTrust());
 			object.put("interests", user.getParsedInterests());
 		}
@@ -200,6 +201,7 @@ public class UserServices {
 				object.put("gender", user.getGender());
 				object.put("twitter", user.getTwitter());
 				object.put("foursquare", user.getFoursquare());
+				object.put("date", user.getDate());
 				object.put("trust", user.getTrust());
 				object.put("interests", user.getParsedInterests());
 			}

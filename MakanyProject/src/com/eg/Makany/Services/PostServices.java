@@ -42,7 +42,7 @@ public class PostServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,0,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,"",0,categories);
 		
 		if(post.savePost())
 			object.put("Status", "OK");
@@ -187,6 +187,7 @@ public class PostServices {
 				object.put("userEmail", post.getUserEmail());
 				object.put("district", post.getDistrict());
 				object.put("onEventID", post.getOnEventID());
+				object.put("date", post.getDate());
 				object.put("score", post.getScore());
 				
 				object.put("numApprovals", String.valueOf(post.getNumApprovals()));

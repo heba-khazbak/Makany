@@ -37,7 +37,7 @@ public class ItemServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Item item=new Item(null,name,description,userEmail,district,photo,state,categories);
+		Item item=new Item(null,name,description,userEmail,district,photo,state,"",categories);
 		
 		if(item.saveItem(true))
 			object.put("Status", "OK");
@@ -66,7 +66,7 @@ public class ItemServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Item item=new Item(null,name,description,userEmail,district,photo,state,categories);
+		Item item=new Item(null,name,description,userEmail,district,photo,state,"",categories);
 		
 		if(item.saveItem(false))
 			object.put("Status", "OK");
@@ -122,7 +122,7 @@ public class ItemServices {
 			}
 			
 			
-			Item item=new Item(itemID,name,description,userEmail,district,photo,state,categories);
+			Item item=new Item(itemID,name,description,userEmail,district,photo,state,"",categories);
 			
 			if(item.saveItem((res==1)))
 				object.put("Status", "OK");
@@ -153,6 +153,7 @@ public class ItemServices {
 			object.put("district", item.getDistrict());
 			object.put("photo", item.getPhoto());
 			object.put("state", item.getState());
+			object.put("date", item.getDate());
 			object.put("categories", item.getParsedCategories());
 		}
 		
@@ -183,6 +184,7 @@ public class ItemServices {
 				object.put("district", item.getDistrict());
 				object.put("photo", item.getPhoto());
 				object.put("state", item.getState());
+				object.put("date", item.getDate());
 				object.put("categories", item.getParsedCategories());
 			}
 			
@@ -216,6 +218,7 @@ public class ItemServices {
 				object.put("district", item.getDistrict());
 				object.put("photo", item.getPhoto());
 				object.put("state", item.getState());
+				object.put("date", item.getDate());
 				object.put("categories", item.getParsedCategories());
 			}
 			

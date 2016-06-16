@@ -1,5 +1,6 @@
 package com.eg.Makany.Models;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -10,12 +11,12 @@ import com.google.appengine.api.datastore.Query;
 
 public class Store {
 	private String id;
-	private String name, email, password, district, category, description;
+	private String name, email, password, district, category, description, date;
 	private Vector<Offer> offers;
 	private Vector<Review> reviews;
 	
 	public Store(String id, String name,String email,String password,String district,
-			String category, String description,
+			String category, String description, String date,
 			Vector<Offer> offers,Vector<Review> reviews){
 		this.id=id;
 		this.name=name;
@@ -24,6 +25,7 @@ public class Store {
 		this.district=district;
 		this.category=category;
 		this.description=description;
+		this.date=date;
 		this.offers=offers;
 		this.reviews=reviews;
 	}
@@ -35,6 +37,7 @@ public class Store {
 	public String getDistrict(){return district;}
 	public String getCategory(){return category;}
 	public String getDescription(){return description;}
+	public String getDate(){return date;}
 	
 	public boolean saveStore(){
 		DatastoreService datastore = DatastoreServiceFactory
@@ -54,6 +57,7 @@ public class Store {
 		store.setProperty("district", this.district);
 		store.setProperty("category", this.category);
 		store.setProperty("description", this.description);
+		store.setProperty("date", new Date());
 		datastore.put(store);
 
 		return true;
@@ -80,6 +84,7 @@ public class Store {
 				entity.setProperty("district", this.district);
 				entity.setProperty("category", this.category);
 				entity.setProperty("description", this.description);
+				entity.setProperty("date", new Date());
 				datastore.put(entity);
 				return true;
 			}
@@ -119,6 +124,7 @@ public class Store {
 					entity.getProperty("district").toString(),
 					entity.getProperty("category").toString(),
 					entity.getProperty("description").toString(),
+					entity.getProperty("date").toString(),
 					Offer.getOffers(storeMail),
 					Review.getReviews(storeMail)));
 		}
@@ -141,6 +147,7 @@ public class Store {
 						entity.getProperty("district").toString(),
 						entity.getProperty("category").toString(),
 						entity.getProperty("description").toString(),
+						entity.getProperty("date").toString(),
 						Offer.getOffers(storeMail),
 						Review.getReviews(storeMail));
 			}

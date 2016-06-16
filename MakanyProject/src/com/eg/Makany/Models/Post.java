@@ -1,9 +1,9 @@
 package com.eg.Makany.Models;
 
 
+import java.util.Date;
 import java.util.Set;
 import java.util.Vector;
-
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -14,7 +14,7 @@ import com.google.appengine.api.datastore.Query;
 
 public class Post {
 	private String id;
-	private String postType, content, photo, userEmail, district, onEventID;
+	private String postType, content, photo, userEmail, district, onEventID, date;
 	private long score;
 	private Vector<String> categories;
 	private Vector<String> approvals,disapprovals;
@@ -29,6 +29,7 @@ public class Post {
 		this.userEmail=null;
 		this.district=null;
 		this.onEventID=null;
+		this.date=null;
 		this.score=0;
 		this.categories=new Vector<String>();
 		this.comments=new Vector<Comment>();
@@ -37,7 +38,7 @@ public class Post {
 		this.disapprovals=new Vector<String>();
 	}
 
-	public Post(String id,String type,String content,String photo,String userEmail,String district,String onEventID,long score,Vector<String> categories) {
+	public Post(String id,String type,String content,String photo,String userEmail,String district,String onEventID,String date,long score,Vector<String> categories) {
 		this.id=id;
 		this.postType=type;
 		this.content = content;
@@ -45,6 +46,7 @@ public class Post {
 		this.userEmail=userEmail;
 		this.district=district;
 		this.onEventID=onEventID;
+		this.date=date;
 		this.score=score;
 		this.categories=categories;
 		this.comments=new Vector<Comment>();
@@ -59,6 +61,7 @@ public class Post {
 	public String getUserEmail(){return userEmail;}
 	public String getDistrict(){return district;}
 	public String getOnEventID(){return onEventID;}
+	public String getDate(){return date;}
 	public long getScore(){return score;}
 	public int getNumApprovals(){return approvals.size();}
 	public int getNumDisApprovals(){return disapprovals.size();}
@@ -117,6 +120,7 @@ public class Post {
 		post.setProperty("userEmail", this.userEmail);
 		post.setProperty("district", this.district);
 		post.setProperty("onEventID", this.onEventID);
+		post.setProperty("date", new Date());
 		post.setProperty("score", this.score);
 		datastore.put(post);
 		
@@ -314,6 +318,7 @@ public class Post {
 		this.userEmail=post.getProperty("userEmail").toString();
 		this.district=post.getProperty("district").toString();
 		this.onEventID=post.getProperty("onEventID").toString();
+		this.date=post.getProperty("date").toString();
 		this.score=Long.parseLong(post.getProperty("score").toString());
 		
 		Query gaeQuery = new Query("categories");
