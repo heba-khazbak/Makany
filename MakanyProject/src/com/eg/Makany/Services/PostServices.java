@@ -83,7 +83,7 @@ public class PostServices {
 		JSONObject object = new JSONObject();
 		
 		
-		if(new Comment(null,userEmail,null,content,postID).addComment())
+		if(new Comment(null,userEmail,null,content,postID,"").addComment())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -225,6 +225,7 @@ public class PostServices {
 				object.put("userEmail", comment.getUserEmail());
 				object.put("username", comment.getUserName());
 				object.put("content", comment.getContent());
+				object.put("date", comment.getDate());
 			}
 			
 			arr.add(object);

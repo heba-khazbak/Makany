@@ -337,7 +337,8 @@ public class Post {
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("postID").toString().equals(postID))
 				this.reports.add(new Report(entity.getProperty("userEmail").toString(),
-						entity.getProperty("reason").toString()));
+						entity.getProperty("reason").toString(),
+						entity.getProperty("date").toString()));
 			
 		}
 		

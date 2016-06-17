@@ -28,7 +28,7 @@ public class PlacesServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Review sreview=new Review(null,uMail,storeMail,review,Integer.parseInt(rating));
+		Review sreview=new Review(null,uMail,storeMail,review,"",Integer.parseInt(rating));
 		
 		if(sreview.saveReview())
 			object.put("Status", "OK");
@@ -84,6 +84,7 @@ public class PlacesServices {
 				object.put("ID", offer.getID());
 				object.put("description", offer.getDescription());
 				object.put("photo", offer.getPhoto());
+				object.put("date", offer.getDate());
 				
 				object.put("numViewers", String.valueOf(offer.getNumViewers()));
 				object.put("viewersMails", offer.getParsedViewers());
@@ -116,6 +117,7 @@ public class PlacesServices {
 				object.put("ID", sreview.getID());
 				object.put("review", sreview.getReview());
 				object.put("reviewerMail", sreview.getReviewerMail());
+				object.put("date", sreview.getDate());
 				object.put("rating", String.valueOf(sreview.getRating()));
 			}
 			

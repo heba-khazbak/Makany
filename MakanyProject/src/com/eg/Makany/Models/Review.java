@@ -1,5 +1,6 @@
 package com.eg.Makany.Models;
 
+import java.util.Date;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -9,15 +10,16 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
 public class Review {
-	private String id, reviewerMail, reviewedID, review;
+	private String id, reviewerMail, reviewedID, review, date;
 	private int rating;
 	
 	public Review(String id, String reviewerMail, String reviewedID, 
-			String review,int rating){
+			String review,String date,int rating){
 		this.id=id;
 		this.reviewerMail=reviewerMail;
 		this.reviewedID=reviewedID;
 		this.review=review;
+		this.date=date;
 		this.rating=rating;
 	}
 	
@@ -25,6 +27,7 @@ public class Review {
 	public String getReviewerMail(){return reviewerMail;}
 	public String getReviewedID(){return reviewedID;}
 	public String getReview(){return review;}
+	public String getDate(){return date;}
 	public int getRating(){return rating;}
 	
 	public boolean saveReview(){
@@ -39,6 +42,7 @@ public class Review {
 		sreview.setProperty("reviewerMail", this.reviewerMail);
 		sreview.setProperty("reviewedID", this.reviewedID);
 		sreview.setProperty("review", this.review);
+		sreview.setProperty("date", new Date());
 		sreview.setProperty("rating", this.rating);
 		datastore.put(sreview);
 
@@ -59,6 +63,7 @@ public class Review {
 						entity.getProperty("reviewerMail").toString(),
 						entity.getProperty("storeMail").toString(),
 						entity.getProperty("review").toString(),
+						entity.getProperty("date").toString(),
 						Integer.parseInt(entity.getProperty("rating").toString())));
 			
 		}

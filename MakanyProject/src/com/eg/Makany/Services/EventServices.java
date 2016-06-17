@@ -153,7 +153,7 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Review sreview=new Review(null,uMail,eventID,review,Integer.parseInt(rating));
+		Review sreview=new Review(null,uMail,eventID,review,"",Integer.parseInt(rating));
 		
 		if(sreview.saveReview())
 			object.put("Status", "OK");
