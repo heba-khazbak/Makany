@@ -175,9 +175,8 @@ public class PostServices {
 			JSONObject object = new JSONObject();
 			
 			if(post!=null){
-				
-				User user=new User().getUser(post.getUserEmail());
-				object.put("username", user.getName());
+
+				object.put("username", User.getUserName(post.getUserEmail()));
 				object.put("categories", post.getParsedCategories());
 				
 				object.put("ID", post.getID());

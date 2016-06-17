@@ -174,8 +174,7 @@ public class ItemServices {
 			JSONObject object = new JSONObject();
 			
 			if(item!=null){
-				User user=new User().getUser(item.getUserEmail());
-				object.put("username", user.getName());
+				object.put("username", User.getUserName(item.getUserEmail()));
 				
 				object.put("id", item.getID());
 				object.put("name", item.getName());
@@ -208,8 +207,7 @@ public class ItemServices {
 			JSONObject object = new JSONObject();
 			
 			if(item!=null){
-				User user=new User().getUser(item.getUserEmail());
-				object.put("username", user.getName());
+				object.put("username", User.getUserName(item.getUserEmail()));
 				
 				object.put("id", item.getID());
 				object.put("name", item.getName());

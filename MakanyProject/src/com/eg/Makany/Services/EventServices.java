@@ -248,8 +248,7 @@ public class EventServices {
 			JSONObject object = new JSONObject();
 			
 			if(event!=null){
-				User user=new User().getUser(event.getOwnerMail());
-				object.put("username", user.getName());
+				object.put("username", User.getUserName(event.getOwnerMail()));
 				
 				object.put("id", event.getID());
 				object.put("name", event.getName());

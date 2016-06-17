@@ -49,6 +49,7 @@ public class Item {
 	public String getPhoto(){return photo;}
 	public String getState(){return state;}
 	public String getDate(){return date;}
+	public Vector<String> getCategories(){return categories;}
 	public String getParsedCategories(){
 		String ret="";
 		for(int i=0;i<categories.size();++i){
@@ -177,6 +178,10 @@ public class Item {
 				this.name=entity.getProperty("name").toString();
 				this.description=entity.getProperty("description").toString();
 				this.userEmail=entity.getProperty("userEmail").toString();
+				this.district=entity.getProperty("district").toString();
+				this.photo=entity.getProperty("photo").toString();
+				this.state=entity.getProperty("state").toString();
+				this.date=entity.getProperty("date").toString();
 				break;
 			}
 			

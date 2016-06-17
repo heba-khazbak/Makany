@@ -134,7 +134,7 @@ public class UserProfileUpdate {
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();		
 		
-		Query gaeQuery = new Query("userLovedTopics");
+		Query gaeQuery = new Query("userLovedCategories");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
 
@@ -142,7 +142,7 @@ public class UserProfileUpdate {
 		int tot=0;
 		for(Entity entity:pq.asIterable()){
 			if(entity.getProperty("userEmail").toString().equals(userEmail)
-					&& entity.getProperty("topic").toString().equals(topic)){
+					&& entity.getProperty("category").toString().equals(topic)){
 				int numloved=Integer.parseInt(entity.getProperty("numloved").toString());
 				entity.setProperty("numloved", numloved+1);
 				datastore.put(entity);
@@ -154,9 +154,9 @@ public class UserProfileUpdate {
 		}
 		
 		if(!found){
-			Entity entity=new Entity("userLovedTopics");
+			Entity entity=new Entity("userLovedCategories");
 			entity.setProperty("userEmail", userEmail);
-			entity.setProperty("topic", topic);
+			entity.setProperty("category", topic);
 			entity.setProperty("numloved", 1);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);

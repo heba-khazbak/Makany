@@ -67,6 +67,7 @@ public class Post {
 	public int getNumDisApprovals(){return disapprovals.size();}
 	public int getNumReports(){return reports.size();}
 	
+	public Vector<String> getCategories(){return categories;}
 	public String getParsedCategories(){
 		String ret="";
 		for(int i=0;i<categories.size();++i){

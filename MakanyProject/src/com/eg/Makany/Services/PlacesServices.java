@@ -60,6 +60,7 @@ public class PlacesServices {
 				object.put("district", store.getDistrict());
 				object.put("category", store.getCategory());
 				object.put("description", store.getDescription());
+				object.put("date", store.getDate());
 			}
 			
 			arr.add(object);
