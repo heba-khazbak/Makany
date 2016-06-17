@@ -17,9 +17,10 @@ public class DistrictServices {
 
 	@POST
 	@Path("/AddDistrictService")
-	public String AddDistrict(@FormParam("districtName") String districtName) {
+	public String AddDistrict(@FormParam("districtName") String districtName,
+			@FormParam("latitude") String latitude,@FormParam("longitude") String longitude) {
 		JSONObject object = new JSONObject();
-		District district = new District(districtName);
+		District district = new District(districtName,latitude,longitude);
 		
 		if(district.saveDistrict())
 			object.put("Status", "OK");
@@ -39,6 +40,8 @@ public class DistrictServices {
 		{
 			JSONObject object = new JSONObject();
 			object.put("DistrictName",D.getDistrictName());
+			object.put("latitude",D.getLatitude());
+			object.put("longitude",D.getLongitude());
 			DistrictArray.add(object);
 		}
 		
@@ -49,10 +52,11 @@ public class DistrictServices {
 	
 	@POST
 	@Path("/EditDistrictService")
-	public String editDistrict(@FormParam("districtName") String districtName , @FormParam("newName") String newName) {
+	public String editDistrict(@FormParam("districtName") String districtName , @FormParam("newName") String newName,
+			@FormParam("latitude") String latitude,@FormParam("longitude") String longitude) {
 		JSONObject object = new JSONObject();
 		
-		if(District.editDistrict(districtName, newName))
+		if(District.editDistrict(districtName, newName,latitude,longitude))
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");

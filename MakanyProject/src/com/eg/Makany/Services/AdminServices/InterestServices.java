@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import com.eg.Makany.Models.Category;
 import com.eg.Makany.Models.Interest;
 
 @Path("/")
@@ -18,10 +19,20 @@ public class InterestServices {
 	@POST
 	@Path("/AddInterestService")
 	public String AddInterest(@FormParam("interestValue") String interestValue) {
-		JSONObject object = new JSONObject();
+		/*JSONObject object = new JSONObject();
 		Interest interest = new Interest(interestValue);
 		
 		if(interest.saveInterest())
+			object.put("Status", "OK");
+		else
+			object.put("Status", "Failed");
+		
+		return object.toString();*/
+		
+		JSONObject object = new JSONObject();
+		Category category = new Category(interestValue);
+		
+		if(category.saveCategory())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -35,10 +46,10 @@ public class InterestServices {
 	public String ShowAllInterests() {
 		JSONArray InterestArray = new JSONArray();
 		
-		for (Interest I : Interest.getAllInterests() )
+		for (Category I : Category.getAllCategories() )
 		{
 			JSONObject object = new JSONObject();
-			object.put("InterestValue",I.getInterestValue());
+			object.put("InterestValue",I.getCategoryValue());
 			InterestArray.add(object);
 		}
 		
