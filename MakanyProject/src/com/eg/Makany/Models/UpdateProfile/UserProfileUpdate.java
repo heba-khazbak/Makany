@@ -125,10 +125,12 @@ public class UserProfileUpdate {
 	
 	
 	
-	public static void saveLovedTopics(String userEmail,String topic){
-		int ind=topic.substring(1).indexOf('/');
-		if(ind==-1)topic=topic.substring(1);
-		else topic=topic.substring(1, ind);
+	public static void saveLovedTopics(String userEmail,String topic,int cnt){
+		if(cnt==1){
+			int ind=topic.substring(1).indexOf('/');
+			if(ind==-1)topic=topic.substring(1);
+			else topic=topic.substring(1, ind);
+		}
 		
 		
 		DatastoreService datastore = DatastoreServiceFactory
@@ -144,7 +146,7 @@ public class UserProfileUpdate {
 			if(entity.getProperty("userEmail").toString().equals(userEmail)
 					&& entity.getProperty("category").toString().equals(topic)){
 				int numloved=Integer.parseInt(entity.getProperty("numloved").toString());
-				entity.setProperty("numloved", numloved+1);
+				entity.setProperty("numloved", numloved+cnt);
 				datastore.put(entity);
 				found=true;
 			}
@@ -157,7 +159,7 @@ public class UserProfileUpdate {
 			Entity entity=new Entity("userLovedCategories");
 			entity.setProperty("userEmail", userEmail);
 			entity.setProperty("category", topic);
-			entity.setProperty("numloved", 1);
+			entity.setProperty("numloved", cnt);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);
 		}

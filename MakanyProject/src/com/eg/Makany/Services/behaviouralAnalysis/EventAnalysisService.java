@@ -49,7 +49,7 @@ public class EventAnalysisService {
 						EventTopic e = new EventTopic (user.getMail() , event.getID() , temp[0] , score);
 						e.saveEventTopic();
 						if(++cnt<3)
-							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
+							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
 					}
 				}
 				UserProfileUpdate.saveLovedEvents(user.getMail(), event.getCategory(), event.getID());

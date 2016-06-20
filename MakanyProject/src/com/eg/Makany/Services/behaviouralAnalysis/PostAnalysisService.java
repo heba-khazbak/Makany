@@ -60,7 +60,7 @@ public class PostAnalysisService {
 						PostTopic p = new PostTopic (user.getMail() , post.getID() , temp[0] , score);
 						p.savePostTopic();
 						if(++cnt1<3)
-							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
+							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
 					}
 					
 					if (!post.getPhoto().isEmpty())
@@ -77,7 +77,7 @@ public class PostAnalysisService {
 								PostTopic p = new PostTopic (user.getMail() , post.getID() , temp[0] , score);
 								p.savePostTopic();
 								if(++cnt2<3)
-									UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
+									UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
 							}
 						}
 					}
@@ -103,7 +103,7 @@ public class PostAnalysisService {
 						CommentTopic c = new CommentTopic (user.getMail() , comment.getPostID() , comment.getID() , temp[0] , score);
 						c.saveCommentTopic();
 						if(++cnt<3)
-							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0]);
+							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
 					}
 
 				}

@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.eg.Makany.Models.BA.PostTopic;
+import com.eg.Makany.Models.UpdateProfile.UserProfileUpdate;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -106,7 +107,10 @@ public class User {
 			interest.setProperty("userEmail", this.email);
 			interest.setProperty("name", str);
 			datastore.put(interest);
+			
+			UserProfileUpdate.saveLovedTopics(this.email, str, 5);
 		}
+		
 
 		return true;
 	}
@@ -128,9 +132,11 @@ public class User {
 		gaeQuery = new Query("interests");
 		pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("userEmail").toString().equals(email))
+			if(entity.getProperty("userEmail").toString().equals(email)){
 				keysToDelete.add(entity.getKey());
-			
+				UserProfileUpdate.saveLovedTopics(email, 
+						entity.getProperty("name").toString(), -5);
+			}
 		}
 		
 		for(Key k:keysToDelete)
