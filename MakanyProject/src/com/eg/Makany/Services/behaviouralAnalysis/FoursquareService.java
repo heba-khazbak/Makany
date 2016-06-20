@@ -1,6 +1,8 @@
 package com.eg.Makany.Services.behaviouralAnalysis;
 
 
+import java.util.Vector;
+
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -8,6 +10,8 @@ import javax.ws.rs.Produces;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import com.eg.Makany.Models.BA.FoursquareModel;
 
 import fi.foyt.foursquare.api.FoursquareApi;
 import fi.foyt.foursquare.api.FoursquareApiException;
@@ -38,6 +42,8 @@ public class FoursquareService {
 	    
 	    Result<Recommended> result = foursquareApi.venuesExplore(latitude + "," + longitude);
 	    
+	    Vector<FoursquareModel> myPlaces = new Vector<FoursquareModel>();
+	    
 	    if (result.getMeta().getCode() == 200) {
 		     Recommendation[] myRecomended = result.getResult().getGroups()[0].getItems();
 		     
@@ -45,32 +51,43 @@ public class FoursquareService {
 		      for (int i = 0 ; i < myRecomended.length ; i++) {
 		    	 JSONObject object = new JSONObject();
 		        // TODO: Do something we the data
-		        System.out.println("Name "  + myRecomended[i].getVenue().getName());
+		       /* System.out.println("Name "  + myRecomended[i].getVenue().getName());
 		        System.out.println("Rating " + myRecomended[i].getVenue().getRating());
 		        System.out.println("Distance " + myRecomended[i].getVenue().getLocation().getDistance());
-		        
-		        object.put("Name", myRecomended[i].getVenue().getName());
-				object.put("Rating", myRecomended[i].getVenue().getRating());
-				object.put("Distance", myRecomended[i].getVenue().getLocation().getDistance());
+		        System.out.println("Address "+ myRecomended[i].getVenue().getLocation().getAddress());
+				System.out.println("latitude "+ myRecomended[i].getVenue().getLocation().getLat());
+				System.out.println("Longitude "+ myRecomended[i].getVenue().getLocation().getLng());
+				System.out.println("Phone "+ myRecomended[i].getVenue().getContact().getFormattedPhone());
+				System.out.println("url "+ myRecomended[i].getVenue().getUrl());*/
 				
-
-				/* System.out.println("Hours "+ myRecomended[i].getVenue().getHours().getStatus());
-				 System.out.println("phone "+ myRecomended[i].getVenue().getContact().getPhone());
-				 System.out.println("Address "+ myRecomended[i].getVenue().getLocation().getAddress());
-				*/
+		        
+				
+				FoursquareModel place = new FoursquareModel(myRecomended[i].getVenue().getName(), myRecomended[i].getVenue().getLocation().getAddress(),
+						myRecomended[i].getVenue().getRating().toString(), myRecomended[i].getVenue().getContact().getFormattedPhone(),
+						myRecomended[i].getVenue().getLocation().getDistance().toString(),
+						myRecomended[i].getVenue().getLocation().getLat().toString(), myRecomended[i].getVenue().getLocation().getLng().toString());
+				
+				object.put("name", place.getName());
+				object.put("rating", place.getRating());
+				object.put("distance", place.getDistance());
+				object.put("address", place.getAddress());
+				object.put("phone", place.getPhone());
+				object.put("latitude", place.getLatitude());
+				object.put("longitude", place.getLongitude());
+				
 		        System.out.println("Category");
 		        JSONArray catArr = new JSONArray();
 		        for (Category c : myRecomended[i].getVenue().getCategories())
 		        {
 		        	System.out.println(c.getName());
 		        	catArr.add(c.getName());
-		        	/*JSONObject catObj = new JSONObject();
-		        	catObj.put("category", c.getName());
-		        	catArr.add(catObj);*/
+		        	place.addCategory(c.getName());
 		        }
-		        object.put("Category",catArr);
+		        object.put("category",catArr);
 		        arr.add(object);
-		        System.out.println("-------------");
+		        //System.out.println("-------------");
+		        
+		        myPlaces.add(place);
 		      }
 		      
 		      
@@ -86,16 +103,18 @@ public class FoursquareService {
 		      System.out.println("  detail: " + result.getMeta().getErrorDetail()); 
 		    }
 	    
-	    return arr.toString();
+	    
+	    for (FoursquareModel F : myPlaces)
+	    	System.out.println(F.toString());
+	    
+	   return arr.toString();
+	    
 		
 		
 
 	}
 	
-	void parse(String result)
-	{
-		
-	}
+
 	
 
 	

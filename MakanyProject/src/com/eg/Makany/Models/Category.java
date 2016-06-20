@@ -111,7 +111,7 @@ public class Category {
 			for (int i = 0 ; i < array.size() ; i++)
 			{
 				JSONObject obj = (JSONObject)array.get(i);
-				Category D = new Category (obj.get("CategoryValue").toString());
+				Category D = new Category (obj.get("categoryValue").toString());
 				myCategories.add(D);
 			}
 		} catch (ParseException e) {

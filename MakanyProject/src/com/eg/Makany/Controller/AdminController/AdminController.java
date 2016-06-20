@@ -23,12 +23,7 @@ import com.eg.Makany.Controller.Connector;
 @Produces("text/html")
 public class AdminController {
 	
-	@GET
-	@Path("/")
-	public Response entryPoint() {
-		return Response.ok(new Viewable("/jsp/entryPoint")).build();
-	}
-	
+
 	@GET
 	@Path("/LoginPage")
 	public Response login() {
@@ -39,6 +34,12 @@ public class AdminController {
 	@Path("/CreateAdminPage")
 	public Response signup() {
 		return Response.ok(new Viewable("/jsp/AdminPanel/CreateAdmin")).build();
+	}
+	
+	@GET
+	@Path("/HomePage")
+	public Response homePage() {
+		return Response.ok(new Viewable("/jsp/AdminPanel/AdminHomePage")).build();
 	}
 
 	

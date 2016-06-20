@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>View Districts</title>
+<title>View Categories</title>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
 	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
@@ -38,8 +38,8 @@ body {
 		<div id="navbar" class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li><a href="/makany/HomePage">Home</a></li>
-				<li class="active"><a href="/makany/ShowAllDistricts">District</a></li>
-				<li><a href="/makany/ShowAllCategories">Categories</a></li>
+				<li><a href="/makany/ShowAllDistricts">District</a></li>
+				<li class="active"><a href="/makany/ShowAllCategories">Categories</a></li>
 			</ul>
 		</div>
 		<!--/.nav-collapse -->
@@ -55,22 +55,15 @@ body {
 			<div class="panel panel-default">
 				<div class="panel-heading">Add District</div>
 				<div class="panel-body"></div>
-				<form class="form-inline" role="form" action="/makany/AddDistrict"
+				<form class="form-inline" role="form" action="/makany/AddCategory"
 					method="post">
 					<div class="form-group">
-						<label>District name:</label> <input type="text"
-							name="districtName" class="form-control" required>
+						<label>Category name:</label> <input type="text"
+							name="categoryValue" class="form-control" required>
 					</div>
-					<div class="form-group">
-						<label>Latitude:</label> <input type="text" name="latitude"
-							class="form-control" required>
-					</div>
-					<div class="form-group">
-						<label>Longitude:</label> <input type="text" name="longitude"
-							class="form-control" required>
-					</div>
+					
 
-					<button type="submit" class="btn btn-default">Add District</button>
+					<button type="submit" class="btn btn-default">Add Category</button>
 				</form>
 				<br>
 			</div>
@@ -78,44 +71,36 @@ body {
 
 
 
-			<%@ page import="com.eg.Makany.Models.District"%>
+			<%@ page import="com.eg.Makany.Models.Category"%>
 			<%@ page import="java.util.*"%>
 
 			
 			
 
 			<%
-				String json = (String) session.getAttribute("myDistricts");
-				Vector<District> myDistricts = District.parseFromJson(json);
+			String json =(String) session.getAttribute("myCategories");
+			Vector<Category> myCategories = Category.parseFromJson(json);
 
-				for (District D : myDistricts) {%>
+			for (Category C : myCategories) {%>
 					
 			
 			<div class="panel panel-default">
-				<div class="panel-body"><%=D.getDistrictName()%></div>
+				<div class="panel-body"><%=C.getCategoryValue()%></div>
 
-			<form class="form-inline" role="form" action="/makany/EditDistrict" method="post">
-				<input name="districtName" type="hidden"
-					value=<%=D.getDistrictName()%> /> 
+			<form class="form-inline" role="form" action="/makany/EditCategory" method="post">
+				<input name="categoryValue" type="hidden"
+					value=<%=C.getCategoryValue()%> /> 
 					<div class="form-group">
 						<input name="newName" class="form-control" type="text" 
-						value =<%=D.getDistrictName()%>/>
+						value =<%=C.getCategoryValue()%>/>
 					</div>
-					
-					<div class="form-group">
-						<input type="text" name="latitude"
-							class="form-control" value =<%=D.getLatitude()%>>
-					</div>
-					<div class="form-group">
-						 <input type="text" name="longitude"
-							class="form-control" value =<%=D.getLongitude()%> >
-					</div>
+
 					 <input class="btn btn-default" type="submit" value="Edit" />
 			</form>
 			<br>
-			<form action="/makany/DeleteDistrict" method="post">
-				<input name="districtName" type="hidden"
-					value=<%=D.getDistrictName()%> /> <input type="submit" class="btn btn-default"
+			<form action="/makany/DeleteCategory" method="post">
+				<input name="categoryValue" type="hidden"
+					value=<%=C.getCategoryValue()%> /> <input type="submit" class="btn btn-default"
 					value="Delete" />
 			</form>
 			<br>

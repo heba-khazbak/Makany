@@ -21,23 +21,19 @@ import com.eg.Makany.Controller.Connector;
 
 @Path("/")
 @Produces("text/html")
-public class InterestController {
+public class CategoryController {
 	
-	@GET
-	@Path("/AddInterestPage")
-	public Response addDistrictView() {
-		return Response.ok(new Viewable("/jsp/AdminPanel/AddInterest")).build();
-	}
+
 	
 
 	@POST
-	@Path("/AddInterest")
+	@Path("/AddCategory")
 	@Produces("text/html")
-	public String addInterest(@FormParam("interestValue") String interestValue) {
+	public String addCategory(@FormParam("categoryValue") String interestValue) {
 			
-		String serviceUrl = "http://localhost:8889/rest/AddInterestService";
+		String serviceUrl = "http://localhost:8889/rest/AddCategoryService";
 
-			String urlParameters = "interestValue=" + interestValue;
+			String urlParameters = "categoryValue=" + interestValue;
 			
 			JSONObject object = Connector.callService(serviceUrl ,urlParameters );
 			if (object.get("Status").equals("OK"))
@@ -49,30 +45,30 @@ public class InterestController {
 	}
 	
 	@GET
-	@Path("/ShowAllInterests")
+	@Path("/ShowAllCategories")
 	@Produces("text/html")
-	public Response getAllInterests(@Context HttpServletRequest request) {
+	public Response getAllCategories(@Context HttpServletRequest request) {
 			
 		HttpSession session = request.getSession(true);
-		String serviceUrl = "http://localhost:8889/rest/ShowAllInterestsService";
+		String serviceUrl = "http://localhost:8889/rest/ShowAllCategoryService";
 
 			String urlParameters = "";
 			
 			JSONArray array = Connector.callServiceArray(serviceUrl ,urlParameters);
 
-			session.setAttribute("myInterests", array.toString());
-			return Response.ok(new Viewable("/jsp/AdminPanel/ViewInterests")).build();
+			session.setAttribute("myCategories", array.toString());
+			return Response.ok(new Viewable("/jsp/AdminPanel/ViewCategories")).build();
 
 	}
 	
 	@POST
-	@Path("/EditInterest")
+	@Path("/EditCategory")
 	@Produces("text/html")
-	public String editInterest(@FormParam("interestValue") String interestValue, @FormParam("newName") String newName) {
+	public String editCategory(@FormParam("categoryValue") String interestValue, @FormParam("newName") String newName) {
 			
-		String serviceUrl = "http://localhost:8889/rest/EditInterestService";
+		String serviceUrl = "http://localhost:8889/rest/EditCategoryService";
 
-			String urlParameters = "interestValue=" + interestValue + "&newName=" + newName;
+			String urlParameters = "categoryValue=" + interestValue + "&newName=" + newName;
 			
 			JSONObject object = Connector.callService(serviceUrl ,urlParameters );
 			if (object.get("Status").equals("OK"))
@@ -84,13 +80,13 @@ public class InterestController {
 	}
 	
 	@POST
-	@Path("/DeleteInterest")
+	@Path("/DeleteCategory")
 	@Produces("text/html")
-	public String deleteInterest(@FormParam("interestValue") String interestValue) {
+	public String deleteCategory(@FormParam("categoryValue") String interestValue) {
 			
-		String serviceUrl = "http://localhost:8889/rest/DeleteInterestService";
+		String serviceUrl = "http://localhost:8889/rest/DeleteCategoryService";
 
-			String urlParameters = "interestValue=" + interestValue;
+			String urlParameters = "categoryValue=" + interestValue;
 			
 			JSONObject object = Connector.callService(serviceUrl ,urlParameters );
 			if (object.get("Status").equals("OK"))

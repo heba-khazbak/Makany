@@ -8,17 +8,30 @@
 <title>Admin Login</title>
 </head>
 <body>
+ <br>  <br>  <br> 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Sign in to Makany Admin</h1>
+            <div class="account-wall">
+                
+                <form class="form-signin" action="/makany/login" method="post">
+                <input type="text" class="form-control"  name="username" placeholder="UserName" required autofocus>
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    Sign in</button>
+                
+                
+                </form>
+            </div>
+            <br> 
+            <a href="/makany/CreateAdminPage/" class="text-center new-account">Create an account </a>
+        </div>
+    </div>
+</div>
 
-<form class="navbar-form navbar-left" action="/makany/login" method="post">
-<div class="form-group">
 
-	User name: <input class="form-control" name="username" type="text" required /> 
-	Password: <input  class="form-control"name="password" type="password" required /> 
-    
-	<input class="btn btn-default" type="submit" value="Login"/>
-	</div>
-	</form>
-	<br> <br>
-<a  href="/makany/CreateAdminPage/">Create Admin</a> <br>
+	
+ <br>
 </body>
 </html>

@@ -4,18 +4,34 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 <title>Admin Signup</title>
 </head>
 <body>
-<h1>Admin Signup</h1>
 
-<form action="/makany/CreateAdmin" method="post">
-	User name: <input name="username" type="text" required />
-	Password: <input name="password" type="password" required />
-    
-	<input type="submit" value="Signup"/>
-	
-	</form>
+
+<br>  <br>  <br> 
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-md-offset-4">
+            <h1 class="text-center login-title">Admin Signup</h1>
+            <div class="account-wall">
+                
+                <form class="form-signin" action="/makany/CreateAdmin" method="post">
+                <input type="text" class="form-control"  name="username" placeholder="UserName" required autofocus>
+                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                   Signup</button>
+                
+                
+                </form>
+            </div>
+  
+        </div>
+    </div>
+</div>
+
+
 
 </body>
 </html>

@@ -36,11 +36,13 @@ public class DistrictController {
 	@POST
 	@Path("/AddDistrict")
 	@Produces("text/html")
-	public String addDistrict(@FormParam("districtName") String districtName) {
+	public String addDistrict(@FormParam("districtName") String districtName,
+			@FormParam("latitude") String latitude,@FormParam("longitude") String longitude) {
 			
 		String serviceUrl = "http://localhost:8889/rest/AddDistrictService";
 
-			String urlParameters = "districtName=" + districtName;
+			String urlParameters = "districtName=" + districtName + "&latitude=" + latitude
+					+ "&longitude=" + longitude;
 			
 			JSONObject object = Connector.callService(serviceUrl ,urlParameters );
 			if (object.get("Status").equals("OK"))
@@ -64,6 +66,8 @@ public class DistrictController {
 			JSONArray array = Connector.callServiceArray(serviceUrl ,urlParameters);
 
 			session.setAttribute("myDistricts", array.toString());
+			session.setAttribute("latitude", array.toString());
+			session.setAttribute("longitude", array.toString());
 			return Response.ok(new Viewable("/jsp/AdminPanel/ViewDistricts")).build();
 
 	}
@@ -71,11 +75,13 @@ public class DistrictController {
 	@POST
 	@Path("/EditDistrict")
 	@Produces("text/html")
-	public String editDistrict(@FormParam("districtName") String districtName, @FormParam("newName") String newName) {
+	public String editDistrict(@FormParam("districtName") String districtName, @FormParam("newName") String newName,
+			@FormParam("latitude") String latitude,@FormParam("longitude") String longitude) {
 			
 		String serviceUrl = "http://localhost:8889/rest/EditDistrictService";
 
-			String urlParameters = "districtName=" + districtName + "&newName=" + newName;
+			String urlParameters = "districtName=" + districtName + "&newName=" + newName
+					+ "&latitude=" + latitude + "&longitude=" + longitude;
 			
 			JSONObject object = Connector.callService(serviceUrl ,urlParameters );
 			if (object.get("Status").equals("OK"))
