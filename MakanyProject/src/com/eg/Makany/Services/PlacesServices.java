@@ -61,6 +61,8 @@ public class PlacesServices {
 				object.put("category", store.getCategory());
 				object.put("description", store.getDescription());
 				object.put("date", store.getDate());
+				object.put("latitude", store.getLatitude());
+				object.put("longitude", store.getLongitude());
 			}
 			
 			arr.add(object);

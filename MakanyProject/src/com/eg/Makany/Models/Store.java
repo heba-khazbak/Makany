@@ -12,11 +12,12 @@ import com.google.appengine.api.datastore.Query;
 public class Store {
 	private String id;
 	private String name, email, password, district, category, description, date;
+	private double latitude, longitude;
 	private Vector<Offer> offers;
 	private Vector<Review> reviews;
 	
 	public Store(String id, String name,String email,String password,String district,
-			String category, String description, String date,
+			String category, String description, String date, double latitude, double longitude,
 			Vector<Offer> offers,Vector<Review> reviews){
 		this.id=id;
 		this.name=name;
@@ -26,6 +27,8 @@ public class Store {
 		this.category=category;
 		this.description=description;
 		this.date=date;
+		this.latitude=latitude;
+		this.longitude=longitude;
 		this.offers=offers;
 		this.reviews=reviews;
 	}
@@ -38,6 +41,8 @@ public class Store {
 	public String getCategory(){return category;}
 	public String getDescription(){return description;}
 	public String getDate(){return date;}
+	public double getLatitude(){return latitude;}
+	public double getLongitude(){return longitude;}
 	
 	public boolean saveStore(){
 		DatastoreService datastore = DatastoreServiceFactory
@@ -58,6 +63,8 @@ public class Store {
 		store.setProperty("category", this.category);
 		store.setProperty("description", this.description);
 		store.setProperty("date", new Date());
+		store.setProperty("latitude", this.latitude);
+		store.setProperty("longitude", this.longitude);
 		datastore.put(store);
 
 		return true;
@@ -85,6 +92,8 @@ public class Store {
 				entity.setProperty("category", this.category);
 				entity.setProperty("description", this.description);
 				entity.setProperty("date", new Date());
+				entity.setProperty("latitude", this.latitude);
+				entity.setProperty("longitude", this.longitude);
 				datastore.put(entity);
 				return true;
 			}
@@ -125,6 +134,8 @@ public class Store {
 					entity.getProperty("category").toString(),
 					entity.getProperty("description").toString(),
 					entity.getProperty("date").toString(),
+					Double.parseDouble(entity.getProperty("latitude").toString()),
+					Double.parseDouble(entity.getProperty("longitude").toString()),
 					Offer.getOffers(storeMail),
 					Review.getReviews(storeMail)));
 		}
@@ -148,6 +159,8 @@ public class Store {
 						entity.getProperty("category").toString(),
 						entity.getProperty("description").toString(),
 						entity.getProperty("date").toString(),
+						Double.parseDouble(entity.getProperty("latitude").toString()),
+						Double.parseDouble(entity.getProperty("longitude").toString()),
 						Offer.getOffers(storeMail),
 						Review.getReviews(storeMail));
 			}
@@ -170,5 +183,21 @@ public class Store {
 			}
 		}
 		return 0;
+	}
+	
+	public static String getStoreName(String email){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("stores");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		String ret="";
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(email)){
+				ret=entity.getProperty("name").toString();
+				break;
+			}
+		}
+		return ret;
 	}
 }

@@ -93,6 +93,8 @@ public class StaticRecommender {
 					entity.getProperty("category").toString(),
 					entity.getProperty("description").toString(),
 					entity.getProperty("date").toString(),
+					Double.parseDouble(entity.getProperty("latitude").toString()),
+					Double.parseDouble(entity.getProperty("longitude").toString()),
 					Offer.getOffers(storeMail),
 					Review.getReviews(storeMail)));
 		}

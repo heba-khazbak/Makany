@@ -34,9 +34,11 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 
+		double lat=0.0,longt=0.0;
+		if(latitude!=null && !latitude.isEmpty())lat=Double.parseDouble(latitude);
+		if(longitude!=null && !longitude.isEmpty())longt=Double.parseDouble(longitude);
 		
-		if(new Event(null,name,category,description,
-				Double.parseDouble(latitude),Double.parseDouble(longitude),
+		if(new Event(null,name,category,description,lat,longt,
 				ownerMail,district,"",null,null).saveEvent())
 			object.put("Status", "OK");
 		else
@@ -59,7 +61,11 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 		
-		if(Event.editEvent(eventID, category, description, district, Double.parseDouble(latitude), Double.parseDouble(longitude)))
+		double lat=0.0,longt=0.0;
+		if(latitude!=null && !latitude.isEmpty())lat=Double.parseDouble(latitude);
+		if(longitude!=null && !longitude.isEmpty())longt=Double.parseDouble(longitude);
+		
+		if(Event.editEvent(eventID, category, description, district, lat, longt))
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");

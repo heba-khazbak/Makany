@@ -33,6 +33,8 @@ public class UserServices {
 			@FormParam("district") String district,
 			@FormParam("category") String category,
 			@FormParam("description") String description,
+			@FormParam("latitude") String latitude,
+			@FormParam("longitude") String longitude,
 			@FormParam("gender") String gender,
 			@FormParam("twitter") String twitter,
 			@FormParam("foursquare") String foursquare,
@@ -50,7 +52,12 @@ public class UserServices {
 				object.put("Status", "emailAlreadyExists");
 				return object.toString();
 			}
-			Store store = new Store(null,name,email,password,district,category,description,"",null,null);
+			
+			double lat=0.0,longt=0.0;
+			if(latitude!=null && !latitude.isEmpty())lat=Double.parseDouble(latitude);
+			if(longitude!=null && !longitude.isEmpty())longt=Double.parseDouble(longitude);
+			
+			Store store = new Store(null,name,email,password,district,category,description,"",lat,longt,null,null);
 			if(store.saveStore())
 				object.put("Status", "OK");
 			else
@@ -79,15 +86,19 @@ public class UserServices {
 	public String LoginService(@FormParam("email") String email, @FormParam("password") String password) {
 		int check=User.checkUser(email, password);
 		JSONObject object = new JSONObject();
-		if(check==1)
+		if(check==1){
 			object.put("Status", "OK");
+			object.put("type","User");
+			object.put("username", User.getUserName(email));
+		}
 		else if(check==2)
 			object.put("Status", "wrongPass");
 		else{
 			check=Store.checkStore(email, password);
 			if(check==1){
 				object.put("Status", "OK");
-				object.put("username", User.getUserName(email));
+				object.put("type","Store");
+				object.put("username", Store.getStoreName(email));
 			}
 			else if(check==2)
 				object.put("Status", "wrongPass");
@@ -109,6 +120,8 @@ public class UserServices {
 			@FormParam("password") String password,
 			@FormParam("category") String category,
 			@FormParam("description") String description,
+			@FormParam("latitude") String latitude,
+			@FormParam("longitude") String longitude,
 			@FormParam("birthDate") String birthDate,
 			@FormParam("district") String district,
 			@FormParam("gender") String gender,
@@ -120,7 +133,12 @@ public class UserServices {
 		JSONObject object = new JSONObject();
 		
 		if(uType.equals("store")){
-			if(new Store(null,name,email,password,district,category,description,"",null,null).editStore())
+			
+			double lat=0.0,longt=0.0;
+			if(latitude!=null && !latitude.isEmpty())lat=Double.parseDouble(latitude);
+			if(longitude!=null && !longitude.isEmpty())longt=Double.parseDouble(longitude);
+			
+			if(new Store(null,name,email,password,district,category,description,"",lat,longt,null,null).editStore())
 				object.put("Status", "OK");
 			else
 				object.put("Status", "Failed");
