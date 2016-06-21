@@ -71,15 +71,16 @@ public class MakanyAlchemy {
 				
 				System.out.println("label " + label + " score " + score);
 				rtn.add(label + ";" + score);
-				return rtn;
-				
+
 			}
+			return rtn;
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			System.out.println("Error " + e.getMessage());
 			return null;
 		}
-		return null; 
+		 
 		
 		
 	}

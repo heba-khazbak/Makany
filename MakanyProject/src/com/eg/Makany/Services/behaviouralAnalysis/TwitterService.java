@@ -15,10 +15,12 @@ import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
+
 import com.eg.Makany.Models.User;
 import com.eg.Makany.Models.BA.MakanyAlchemy;
 import com.eg.Makany.Models.BA.TweetTopic;
 import com.eg.Makany.Models.BA.TwitterTweets;
+import com.eg.Makany.Models.UpdateProfile.UserProfileUpdate;
 
 
 
@@ -103,6 +105,7 @@ public class TwitterService {
 							double score = Double.parseDouble(temp[1]);
 							TweetTopic topic = new TweetTopic (user.getMail(),T.getTweetID(),temp[0] , score);
 		        			myTopics.add(topic);
+		        			UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
 						}
 					}
 	        		T.setTopics(myTopics);
