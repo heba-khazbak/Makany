@@ -217,6 +217,22 @@ this.name=entity.getProperty("name").toString();
 		return ret;
 	}
 	
+	public static Vector<String> getOtherUserMails(String mymail){
+		Vector<String> ret=new Vector<String>();
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("users");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable()){
+			String userMail=entity.getProperty("email").toString();
+			if(!mymail.equals(userMail))
+				ret.add(userMail);
+		}
+		
+		return ret;
+	}
+	
 	public static int checkUser(String email, String password){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
