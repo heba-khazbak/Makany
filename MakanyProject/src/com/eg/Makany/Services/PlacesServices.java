@@ -77,7 +77,7 @@ public class PlacesServices {
 		
 		JSONArray arr = new JSONArray();
 		
-		Vector<Offer> offers=Offer.getOffers(storeMail);
+		Vector<Offer> offers=Offer.getOffers(storeMail,null);
 		
 		for(Offer offer:offers){
 			JSONObject object = new JSONObject();

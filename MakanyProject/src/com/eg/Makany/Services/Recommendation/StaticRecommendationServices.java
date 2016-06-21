@@ -29,8 +29,9 @@ public class StaticRecommendationServices {
 	@Path("/staticRecommendService")
 	public String staticRecommendService(@FormParam("email") String email){
 		
-		Set<String> categories = StaticRecommender.getLovedCategories(email);
 		String district = User.getUserDistrict(email);
+		Set<String> categories = StaticRecommender.getLovedCategories(email,district);
+		
 		
 		Vector<Event> events = StaticRecommender.recommendEvents(district, categories);
 		Vector<Store> stores = StaticRecommender.recommendPlaces(district, categories);
@@ -71,9 +72,7 @@ public class StaticRecommendationServices {
 			
 			if(store==null)continue;
 			
-			
-			String storeMail = store.getEmail();
-			Vector<Offer> offers=Offer.getOffers(storeMail);
+			Vector<Offer> offers=store.getOffers();
 			
 			if(offers==null || offers.isEmpty()){
 				object.put("type", "Store");
@@ -101,6 +100,7 @@ public class StaticRecommendationServices {
 					object.put("ID", offer.getID());
 					object.put("description", offer.getDescription());
 					object.put("photo", offer.getPhoto());
+					object.put("date", offer.getDate());
 					
 					object.put("numViewers", String.valueOf(offer.getNumViewers()));
 					object.put("viewersMails", offer.getParsedViewers());

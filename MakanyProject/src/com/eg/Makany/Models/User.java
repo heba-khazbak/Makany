@@ -217,7 +217,7 @@ this.name=entity.getProperty("name").toString();
 		return ret;
 	}
 	
-	public static Vector<String> getOtherUserMails(String mymail){
+	public static Vector<String> getOtherUserMails(String mymail,String mydistrict){
 		Vector<String> ret=new Vector<String>();
 		
 		DatastoreService datastore = DatastoreServiceFactory
@@ -225,6 +225,8 @@ this.name=entity.getProperty("name").toString();
 		Query gaeQuery = new Query("users");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		for(Entity entity:pq.asIterable()){
+			if(!mydistrict.equals(entity.getProperty("district").toString()))
+				continue;
 			String userMail=entity.getProperty("email").toString();
 			if(!mymail.equals(userMail))
 				ret.add(userMail);

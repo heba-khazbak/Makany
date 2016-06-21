@@ -25,7 +25,7 @@ public class StaticRecommender {
 	
 	private static Map<String,Integer> userLoved;
 	
-	public static Set<String> getLovedCategories(String email){
+	public static Set<String> getLovedCategories(String email,String district){
 		DatastoreService datastore = DatastoreServiceFactory
 			.getDatastoreService();
 		Query gaeQuery = new Query("userLovedCategories").addSort("numloved", SortDirection.DESCENDING);
@@ -56,7 +56,7 @@ public class StaticRecommender {
 		
 		// get from neighbors loved categories using cosine similarity
 		
-		Vector<String> userMails = User.getOtherUserMails(email);
+		Vector<String> userMails = User.getOtherUserMails(email,district);
 		
 		for(String mail:userMails){
 			Map<String,Integer> other = getAllLovedCategories(mail);
@@ -128,6 +128,11 @@ public class StaticRecommender {
 		Query gaeQuery = new Query("stores");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
+		
+		Date curDate = new Date();
+		Date suitableDate = new Date(curDate.getTime() - 40 * 24 * 3600 * 1000l );
+		
+		
 		Vector<Store> ret = new Vector<Store>();
 		for(Entity entity:pq.asIterable()){
 			if( (!district.isEmpty() && !district.equals(entity.getProperty("district").toString()))
@@ -145,7 +150,7 @@ public class StaticRecommender {
 					entity.getProperty("date").toString(),
 					Double.parseDouble(entity.getProperty("latitude").toString()),
 					Double.parseDouble(entity.getProperty("longitude").toString()),
-					Offer.getOffers(storeMail),
+					Offer.getOffers(storeMail,suitableDate),
 					Review.getReviews(storeMail)));
 		}
 		
@@ -160,13 +165,19 @@ public class StaticRecommender {
 		Query gaeQuery = new Query("posts");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
-
+		
+		Date curDate = new Date();
+		Date suitableDate = new Date(curDate.getTime() - 10 * 24 * 3600 * 1000l );
 		Vector<Post> ret = new Vector<Post>();
 		for(Entity entity:pq.asIterable()){
 			if( (!district.isEmpty() && !district.equals(entity.getProperty("district").toString()))
 					|| Integer.parseInt(entity.getProperty("score").toString()) < 0)
 				continue;
 			
+			
+			Date date = (Date)entity.getProperty("date");
+			if(date.before(suitableDate))
+				continue;
 			
 			Post p=new Post().getPost(entity);
 			
@@ -197,12 +208,20 @@ public class StaticRecommender {
 		else gaeQuery = new Query("requestItem");
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
+		Date curDate = new Date();
+		Date suitableDate = new Date(curDate.getTime() - 60 * 24 * 3600 * 1000l );
+		
+		
 		Vector<Item> ret = new Vector<Item>();
 		for(Entity entity:pq.asIterable()){
 			if( (!district.isEmpty() && !district.equals(entity.getProperty("district").toString()))
 					|| !entity.getProperty("state").toString().equals("Open"))
 				continue;
 			
+			
+			Date date = (Date)entity.getProperty("date");
+			if(date.before(suitableDate))
+				continue;
 			
 			Item item = new Item().getItemByID(String.valueOf(entity.getKey().getId()));
 			

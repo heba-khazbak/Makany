@@ -43,6 +43,7 @@ public class Store {
 	public String getDate(){return date;}
 	public double getLatitude(){return latitude;}
 	public double getLongitude(){return longitude;}
+	public Vector<Offer> getOffers(){return offers;}
 	
 	public boolean saveStore(){
 		DatastoreService datastore = DatastoreServiceFactory
@@ -136,7 +137,7 @@ public class Store {
 					entity.getProperty("date").toString(),
 					Double.parseDouble(entity.getProperty("latitude").toString()),
 					Double.parseDouble(entity.getProperty("longitude").toString()),
-					Offer.getOffers(storeMail),
+					Offer.getOffers(storeMail,null),
 					Review.getReviews(storeMail)));
 		}
 		
@@ -161,7 +162,7 @@ public class Store {
 						entity.getProperty("date").toString(),
 						Double.parseDouble(entity.getProperty("latitude").toString()),
 						Double.parseDouble(entity.getProperty("longitude").toString()),
-						Offer.getOffers(storeMail),
+						Offer.getOffers(storeMail,null),
 						Review.getReviews(storeMail));
 			}
 		}

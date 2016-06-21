@@ -130,7 +130,7 @@ public class Offer {
 		return this;
 	}
 	
-	public static Vector<Offer> getOffers(String email){
+	public static Vector<Offer> getOffers(String email,Date suitableDate){
 		Vector<Offer> ret=new Vector<Offer>();
 		
 		DatastoreService datastore = DatastoreServiceFactory
@@ -139,9 +139,13 @@ public class Offer {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
 		for(Entity entity:pq.asIterable()){
-			if(entity.getProperty("storeMail").toString().equals(email))
-				ret.add(new Offer().
-						getOfferByID(String.valueOf(entity.getKey().getId())));
+			if(entity.getProperty("storeMail").toString().equals(email)){
+				Date date = (Date) entity.getProperty("date");
+				
+				if(suitableDate==null || date.after(suitableDate))
+					ret.add(new Offer().
+							getOfferByID(String.valueOf(entity.getKey().getId())));
+			}
 			
 		}
 		return ret;
