@@ -127,7 +127,6 @@ public class EventServices {
 			@FormParam("content") String content, 
 			@FormParam("photo") String photo,
 			@FormParam("district") String district,
-			@FormParam("onEventID") String onEventID,
 			@FormParam("userEmail") String userEmail,
 			@FormParam("categories") String strCategories) {
 		
@@ -139,7 +138,7 @@ public class EventServices {
 		
 		JSONObject object = new JSONObject();
 		
-		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,"",0,categories);
+		Post post=new Post(null,postType,content,photo,userEmail,district,eventID,"",0,categories);
 		
 		if(post.savePost()){
 			if(Event.addPost(eventID, post.getID()))
