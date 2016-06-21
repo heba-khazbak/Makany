@@ -59,7 +59,7 @@ public class StaticRecommender {
 					|| !categories.contains(entity.getProperty("category").toString()) )
 				continue;
 			
-			Date date = (Date)entity.getProperty("date");
+			Date date = (Date)entity.getProperty("to");
 			if(date.before(curDate))
 				continue;
 			

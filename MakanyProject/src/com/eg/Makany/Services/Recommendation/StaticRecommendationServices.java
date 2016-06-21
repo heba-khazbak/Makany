@@ -72,22 +72,23 @@ public class StaticRecommendationServices {
 			if(store==null)continue;
 			
 			
-			object.put("type", "Store");
-			
-			object.put("ID", store.getID());
-			object.put("name", store.getName());
-			object.put("email", store.getEmail());
-			object.put("password", store.getPassword());
-			object.put("district", store.getDistrict());
-			object.put("category", store.getCategory());
-			object.put("description", store.getDescription());
-			object.put("date", store.getDate());
-			
-			arr.add(object);
-			
-			
 			String storeMail = store.getEmail();
 			Vector<Offer> offers=Offer.getOffers(storeMail);
+			
+			if(offers==null || offers.isEmpty()){
+				object.put("type", "Store");
+				
+				object.put("ID", store.getID());
+				object.put("name", store.getName());
+				object.put("email", store.getEmail());
+				object.put("password", store.getPassword());
+				object.put("district", store.getDistrict());
+				object.put("category", store.getCategory());
+				object.put("description", store.getDescription());
+				object.put("date", store.getDate());
+				
+				arr.add(object);
+			}
 			
 			for(Offer offer:offers){
 				object = new JSONObject();
@@ -95,6 +96,8 @@ public class StaticRecommendationServices {
 				if(offer!=null){
 					object.put("type", "Offer");
 					
+					object.put("category", store.getCategory());
+					object.put("storeName", store.getName());
 					object.put("ID", offer.getID());
 					object.put("description", offer.getDescription());
 					object.put("photo", offer.getPhoto());

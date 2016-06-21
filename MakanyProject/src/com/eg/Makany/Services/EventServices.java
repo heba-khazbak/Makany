@@ -30,7 +30,9 @@ public class EventServices {
 			@FormParam("latitude") String latitude, 
 			@FormParam("longitude") String longitude, 
 			@FormParam("ownerMail") String ownerMail,
-			@FormParam("district") String district) {
+			@FormParam("district") String district,
+			@FormParam("from") String from,
+			@FormParam("to") String to) {
 		
 		JSONObject object = new JSONObject();
 
@@ -39,7 +41,7 @@ public class EventServices {
 		if(longitude!=null && !longitude.isEmpty())longt=Double.parseDouble(longitude);
 		
 		if(new Event(null,name,category,description,lat,longt,
-				ownerMail,district,"",null,null).saveEvent())
+				ownerMail,district,"",from,to,null,null).saveEvent())
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -56,7 +58,9 @@ public class EventServices {
 			@FormParam("description") String description,
 			@FormParam("district") String district,
 			@FormParam("latitude") String latitude,
-			@FormParam("longitude") String longitude) {
+			@FormParam("longitude") String longitude,
+			@FormParam("from") String from,
+			@FormParam("to") String to) {
 		
 		
 		JSONObject object = new JSONObject();
@@ -65,7 +69,7 @@ public class EventServices {
 		if(latitude!=null && !latitude.isEmpty())lat=Double.parseDouble(latitude);
 		if(longitude!=null && !longitude.isEmpty())longt=Double.parseDouble(longitude);
 		
-		if(Event.editEvent(eventID, category, description, district, lat, longt))
+		if(Event.editEvent(eventID, category, description, district, lat, longt, from, to))
 			object.put("Status", "OK");
 		else
 			object.put("Status", "Failed");
@@ -205,6 +209,8 @@ public class EventServices {
 				object.put("ownerMail", event.getOwnerMail());
 				object.put("district", event.getDistrict());
 				object.put("date", event.getDate());
+				object.put("from", event.getFrom());
+				object.put("to", event.getTo());
 				object.put("goingMails", event.getParsedGoingMails());
 				object.put("postIDs", event.getParsedPostIDs());
 			}
@@ -233,6 +239,8 @@ public class EventServices {
 			object.put("ownerMail", event.getOwnerMail());
 			object.put("district", event.getDistrict());
 			object.put("date", event.getDate());
+			object.put("from", event.getFrom());
+			object.put("to", event.getTo());
 			object.put("goingMails", event.getParsedGoingMails());
 			object.put("postIDs", event.getParsedPostIDs());
 		}
@@ -265,6 +273,8 @@ public class EventServices {
 				object.put("ownerMail", event.getOwnerMail());
 				object.put("district", event.getDistrict());
 				object.put("date", event.getDate());
+				object.put("from", event.getFrom());
+				object.put("to", event.getTo());
 				object.put("goingMails", event.getParsedGoingMails());
 				object.put("postIDs", event.getParsedPostIDs());
 			}
