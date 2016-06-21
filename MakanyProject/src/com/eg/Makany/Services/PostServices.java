@@ -13,6 +13,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Comment;
+import com.eg.Makany.Models.Event;
 import com.eg.Makany.Models.Post;
 import com.eg.Makany.Models.User;
 
@@ -44,8 +45,17 @@ public class PostServices {
 		
 		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,"",0,categories);
 		
-		if(post.savePost())
-			object.put("Status", "OK");
+		if(post.savePost()){
+			if(onEventID.isEmpty())
+				object.put("Status", "OK");
+			
+			else{
+				if(Event.addPost(onEventID, post.getID()))
+					object.put("Status", "OK");
+				else
+					object.put("Status", "Failed");
+			}	
+		}
 		else
 			object.put("Status", "Failed");
 		
