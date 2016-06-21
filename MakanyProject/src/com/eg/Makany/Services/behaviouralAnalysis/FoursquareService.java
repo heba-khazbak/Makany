@@ -80,6 +80,7 @@ public class FoursquareService {
 		        for (Category c : myRecomended[i].getVenue().getCategories())
 		        {
 		        	System.out.println(c.getName());
+		        	//c.getParents().length
 		        	catArr.add(c.getName());
 		        	place.addCategory(c.getName());
 		        }

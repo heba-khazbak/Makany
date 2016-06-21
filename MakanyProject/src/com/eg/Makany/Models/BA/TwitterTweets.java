@@ -16,12 +16,12 @@ public class TwitterTweets {
 	private String UserEmail;
 	private long TweetID;
 	private String content;
-	private Date createdAt;
+	private String createdAt;
 	private String lang;
 	private Vector<TweetTopic> Topics;
 	
 	public TwitterTweets(String userEmail, long tweetID, String content,
-			Date createdAt, String lang, Vector<TweetTopic> topics) {
+			String createdAt, String lang, Vector<TweetTopic> topics) {
 		super();
 		UserEmail = userEmail;
 		TweetID = tweetID;
@@ -54,10 +54,10 @@ public class TwitterTweets {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Date getCreatedAt() {
+	public String getCreatedAt() {
 		return createdAt;
 	}
-	public void setCreatedAt(Date createdAt) {
+	public void setCreatedAt(String createdAt) {
 		this.createdAt = createdAt;
 	}
 	public String getLang() {
@@ -112,7 +112,7 @@ public class TwitterTweets {
 				temp.setUserEmail(entity.getProperty("UserEmail").toString());
 				temp.setTweetID((long) entity.getProperty("TweetID"));
 				temp.setContent(entity.getProperty("content").toString());
-				temp.setCreatedAt((Date) entity.getProperty("createdAt"));
+				temp.setCreatedAt(entity.getProperty("createdAt").toString());
 				temp.setLang(entity.getProperty("lang").toString());
 				temp.Topics = TweetTopic.getTweetTopics(temp.getTweetID());
 				

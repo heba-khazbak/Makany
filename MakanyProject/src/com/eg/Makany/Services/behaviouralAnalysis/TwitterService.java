@@ -57,16 +57,31 @@ public class TwitterService {
 			System.out.println("screenName " + screenName);
 				try {
 				//Paging page = new Paging(1, 200, TwitterTweets.getMaxTweetID(user.getMail()));
-				Paging page = new Paging(1, 10);
+				Paging page = new Paging(1, 50);
+				
 				ResponseList<Status> myTweets = twitter.getUserTimeline(screenName,page);
-
+				
+				System.out.println("Size " + myTweets.size() );
+				
+				long oldMaxID = TwitterTweets.getMaxTweetID(user.getMail());
+				
 	        	for(Status s: myTweets) {
+	        		if (s.getId() <= oldMaxID)
+	        			break;
 	        		TwitterTweets T = new TwitterTweets();
 	        		T.setUserEmail(user.getMail());
 					T.setTweetID(s.getId());
 					T.setContent(s.getText());
-					T.setCreatedAt(s.getCreatedAt());
-					T.setLang(s.getLang());
+					
+					if (s.getCreatedAt() == null)
+						T.setCreatedAt("");
+					else
+						T.setCreatedAt(s.getCreatedAt().toString());
+					
+					if (s.getLang() == null)
+						T.setLang("");
+					else
+						T.setLang(s.getLang());
 					
 	        		/*s.getId();
 	        		//Date x = new Date(year,month,day);
@@ -74,7 +89,7 @@ public class TwitterService {
 	        		s.getCreatedAt().before(y);
 	        		s.getLang();*/
 					
-	        		System.out.println(s.getText() + " " + s.getCreatedAt() +" " +  s.getLang());
+	        		System.out.println(T.getContent() + " " + T.getCreatedAt() +" " +  T.getLang());
 
 	        		
 	        		Vector <TweetTopic> myTopics = new Vector<TweetTopic>();
@@ -97,7 +112,7 @@ public class TwitterService {
 	        	ReturnedArray.add(object);
 
 	        }catch(Exception e ){
-	        	System.out.println("Error");
+	        	System.out.println("Error " + e.getMessage());
 	        	object.put("Status", "ERROR");
 	        	ReturnedArray.add(object);
 	        }

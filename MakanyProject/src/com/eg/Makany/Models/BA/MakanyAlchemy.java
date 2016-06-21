@@ -48,29 +48,38 @@ public class MakanyAlchemy {
         }
     }
 	
-	public static Vector<String> getFromAlchemy(String text) throws JSONException, XPathExpressionException, IOException, SAXException, ParserConfigurationException
+	public static Vector<String> getFromAlchemy(String text) 
 	{
-		Document doc = alchemyObj.TextGetTaxonomy(text);
-		String theXmlResult = getStringFromDocument(doc);
-		org.json.JSONObject xmlJSONObj = XML.toJSONObject(theXmlResult);
-		
-		org.json.JSONArray arr = xmlJSONObj.getJSONObject("results").getJSONObject("taxonomy").getJSONArray("element");
-		System.out.println(arr.toString());
-		
-		
-		Vector<String> rtn = new Vector <String>();
-		for (int i = 0 ; i < arr.length(); i++)
-		{
-			org.json.JSONObject J = arr.getJSONObject(i);
-			String label = J.getString("label");
-			String score = J.getString("score");
+		Document doc;
+		try {
 			
-			System.out.println("label " + label + " score " + score);
-			rtn.add(label + ";" + score);
+			doc = alchemyObj.TextGetTaxonomy(text);
+			String theXmlResult = getStringFromDocument(doc);
+			org.json.JSONObject xmlJSONObj = XML.toJSONObject(theXmlResult);
 			
+			
+			org.json.JSONArray arr = xmlJSONObj.getJSONObject("results").getJSONObject("taxonomy").getJSONArray("element");
+			System.out.println(arr.toString());
+			
+			
+			Vector<String> rtn = new Vector <String>();
+			for (int i = 0 ; i < arr.length(); i++)
+			{
+				org.json.JSONObject J = arr.getJSONObject(i);
+				String label = J.getString("label");
+				String score = J.getString("score");
+				
+				System.out.println("label " + label + " score " + score);
+				rtn.add(label + ";" + score);
+				return rtn;
+				
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return null;
 		}
-		
-		return rtn;
+		return null; 
 		
 		
 	}
