@@ -46,7 +46,7 @@ public class PostServices {
 		Post post=new Post(null,postType,content,photo,userEmail,district,onEventID,"",0,categories);
 		
 		if(post.savePost()){
-			if(onEventID.isEmpty())
+			if(onEventID==null || onEventID.isEmpty())
 				object.put("Status", "OK");
 			
 			else{
