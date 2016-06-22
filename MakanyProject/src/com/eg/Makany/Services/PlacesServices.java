@@ -40,6 +40,31 @@ public class PlacesServices {
 	
 	
 	@POST
+	@Path("/getStoreService")
+	public String getStoreService(@FormParam("storeMail") String storeMail){
+		
+		JSONObject object = new JSONObject();
+		
+		Store store = Store.getStoreByID(storeMail);
+		
+		if(store!=null){
+			object.put("ID", store.getID());
+			object.put("name", store.getName());
+			object.put("email", store.getEmail());
+			object.put("password", store.getPassword());
+			object.put("district", store.getDistrict());
+			object.put("category", store.getCategory());
+			object.put("description", store.getDescription());
+			object.put("date", store.getDate());
+			object.put("latitude", store.getLatitude());
+			object.put("longitude", store.getLongitude());
+		}
+
+		
+		return object.toString();
+	}
+	
+	@POST
 	@Path("/getFilteredStoresService")
 	public String getFilteredStoresService(@FormParam("category") String category,
 			@FormParam("district") String district,
