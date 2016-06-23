@@ -287,6 +287,19 @@ public class Event {
 	}
 	
 	
+	public static String getEventName(String eventID){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+
+		Query gaeQuery = new Query("events");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		for(Entity entity:pq.asIterable())
+			if(String.valueOf(entity.getKey().getId()).equals(eventID))
+				return entity.getProperty("name").toString();
+			
+		return null;
+	}
+	
 	public Event getEventByID(String eventID){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();

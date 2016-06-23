@@ -189,6 +189,9 @@ public class PostServices {
 				object.put("username", User.getUserName(post.getUserEmail()));
 				object.put("categories", post.getParsedCategories());
 				
+				if(onEventID!=null && !onEventID.isEmpty())
+					object.put("eventName",Event.getEventName(onEventID));
+				
 				object.put("ID", post.getID());
 				object.put("postType", post.getPostType());
 				object.put("content", post.getContent());
