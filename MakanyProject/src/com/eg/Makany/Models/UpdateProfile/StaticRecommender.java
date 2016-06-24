@@ -159,7 +159,7 @@ public class StaticRecommender {
 	
 	
 	public static Vector<Post> recommendPosts(String district, 
-			Set<String> categories){
+			Set<String> categories, boolean dynamic){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery = new Query("posts");
@@ -167,7 +167,9 @@ public class StaticRecommender {
 		
 		
 		Date curDate = new Date();
-		Date suitableDate = new Date(curDate.getTime() - 10 * 24 * 3600 * 1000l );
+		int num=10;
+		if(dynamic)num=1;
+		Date suitableDate = new Date(curDate.getTime() - num * 24 * 3600 * 1000l );
 		Vector<Post> ret = new Vector<Post>();
 		for(Entity entity:pq.asIterable()){
 			if( (!district.isEmpty() && !district.equals(entity.getProperty("district").toString()))
@@ -200,7 +202,7 @@ public class StaticRecommender {
 	
 	public static Vector<Item> recommendItems(boolean loan,
 			String district, 
-			Set<String> categories){
+			Set<String> categories, boolean dynamic){
 		DatastoreService datastore = DatastoreServiceFactory
 				.getDatastoreService();
 		Query gaeQuery;
@@ -209,7 +211,9 @@ public class StaticRecommender {
 		PreparedQuery pq = datastore.prepare(gaeQuery);
 		
 		Date curDate = new Date();
-		Date suitableDate = new Date(curDate.getTime() - 60 * 24 * 3600 * 1000l );
+		int num=60;
+		if(dynamic)num=10;
+		Date suitableDate = new Date(curDate.getTime() - num * 24 * 3600 * 1000l );
 		
 		
 		Vector<Item> ret = new Vector<Item>();

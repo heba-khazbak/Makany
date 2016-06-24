@@ -1,6 +1,7 @@
 package com.eg.Makany.Services.behaviouralAnalysis;
 
 
+import java.util.Set;
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
@@ -115,6 +116,60 @@ public class FoursquareService {
 
 	}
 	
+	
+	public static Vector<FoursquareModel> getTheNearByPlaces(String latitude, String longitude,Set<String> categories) throws FoursquareApiException {
+		
+		
+		
+		String CLIENT_ID = "CMK22P15BVQF2DVECGOOGBLUEBZGDVFCG3MZPUC2DLE2Y3TJ";
+		String CLIENT_SECTET = "1CLOSPRBXZDAEWGNL5NNJJOH43YWOO5FVCH1O0EGG0MZLWLK";
+		String CALLBACK = "GFWZS3H0TIIAAMEEDO4T0FAFDEUHCEB2IKJKGUAU2OT2HQRR";
+	    FoursquareApi foursquareApi = new FoursquareApi(CLIENT_ID, CLIENT_SECTET, CALLBACK);
+	    
+	    
+	    Result<Recommended> result = foursquareApi.venuesExplore(latitude + "," + longitude);
+	    
+	    Vector<FoursquareModel> myPlaces = new Vector<FoursquareModel>();
+	    
+	    if (result.getMeta().getCode() == 200) {
+		     Recommendation[] myRecomended = result.getResult().getGroups()[0].getItems();
+		     
+		     
+		      for (int i = 0 ; i < myRecomended.length ; i++) {
+				
+		        
+				
+				FoursquareModel place = new FoursquareModel(myRecomended[i].getVenue().getName(), myRecomended[i].getVenue().getLocation().getAddress(),
+						myRecomended[i].getVenue().getRating().toString(), myRecomended[i].getVenue().getContact().getFormattedPhone(),
+						myRecomended[i].getVenue().getLocation().getDistance().toString(),
+						myRecomended[i].getVenue().getLocation().getLat().toString(), myRecomended[i].getVenue().getLocation().getLng().toString());
+				
+				
+
+				boolean ok=false;
+		        for (Category c : myRecomended[i].getVenue().getCategories())
+		        {
+		        	if(categories.contains(c.getName()))ok=true;
+		        	place.addCategory(c.getName());
+		        }
+		        
+		        if(ok)
+		        	myPlaces.add(place);
+		      }
+		      
+		      
+		      
+		    } else {
+		      System.out.println("Error occured: ");
+		      System.out.println("  code: " + result.getMeta().getCode());
+		      System.out.println("  type: " + result.getMeta().getErrorType());
+		      System.out.println("  detail: " + result.getMeta().getErrorDetail()); 
+		    }
+
+	    
+	   return myPlaces;
+
+	}
 
 	
 

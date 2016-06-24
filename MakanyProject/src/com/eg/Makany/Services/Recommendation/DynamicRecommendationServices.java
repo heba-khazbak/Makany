@@ -14,33 +14,65 @@ import org.json.simple.JSONObject;
 
 import com.eg.Makany.Models.Event;
 import com.eg.Makany.Models.Item;
-import com.eg.Makany.Models.Offer;
 import com.eg.Makany.Models.Post;
-import com.eg.Makany.Models.Store;
 import com.eg.Makany.Models.User;
+import com.eg.Makany.Models.BA.FoursquareModel;
+import com.eg.Makany.Models.UpdateProfile.DynamicRecommender;
 import com.eg.Makany.Models.UpdateProfile.StaticRecommender;
+import com.eg.Makany.Services.behaviouralAnalysis.FoursquareService;
 
 @Path("/")
 @Produces("text/html")
-public class StaticRecommendationServices {
+public class DynamicRecommendationServices {
 
 	
 	@POST
-	@Path("/staticRecommendService")
-	public String staticRecommendService(@FormParam("email") String email){
+	@Path("/DynamicRecommendService")
+	public String DynamicRecommendService(@FormParam("email") String email,
+			@FormParam("longitude") String longitude, 
+			@FormParam("latitude") String latitude) {
 		
-		String district = User.getUserDistrict(email);
+		String district = 
+				DynamicRecommender.getMyDistrict(Double.parseDouble(longitude), 
+						Double.parseDouble(latitude));
+		
 		Set<String> categories = StaticRecommender.getLovedCategories(email,district);
 		
+		Vector<FoursquareModel> places = FoursquareService.getTheNearByPlaces(latitude, longitude, categories);
 		
 		Vector<Event> events = StaticRecommender.recommendEvents(district, categories);
-		Vector<Store> stores = StaticRecommender.recommendPlaces(district, categories);
-		Vector<Post> posts = StaticRecommender.recommendPosts(district, categories,false);
-		Vector<Item> loanItems = StaticRecommender.recommendItems(true, district, categories,false);
-		Vector<Item> requestItems = StaticRecommender.recommendItems(false, district, categories,false);
+		Vector<Post> posts = StaticRecommender.recommendPosts(district, categories,true);
+		Vector<Item> loanItems = StaticRecommender.recommendItems(true, district, categories,true);
+		Vector<Item> requestItems = StaticRecommender.recommendItems(false, district, categories,true);
+		
+		
 		
 		
 		JSONArray arr = new JSONArray();
+		
+		
+		
+		for(FoursquareModel place:places){
+			JSONObject object = new JSONObject();
+			
+			object.put("type", "Foursquare");
+			object.put("name", place.getName());
+			object.put("rating", place.getRating());
+			object.put("distance", place.getDistance());
+			object.put("address", place.getAddress());
+			object.put("phone", place.getPhone());
+			object.put("latitude", place.getLatitude());
+			object.put("longitude", place.getLongitude());
+			
+			
+			JSONArray catArr = new JSONArray();
+			for(String cat:place.getCategory())
+				catArr.add(cat);
+			
+			object.put("category",catArr);
+			arr.add(object);
+		}
+		
 		
 		for(Event event:events){
 			JSONObject object = new JSONObject();
@@ -63,57 +95,6 @@ public class StaticRecommendationServices {
 			}
 			
 			arr.add(object);
-		}
-		
-		
-		
-		for(Store store:stores){
-			JSONObject object = new JSONObject();
-			
-			if(store==null)continue;
-			
-			Vector<Offer> offers=store.getOffers();
-			
-			if(offers==null || offers.isEmpty()){
-				object.put("type", "Store");
-				
-				object.put("ID", store.getID());
-				object.put("name", store.getName());
-				object.put("email", store.getEmail());
-				object.put("password", store.getPassword());
-				object.put("district", store.getDistrict());
-				object.put("category", store.getCategory());
-				object.put("description", store.getDescription());
-				object.put("date", store.getDate());
-				
-				arr.add(object);
-			}
-			
-			for(Offer offer:offers){
-				object = new JSONObject();
-				
-				if(offer!=null){
-					object.put("type", "Offer");
-					
-					object.put("category", store.getCategory());
-					object.put("storeName", store.getName());
-					object.put("ID", offer.getID());
-					object.put("description", offer.getDescription());
-					object.put("photo", offer.getPhoto());
-					object.put("date", offer.getDate());
-					
-					object.put("numViewers", String.valueOf(offer.getNumViewers()));
-					object.put("viewersMails", offer.getParsedViewers());
-					
-					object.put("numThumbsup", String.valueOf(offer.getNumThumbsUp()));
-					object.put("thumbsupMails", offer.getParsedThumbsup());
-					
-					object.put("numThumbsDown", String.valueOf(offer.getNumThumbsDown()));
-					object.put("thumbsdownMails", offer.getParsedThumbsDown());
-				}
-				
-				arr.add(object);
-			}
 		}
 		
 		
