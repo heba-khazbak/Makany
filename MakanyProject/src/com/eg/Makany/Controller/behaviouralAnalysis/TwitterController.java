@@ -22,7 +22,7 @@ public class TwitterController {
 	@Produces("text/html")
 	public String analyzeTwitter() {
 			
-			String serviceUrl = "http://localhost:8889/rest/AnalyzeTwitter";
+			String serviceUrl = "http://makanyapp2.appspot.com/rest/AnalyzeTwitter";
 
 			String urlParameters = "";
 			

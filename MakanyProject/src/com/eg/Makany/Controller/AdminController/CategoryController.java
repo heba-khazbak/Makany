@@ -31,7 +31,7 @@ public class CategoryController {
 	@Produces("text/html")
 	public String addCategory(@FormParam("categoryValue") String interestValue) {
 			
-		String serviceUrl = "http://localhost:8889/rest/AddCategoryService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/AddCategoryService";
 
 			String urlParameters = "categoryValue=" + interestValue;
 			
@@ -50,7 +50,7 @@ public class CategoryController {
 	public Response getAllCategories(@Context HttpServletRequest request) {
 			
 		HttpSession session = request.getSession(true);
-		String serviceUrl = "http://localhost:8889/rest/ShowAllCategoryService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/ShowAllCategoryService";
 
 			String urlParameters = "";
 			
@@ -66,7 +66,7 @@ public class CategoryController {
 	@Produces("text/html")
 	public String editCategory(@FormParam("categoryValue") String interestValue, @FormParam("newName") String newName) {
 			
-		String serviceUrl = "http://localhost:8889/rest/EditCategoryService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/EditCategoryService";
 
 			String urlParameters = "categoryValue=" + interestValue + "&newName=" + newName;
 			
@@ -84,7 +84,7 @@ public class CategoryController {
 	@Produces("text/html")
 	public String deleteCategory(@FormParam("categoryValue") String interestValue) {
 			
-		String serviceUrl = "http://localhost:8889/rest/DeleteCategoryService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/DeleteCategoryService";
 
 			String urlParameters = "categoryValue=" + interestValue;
 			

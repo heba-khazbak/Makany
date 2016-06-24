@@ -51,7 +51,7 @@ public class AdminController {
 	public Response login(@Context HttpServletRequest request,@FormParam("username") String username,
 			@FormParam("password") String password) {
 			
-			String serviceUrl = "http://localhost:8889/rest/loginAdmin";
+			String serviceUrl = "http://makanyapp2.appspot.com/rest/loginAdmin";
 
 			String urlParameters = "username=" + username + "&password=" + password;
 			
@@ -74,7 +74,7 @@ public class AdminController {
 	@Produces("text/html")
 	public String CreateAdmin(@FormParam("username") String username, @FormParam("password") String password) {
 			
-		String serviceUrl = "http://localhost:8889/rest/CreateAdmin";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/CreateAdmin";
 
 			String urlParameters = "username=" + username + "&password=" + password;
 			

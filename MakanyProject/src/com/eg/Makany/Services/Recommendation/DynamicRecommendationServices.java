@@ -21,6 +21,8 @@ import com.eg.Makany.Models.UpdateProfile.DynamicRecommender;
 import com.eg.Makany.Models.UpdateProfile.StaticRecommender;
 import com.eg.Makany.Services.behaviouralAnalysis.FoursquareService;
 
+import fi.foyt.foursquare.api.FoursquareApiException;
+
 @Path("/")
 @Produces("text/html")
 public class DynamicRecommendationServices {
@@ -38,7 +40,13 @@ public class DynamicRecommendationServices {
 		
 		Set<String> categories = StaticRecommender.getLovedCategories(email,district);
 		
-		Vector<FoursquareModel> places = FoursquareService.getTheNearByPlaces(latitude, longitude, categories);
+		Vector<FoursquareModel> places = new Vector<FoursquareModel>() ;
+		try {
+			places = FoursquareService.getTheNearByPlaces(latitude, longitude, categories);
+		} catch (FoursquareApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Vector<Event> events = StaticRecommender.recommendEvents(district, categories);
 		Vector<Post> posts = StaticRecommender.recommendPosts(district, categories,true);

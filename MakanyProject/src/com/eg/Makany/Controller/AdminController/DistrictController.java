@@ -39,7 +39,7 @@ public class DistrictController {
 	public String addDistrict(@FormParam("districtName") String districtName,
 			@FormParam("latitude") String latitude,@FormParam("longitude") String longitude) {
 			
-		String serviceUrl = "http://localhost:8889/rest/AddDistrictService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/AddDistrictService";
 
 			String urlParameters = "districtName=" + districtName + "&latitude=" + latitude
 					+ "&longitude=" + longitude;
@@ -59,7 +59,7 @@ public class DistrictController {
 	public Response getAllDistricts(@Context HttpServletRequest request) {
 			
 		HttpSession session = request.getSession(true);
-		String serviceUrl = "http://localhost:8889/rest/ShowAllDistrictsService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/ShowAllDistrictsService";
 
 			String urlParameters = "";
 			
@@ -78,7 +78,7 @@ public class DistrictController {
 	public String editDistrict(@FormParam("districtName") String districtName, @FormParam("newName") String newName,
 			@FormParam("latitude") String latitude,@FormParam("longitude") String longitude) {
 			
-		String serviceUrl = "http://localhost:8889/rest/EditDistrictService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/EditDistrictService";
 
 			String urlParameters = "districtName=" + districtName + "&newName=" + newName
 					+ "&latitude=" + latitude + "&longitude=" + longitude;
@@ -97,7 +97,7 @@ public class DistrictController {
 	@Produces("text/html")
 	public String deleteDistrict(@FormParam("districtName") String districtName) {
 			
-		String serviceUrl = "http://localhost:8889/rest/DeleteDistrictService";
+		String serviceUrl = "http://makanyapp2.appspot.com/rest/DeleteDistrictService";
 
 			String urlParameters = "districtName=" + districtName;
 			
