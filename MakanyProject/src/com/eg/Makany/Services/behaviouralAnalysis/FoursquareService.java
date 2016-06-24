@@ -117,7 +117,7 @@ public class FoursquareService {
 	}
 	
 	
-	public static Vector<FoursquareModel> getTheNearByPlaces(String latitude, String longitude,Set<String> categories) throws FoursquareApiException {
+	public static Vector<FoursquareModel> getTheNearByPlaces(String latitude, String longitude) throws FoursquareApiException {
 		
 		
 		
@@ -149,12 +149,13 @@ public class FoursquareService {
 				boolean ok=false;
 		        for (Category c : myRecomended[i].getVenue().getCategories())
 		        {
-		        	if(categories.contains(c.getName()))ok=true;
 		        	place.addCategory(c.getName());
 		        }
+
+		        myPlaces.add(place);
 		        
-		        if(ok)
-		        	myPlaces.add(place);
+		        if(myPlaces.size()==10)
+		        	break;
 		      }
 		      
 		      

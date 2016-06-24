@@ -42,7 +42,7 @@ public class DynamicRecommendationServices {
 		
 		Vector<FoursquareModel> places = new Vector<FoursquareModel>() ;
 		try {
-			places = FoursquareService.getTheNearByPlaces(latitude, longitude, categories);
+			places = FoursquareService.getTheNearByPlaces(latitude, longitude);
 		} catch (FoursquareApiException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
