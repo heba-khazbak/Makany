@@ -168,8 +168,10 @@ public class Offer {
 			if(entity.getKey().getId()<=oid)
 				continue;
 			
+			String myDistrict = Store.getStoreDistrict(entity.getProperty("storeMail").toString());
+			
 			if(specificDistrict!=null && !specificDistrict.isEmpty() && 
-					!entity.getProperty("district").toString().equals(specificDistrict))
+					!myDistrict.equals(specificDistrict))
 				continue;
 			
 			String myCategory = Store.getStoreCategory(entity.getProperty("storeMail").toString());

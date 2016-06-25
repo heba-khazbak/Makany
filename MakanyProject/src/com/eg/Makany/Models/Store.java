@@ -218,4 +218,20 @@ public class Store {
 		}
 		return ret;
 	}
+	
+	public static String getStoreDistrict(String email){
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("stores");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		String ret="";
+		for(Entity entity:pq.asIterable()){
+			if(entity.getProperty("email").toString().equals(email)){
+				ret=entity.getProperty("district").toString();
+				break;
+			}
+		}
+		return ret;
+	}
 }
