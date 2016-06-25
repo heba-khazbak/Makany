@@ -33,6 +33,7 @@ public class PlacesAnalysisService {
 			}
 		}
 		
+		object.put("Status", "OK");
 	    return object.toString();
 }
 	
