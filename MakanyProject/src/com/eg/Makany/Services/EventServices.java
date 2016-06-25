@@ -229,6 +229,8 @@ public class EventServices {
 		Event event=new Event().getEventByID(eventID);
 		
 		if(event!=null){
+			object.put("username", User.getUserName(event.getOwnerMail()));
+			
 			object.put("id", event.getID());
 			object.put("name", event.getName());
 			object.put("category", event.getCategory());

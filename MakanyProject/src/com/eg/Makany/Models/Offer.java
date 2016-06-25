@@ -1,6 +1,7 @@
 package com.eg.Makany.Models;
 
 import java.util.Date;
+import java.util.Set;
 import java.util.Vector;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -147,6 +148,43 @@ public class Offer {
 							getOfferByID(String.valueOf(entity.getKey().getId())));
 			}
 			
+		}
+		return ret;
+	}
+	
+	
+	public static Vector<Offer> getFilteredOffers(Set<String> storeMails,
+			String offerID, String specificDistrict, String specificCategory){
+		Vector<Offer> ret=new Vector<Offer>();
+		
+		DatastoreService datastore = DatastoreServiceFactory
+				.getDatastoreService();
+		Query gaeQuery = new Query("offers");
+		PreparedQuery pq = datastore.prepare(gaeQuery);
+		
+		long oid=-1;
+		if(offerID!=null && !offerID.isEmpty())oid=Long.parseLong(offerID);
+		for(Entity entity:pq.asIterable()){
+			if(entity.getKey().getId()<=oid)
+				continue;
+			
+			if(specificDistrict!=null && !specificDistrict.isEmpty() && 
+					!entity.getProperty("district").toString().equals(specificDistrict))
+				continue;
+			
+			String myCategory = Store.getStoreCategory(entity.getProperty("storeMail").toString());
+			
+			if(specificCategory!=null && !specificCategory.isEmpty() && 
+					!myCategory.equals(specificCategory))
+				continue;
+
+			
+			if(storeMails!=null && !storeMails.isEmpty() &&
+					!storeMails.contains(entity.getProperty("storeMail").toString()))
+				continue;
+			
+			ret.add(new Offer().
+					getOfferByID(String.valueOf(entity.getKey().getId())));
 		}
 		return ret;
 	}

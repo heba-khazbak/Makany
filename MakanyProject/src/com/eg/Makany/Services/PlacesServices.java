@@ -1,5 +1,7 @@
 package com.eg.Makany.Services;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.ws.rs.FormParam;
@@ -146,6 +148,49 @@ public class PlacesServices {
 				object.put("reviewerMail", sreview.getReviewerMail());
 				object.put("date", sreview.getDate());
 				object.put("rating", String.valueOf(sreview.getRating()));
+			}
+			
+			arr.add(object);
+		}
+		
+		return arr.toString();
+	}
+	
+	
+	@POST
+	@Path("/getFilteredOffersService")
+	public String getFilteredOffersService(@FormParam("storeIDs") String storeIDs,
+			@FormParam("offerID") String offerID,@FormParam("district") String district,
+			@FormParam("category") String category){
+		
+		Set<String> storeMails = new HashSet<String>();
+		if(storeIDs!=null && !storeIDs.isEmpty()){
+			String tmp[]=storeIDs.split(";");
+			for(int i=0;i<tmp.length;++i)storeMails.add(tmp[i]);
+		}
+		
+		JSONArray arr = new JSONArray();
+		
+		Vector<Offer> offers = Offer.getFilteredOffers(storeMails, offerID, district, category);
+		
+		for(Offer offer:offers){
+			JSONObject object = new JSONObject();
+			
+			if(offer!=null){
+				object.put("ID", offer.getID());
+				object.put("description", offer.getDescription());
+				object.put("photo", offer.getPhoto());
+				object.put("date", offer.getDate());
+				object.put("storeName", Store.getStoreName(offer.getStoreMail()));
+				
+				object.put("numViewers", String.valueOf(offer.getNumViewers()));
+				object.put("viewersMails", offer.getParsedViewers());
+				
+				object.put("numThumbsup", String.valueOf(offer.getNumThumbsUp()));
+				object.put("thumbsupMails", offer.getParsedThumbsup());
+				
+				object.put("numThumbsDown", String.valueOf(offer.getNumThumbsDown()));
+				object.put("thumbsdownMails", offer.getParsedThumbsDown());
 			}
 			
 			arr.add(object);
