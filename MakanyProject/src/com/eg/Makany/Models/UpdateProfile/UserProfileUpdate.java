@@ -47,6 +47,7 @@ public class UserProfileUpdate {
 			entity.setProperty("numloved", 1);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);
+			datastore.put(entity);
 		}
 		
 		for(Entity entity:pq.asIterable()){			
@@ -60,6 +61,7 @@ public class UserProfileUpdate {
 		Entity entity2=new Entity("userLovedPlaces");
 		entity2.setProperty("userEmail", userEmail);
 		entity2.setProperty("placeID", placeID);
+		datastore.put(entity2);
 
 	}
 	
@@ -107,6 +109,7 @@ public class UserProfileUpdate {
 			entity.setProperty("numloved", 1);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);
+			datastore.put(entity);
 		}
 		
 		for(Entity entity:pq.asIterable()){			
@@ -120,7 +123,7 @@ public class UserProfileUpdate {
 		Entity entity2=new Entity("userLovedEvents");
 		entity2.setProperty("userEmail", userEmail);
 		entity2.setProperty("eventID", eventID);
-
+		datastore.put(entity2);
 	}
 	
 	
@@ -162,6 +165,7 @@ public class UserProfileUpdate {
 			entity.setProperty("numloved", cnt);
 			++tot;
 			entity.setProperty("score", 1.0/(double)tot);
+			datastore.put(entity);
 		}
 		
 		for(Entity entity:pq.asIterable()){			
