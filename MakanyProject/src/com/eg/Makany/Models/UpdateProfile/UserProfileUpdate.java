@@ -130,9 +130,9 @@ public class UserProfileUpdate {
 	
 	public static void saveLovedTopics(String userEmail,String topic,int cnt){
 		if(cnt==1){
-			topic=topic.substring(1);
+			if(topic.charAt(0)=='/')topic=topic.substring(1);
 			int ind=topic.indexOf('/');
-			if(ind!=-1)topic=topic.substring(1, ind);
+			if(ind!=-1)topic=topic.substring(0, ind);
 		}
 		
 		
