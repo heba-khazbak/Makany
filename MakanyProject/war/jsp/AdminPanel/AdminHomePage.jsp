@@ -48,6 +48,9 @@ body {
         <p class="lead">Makany is a mobile application based on the community needs. It aims to offer a  place for users who share the same region to easily communicate, know more about services and places around them, be notified about any new offers, plan for events and much more.</p>
       	
       	<a href="/makany/analyzeTwitter">Analyze Twitter tweets</a> <br>
+      	<a href="/makany/analyzePosts">Analyze Posts</a> <br>
+      	<a href="/makany/analyzePlaces">Analyze Places</a> <br>
+      	<a href="/makany/analyzeEvents">Analyze Events</a> <br>
       
       </div>
 
