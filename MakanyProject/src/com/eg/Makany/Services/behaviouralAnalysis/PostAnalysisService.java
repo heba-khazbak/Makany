@@ -63,7 +63,7 @@ public class PostAnalysisService {
 							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
 					}
 					
-					if (!post.getPhoto().isEmpty())
+					if (post.getPhoto() != null && !post.getPhoto().isEmpty())
 					{
 						topics.clear();
 						topics = MakanyAlchemy.AnalyzePhoto(post.getPhoto());
@@ -87,26 +87,30 @@ public class PostAnalysisService {
 			
 			// Analyze Text in comments written by user
 			
-				Vector <Comment> myComments = null;
+				/*Vector <Comment> myComments = null;
 				maxID = CommentTopic.getMaxCommentID(user.getMail());
 				String maxCommentID = Long.toString(maxID);
 				myComments = Comment.getFilteredComments(null,user.getMail(),maxCommentID);
-				for(Comment comment : myComments)
+				if (myComments != null)
 				{
-					Vector<String> topics = MakanyAlchemy.getFromAlchemy(comment.getContent());
-					
-					int cnt=0;
-					for (String A : topics)
+					for(Comment comment : myComments)
 					{
-						String temp[]=A.split(";");
-						double score = Double.parseDouble(temp[1]);
-						CommentTopic c = new CommentTopic (user.getMail() , comment.getPostID() , comment.getID() , temp[0] , score);
-						c.saveCommentTopic();
-						if(++cnt<3)
-							UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
-					}
+						Vector<String> topics = MakanyAlchemy.getFromAlchemy(comment.getContent());
+						
+						int cnt=0;
+						for (String A : topics)
+						{
+							String temp[]=A.split(";");
+							double score = Double.parseDouble(temp[1]);
+							CommentTopic c = new CommentTopic (user.getMail() , comment.getPostID() , comment.getID() , temp[0] , score);
+							c.saveCommentTopic();
+							if(++cnt<3)
+								UserProfileUpdate.saveLovedTopics(user.getMail(), temp[0], 1);
+						}
 
-				}
+					}
+				}*/
+				
 		}
 		
 		object.put("Status", "OK");

@@ -85,27 +85,36 @@ public class MakanyAlchemy {
 		
 	}
 	
-	public static Vector<String> AnalyzePhoto(String URL) throws XPathExpressionException, IOException, SAXException, ParserConfigurationException, JSONException
+	public static Vector<String> AnalyzePhoto(String URL) 
 	{
-		Document doc = alchemyObj.URLGetRankedImageKeywords(URL);
-	        String theXmlResult = getStringFromDocument(doc);
-			org.json.JSONObject xmlJSONObj = XML.toJSONObject(theXmlResult);
-			
-			org.json.JSONArray arr = xmlJSONObj.getJSONObject("results").getJSONObject("imageKeywords").getJSONArray("keyword");
-	        
-	        Vector<String> rtn = new Vector <String>();
-	        
-			for (int i = 0 ; i < arr.length(); i++)
-			{
-				org.json.JSONObject J = arr.getJSONObject(i);
-				String text = J.getString("text");
-				String score = J.getString("score");
+		Document doc;
+		try {
+			doc = alchemyObj.URLGetRankedImageKeywords(URL);
+			 String theXmlResult = getStringFromDocument(doc);
+				org.json.JSONObject xmlJSONObj = XML.toJSONObject(theXmlResult);
 				
-				System.out.println("text " + text + " score " + score);
-				rtn.add(text + ";" + score);
-				
-			}
-			return rtn;
+				org.json.JSONArray arr = xmlJSONObj.getJSONObject("results").getJSONObject("imageKeywords").getJSONArray("keyword");
+		        
+		        Vector<String> rtn = new Vector <String>();
+		        
+				for (int i = 0 ; i < arr.length(); i++)
+				{
+					org.json.JSONObject J = arr.getJSONObject(i);
+					String text = J.getString("text");
+					String score = J.getString("score");
+					
+					System.out.println("text " + text + " score " + score);
+					rtn.add(text + ";" + score);
+					
+				}
+				return rtn;
+		}
+		 catch (Exception e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error " + e.getMessage());
+			return null;
+		} 
+	       
 	}
 	
 	

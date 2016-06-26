@@ -395,7 +395,7 @@ public class Post {
 			Post p=new Post().getPost(entity);
 			
 			boolean ok=true;
-			if(!specificCategories.isEmpty()){
+			if(specificCategories!=null && !specificCategories.isEmpty()){
 				ok=false;
 				for(int i=0;i<p.categories.size();++i)
 					if(specificCategories.contains(p.categories.get(i))){
